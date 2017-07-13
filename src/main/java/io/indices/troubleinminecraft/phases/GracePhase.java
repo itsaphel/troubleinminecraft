@@ -55,6 +55,5 @@ public class GracePhase extends TimedPhase {
 
         PreGameFeature preGameFeature = getGame().createFeature(PreGameFeature.class, this);
         preGameFeature.setScoreboard(scoreboardFeature.getScoreboard());
-        addFeature(scoreboardFeature);
     }
 }
