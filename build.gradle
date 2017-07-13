@@ -1,14 +1,19 @@
+plugins {
+    id 'java'
+    id 'maven'
+    id 'signing'
+}
+
 import org.apache.tools.ant.filters.ReplaceTokens
 
 group 'io.indices'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url 'https://hub.spigotmc.org/nexus/content/groups/public/' }
     maven { url 'https://oss.sonatype.org/content/groups/public/' }
@@ -30,6 +35,59 @@ processResources {
 }
 
 task copyToServer(dependsOn: 'jar', type: Copy) {
-    from 'build/libs/'
+    from 'build/libs/troubleinminecraft-1.0-SNAPSHOT.jar'
     into '../VoxelGamesLibv2/testserver/plugins/'
+}
+
+task javadocJar(type: Jar) {
+    classifier 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+signing {
+    required { !project.version.endsWith('-SNAPSHOT') && gradle.taskGraph.hasTask('uploadArchives') }
+    sign configurations.archives
+}
+
+if(project.hasProperty('indicesUsername') && project.hasProperty('indicesPassword')) {
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: 'https://nexus.indices.io/content/repositories/releases/') {
+                    authentication(userName: indicesUsername, password: indicesPassword)
+                }
+
+                snapshotRepository(url: 'https://nexus.indices.io/content/repositories/snapshots/') {
+                    authentication(userName: indicesUsername, password: indicesPassword)
+                }
+
+                pom.project {
+                    name project.name
+
+                    issueManagement {
+                        system 'GitHub Issues'
+                        url 'https://github.com/LordRobust/troubleinminecraft/issues'
+                    }
+
+                    scm {
+                        connection 'scm:git@github.com:LordRobust/troubleinminecraft.git'
+                        developerConnection 'scm:git@github.com:LordRobust/troubleinminecraft.git'
+                        url 'https://github.com/LordRobust/troubleinminecraft/'
+                    }
+                }
+            }
+        }
+    }
 }

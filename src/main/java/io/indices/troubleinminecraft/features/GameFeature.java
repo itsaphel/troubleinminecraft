@@ -169,6 +169,8 @@ public class GameFeature extends AbstractFeature {
         Map map = getPhase().getFeature(MapFeature.class).getMap();
         for (Marker marker : map.getMarkers()) {
             if (marker.getData().startsWith("chest")) {
+                // tbh, you can just have a chest and not set a marker at all
+                marker.getLoc().toLocation(map.getWorldName()).getBlock().setType(Material.CHEST);
                 chests.add(marker.getLoc());
             }
         }
@@ -251,6 +253,8 @@ public class GameFeature extends AbstractFeature {
                             playerInv.addItem(new ItemStack(Material.ARROW, 32));
                         }
                     }
+
+                    event.setCancelled(true);
                 }
             }
         });

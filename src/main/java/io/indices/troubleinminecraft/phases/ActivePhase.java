@@ -1,11 +1,13 @@
 package io.indices.troubleinminecraft.phases;
 
 import io.indices.troubleinminecraft.features.GameFeature;
+import me.minidigger.voxelgameslib.GameConstants;
 import me.minidigger.voxelgameslib.feature.features.*;
 import me.minidigger.voxelgameslib.phase.AbstractPhase;
+import me.minidigger.voxelgameslib.phase.TimedPhase;
 import org.bukkit.GameMode;
 
-public class ActivePhase extends AbstractPhase {
+public class ActivePhase extends TimedPhase {
 
     @Override
     public void init() {
@@ -13,6 +15,7 @@ public class ActivePhase extends AbstractPhase {
         super.init();
         setAllowJoin(false);
         setAllowSpectate(true);
+        setTicks(120 * GameConstants.TPS);
 
         MapFeature mapFeature = getGame().createFeature(MapFeature.class, this);
         mapFeature.setShouldUnload(false);
