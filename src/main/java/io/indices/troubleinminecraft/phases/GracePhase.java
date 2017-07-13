@@ -1,6 +1,7 @@
 package io.indices.troubleinminecraft.phases;
 
 import io.indices.troubleinminecraft.features.GameFeature;
+import io.indices.troubleinminecraft.features.PreGameFeature;
 import me.minidigger.voxelgameslib.GameConstants;
 import me.minidigger.voxelgameslib.feature.features.*;
 import me.minidigger.voxelgameslib.phase.TimedPhase;
@@ -51,5 +52,9 @@ public class GracePhase extends TimedPhase {
         GameFeature gameFeature = getGame().createFeature(GameFeature.class, this);
         gameFeature.setScoreboard(scoreboardFeature.getScoreboard());
         addFeature(gameFeature);
+
+        PreGameFeature preGameFeature = getGame().createFeature(PreGameFeature.class, this);
+        preGameFeature.setScoreboard(scoreboardFeature.getScoreboard());
+        addFeature(scoreboardFeature);
     }
 }
