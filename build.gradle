@@ -1,0 +1,35 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+group 'io.indices'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url 'https://hub.spigotmc.org/nexus/content/groups/public/' }
+    maven { url 'https://oss.sonatype.org/content/groups/public/' }
+    maven { url 'https://nexus.indices.io/content/groups/public/' }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compileOnly group: 'org.spigotmc', name: 'spigot-api', version: '1.12-R0.1-SNAPSHOT'
+    compileOnly group: 'me.minidigger', name: 'voxelgameslib', version: '2.0-SNAPSHOT'
+    compileOnly group: 'org.projectlombok', name: 'lombok', 'version': '1.16.0'
+}
+
+processResources {
+    filter ReplaceTokens, tokens: [
+            'version': project.version
+    ]
+}
+
+task copyToServer(dependsOn: 'jar', type: Copy) {
+    from 'build/libs/'
+    into '../VoxelGamesLibv2/testserver/plugins/'
+}
