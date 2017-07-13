@@ -19,18 +19,21 @@ public class ActivePhase extends AbstractPhase {
         addFeature(mapFeature);
 
         SpawnFeature spawnFeature = getGame().createFeature(SpawnFeature.class, this);
+        spawnFeature.setInitialSpawn(false);
+        spawnFeature.setRespawn(false);
         addFeature(spawnFeature);
 
         ScoreboardFeature scoreboardFeature = getGame().createFeature(ScoreboardFeature.class, this);
         addFeature(scoreboardFeature);
 
-        NoBlockBreakFeature noBlockBreakFeature = getGame()
-                .createFeature(NoBlockBreakFeature.class, this);
+        NoBlockBreakFeature noBlockBreakFeature = getGame().createFeature(NoBlockBreakFeature.class, this);
         addFeature(noBlockBreakFeature);
 
-        NoBlockPlaceFeature noBlockPlaceFeature = getGame()
-                .createFeature(NoBlockPlaceFeature.class, this);
+        NoBlockPlaceFeature noBlockPlaceFeature = getGame().createFeature(NoBlockPlaceFeature.class, this);
         addFeature(noBlockPlaceFeature);
+
+        NoHungerLossFeature noHungerLossFeature = getGame().createFeature(NoHungerLossFeature.class, this);
+        addFeature(noHungerLossFeature);
 
         HealFeature healFeature = getGame().createFeature(HealFeature.class, this);
         addFeature(healFeature);
