@@ -1,6 +1,7 @@
 package io.indices.troubleinminecraft.features;
 
-import io.indices.troubleinminecraft.game.Role;
+import io.indices.troubleinminecraft.player.DeadPlayer;
+import io.indices.troubleinminecraft.team.Role;
 import io.indices.troubleinminecraft.util.ChatUtils;
 import lombok.Setter;
 import me.minidigger.voxelgameslib.event.events.player.PlayerEliminationEvent;
@@ -13,6 +14,7 @@ import me.minidigger.voxelgameslib.scoreboard.Scoreboard;
 import me.minidigger.voxelgameslib.user.User;
 import me.minidigger.voxelgameslib.user.UserHandler;
 import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,10 +24,12 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -53,7 +57,7 @@ public class GameFeature extends AbstractFeature {
 
     private List<Vector3D> chests = new ArrayList<>();
 
-    private Map<Entity, User> zombiePlayerMap = new HashMap<>();
+    private Map<Entity, DeadPlayer> zombiePlayerMap = new HashMap<>();
 
     private int visiblePlayersLeft;
 
@@ -74,8 +78,20 @@ public class GameFeature extends AbstractFeature {
 
             getPhase().getGame().putGameData("gameStarted", true);
             // todo save data
+            getPhase().getGame().putGameData("innocents", innocents);
+            getPhase().getGame().putGameData("traitors", traitors);
+            getPhase().getGame().putGameData("detectives", detectives);
+            getPhase().getGame().putGameData("aliveInnocents", aliveInnocents);
+            getPhase().getGame().putGameData("aliveTraitors", aliveTraitors);
+            getPhase().getGame().putGameData("chests", chests);
         } else {
             // todo load values from previous phase
+            innocents = (ArrayList<User>) getPhase().getGame().getGameData("innocents");
+            traitors = (ArrayList<User>) getPhase().getGame().getGameData("traitors");
+            detectives = (ArrayList<User>) getPhase().getGame().getGameData("detectives");
+            aliveInnocents = (ArrayList<User>) getPhase().getGame().getGameData("aliveInnocents");
+            aliveTraitors = (ArrayList<User>) getPhase().getGame().getGameData("aliveTraitors");
+            chests = (ArrayList<Vector3D>) getPhase().getGame().getGameData("chests");
         }
 
         visiblePlayersLeft = getPhase().getGame().getPlayers().size();
@@ -143,7 +159,7 @@ public class GameFeature extends AbstractFeature {
         int detectiveAmount = (playerCount / 10); // 1 detective each 10 players
 
         for (int i = 0; i < traitorAmount; i++) {
-            int n = ThreadLocalRandom.current().nextInt(playerCount - 1);
+            int n = ThreadLocalRandom.current().nextInt(playerCount);
 
             User traitor = getPhase().getGame().getPlayers().get(n);
 
@@ -213,16 +229,24 @@ public class GameFeature extends AbstractFeature {
                 event.setDeathMessage(null);
 
                 Bukkit.getPluginManager().callEvent(new PlayerEliminationEvent(user, getPhase().getGame()));
+                getPhase().getGame().spectate(user);
 
                 // put a mob there
                 Entity zombie = event.getEntity().getLocation().getWorld().spawnEntity(event.getEntity().getLocation(), EntityType.ZOMBIE);
-                zombiePlayerMap.put(zombie, user);
+                DeadPlayer deadPlayer = new DeadPlayer();
+                deadPlayer.setDisplayName(user.getRawDisplayName());
+                deadPlayer.setIdentified(false);
+                deadPlayer.setRole(getRole(user));
+                deadPlayer.setUuid(user.getUuid());
+                zombiePlayerMap.put(zombie, deadPlayer);
 
-                userHandler.getUser(event.getEntity().getKiller().getUniqueId()).ifPresent(killer -> {
-                    if (getPhase().getGame().getPlayers().contains(killer)) {
-                        // todo set their scoreboard kills, currently not possible in VGL per-player using a friendly API
-                    }
-                });
+                if (event.getEntity().getKiller() != null) {
+                    userHandler.getUser(event.getEntity().getKiller().getUniqueId()).ifPresent(killer -> {
+                        if (getPhase().getGame().getPlayers().contains(killer)) {
+                            // todo set their scoreboard kills, currently not possible in VGL per-player using a friendly API
+                        }
+                    });
+                }
 
                 if (traitors.contains(user)) {
                     aliveTraitors.remove(user);
@@ -257,18 +281,25 @@ public class GameFeature extends AbstractFeature {
     public void rightClickZombie(PlayerInteractEntityEvent event) {
         userHandler.getUser(event.getPlayer().getUniqueId()).ifPresent(user -> {
             if (getPhase().getGame().getPlayers().contains(user)) {
-                if (event.getRightClicked() instanceof Zombie) {
-                    if(zombiePlayerMap.containsKey(event.getRightClicked())) {
-                        User deadPlayer = zombiePlayerMap.get(event.getRightClicked());
+                if (event.getRightClicked() instanceof Zombie && event.getHand() == EquipmentSlot.HAND) {
+                    if (zombiePlayerMap.containsKey(event.getRightClicked())) {
+                        DeadPlayer deadPlayer = zombiePlayerMap.get(event.getRightClicked());
 
-                        visiblePlayersLeft--;
-                        scoreboard.createAndAddLine(5, visiblePlayersLeft + "");
+                        if(!deadPlayer.isIdentified()) {
+                            visiblePlayersLeft--;
+                            scoreboard.getLine(5).ifPresent(line -> line.setValue(visiblePlayersLeft + ""));
 
-                        getPhase().getGame().getPlayers().forEach(otherPlayer ->
-                                user.sendMessage(
-                                        TextComponent.of(ChatColor.BLUE + "The body of " + deadPlayer.getRawDisplayName() + " has been found! \nThey were a " + ChatUtils.formatRoleName(getRole(deadPlayer)) + "!")
-                                )
-                        );
+                            getPhase().getGame().getPlayers().forEach(otherPlayer -> {
+                                        otherPlayer.sendMessage(TextComponent.of("The body of " + deadPlayer.getDisplayName() + " has been found!").color(TextColor.BLUE));
+                                        otherPlayer.sendMessage(TextComponent.of("They were a ").color(TextColor.BLUE).append(TextComponent.of(ChatUtils.formatRoleName(deadPlayer.getRole()) + "").append(TextComponent.of("!").color(TextColor.BLUE))));
+                                    }
+                            );
+
+                            //event.getRightClicked().setCustomName(deadPlayer.getDisplayName());
+                            deadPlayer.setIdentified(true);
+                        } else {
+                            user.sendMessage(TextComponent.of("This is the body of " + deadPlayer.getDisplayName() + ". They were a " + ChatUtils.formatRoleName(deadPlayer.getRole())));
+                        }
                     }
                 }
             }
@@ -277,8 +308,20 @@ public class GameFeature extends AbstractFeature {
 
     @EventHandler
     public void onZombieDamage(EntityDamageEvent event) {
-        if(zombiePlayerMap.containsKey(event.getEntity())) {
+        if (zombiePlayerMap.containsKey(event.getEntity())) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onEntityBurn(EntityDamageEvent event) {
+
+    }
+
+    @EventHandler
+    public void onZombieTarget(EntityTargetEvent event) {
+        if (zombiePlayerMap.containsKey(event.getEntity())) {
+            event.setTarget(null);
         }
     }
 
@@ -299,7 +342,7 @@ public class GameFeature extends AbstractFeature {
                     } else if (chance == 1) {
                         playerInv.addItem(new ItemStack(Material.STONE_SWORD));
                     } else {
-                        if(!playerInv.contains(Material.BOW)) {
+                        if (!playerInv.contains(Material.BOW)) {
                             playerInv.addItem(new ItemStack(Material.BOW));
                         }
                         playerInv.addItem(new ItemStack(Material.ARROW, 32));

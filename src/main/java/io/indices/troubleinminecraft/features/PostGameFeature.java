@@ -1,6 +1,6 @@
 package io.indices.troubleinminecraft.features;
 
-import io.indices.troubleinminecraft.game.Role;
+import io.indices.troubleinminecraft.team.Role;
 import io.indices.troubleinminecraft.util.ChatUtils;
 import lombok.Setter;
 import me.minidigger.voxelgameslib.feature.AbstractFeature;
