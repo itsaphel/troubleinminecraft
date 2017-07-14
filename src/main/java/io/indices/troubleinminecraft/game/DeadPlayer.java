@@ -1,4 +1,4 @@
-package io.indices.troubleinminecraft.player;
+package io.indices.troubleinminecraft.game;
 
 import io.indices.troubleinminecraft.team.Role;
 import lombok.Getter;

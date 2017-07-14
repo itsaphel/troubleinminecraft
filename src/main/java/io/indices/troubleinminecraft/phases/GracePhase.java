@@ -24,7 +24,7 @@ public class GracePhase extends TimedPhase {
         SpawnFeature spawnFeature = getGame().createFeature(SpawnFeature.class, this);
         addFeature(spawnFeature);
 
-        ScoreboardFeature scoreboardFeature = getGame().createFeature(ScoreboardFeature.class, this);
+        PersonalScoreboardFeature scoreboardFeature = getGame().createFeature(PersonalScoreboardFeature.class, this);
         addFeature(scoreboardFeature);
 
         NoBlockBreakFeature noBlockBreakFeature = getGame()
@@ -50,11 +50,9 @@ public class GracePhase extends TimedPhase {
         addFeature(gameModeFeature);
 
         GameFeature gameFeature = getGame().createFeature(GameFeature.class, this);
-        gameFeature.setScoreboard(scoreboardFeature.getScoreboard());
         addFeature(gameFeature);
 
         PreGameFeature preGameFeature = getGame().createFeature(PreGameFeature.class, this);
-        preGameFeature.setScoreboard(scoreboardFeature.getScoreboard());
         addFeature(preGameFeature);
     }
 }

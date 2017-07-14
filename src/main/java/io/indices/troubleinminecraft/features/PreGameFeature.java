@@ -2,14 +2,13 @@ package io.indices.troubleinminecraft.features;
 
 import lombok.Setter;
 import me.minidigger.voxelgameslib.feature.AbstractFeature;
-import me.minidigger.voxelgameslib.feature.features.ScoreboardFeature;
-import me.minidigger.voxelgameslib.scoreboard.Scoreboard;
+import me.minidigger.voxelgameslib.feature.features.PersonalScoreboardFeature;
 import org.bukkit.ChatColor;
 
 public class PreGameFeature extends AbstractFeature {
 
     @Setter
-    private Scoreboard scoreboard;
+    private PersonalScoreboardFeature.GlobalScoreboard scoreboard;
 
     @Override
     public void init() {
@@ -18,7 +17,8 @@ public class PreGameFeature extends AbstractFeature {
 
     @Override
     public void start() {
-        scoreboard.getLine(8).ifPresent(line -> line.setValue(ChatColor.MAGIC + "????????"));
+        scoreboard = getPhase().getFeature(PersonalScoreboardFeature.class).getGlobalScoreboard();
+        scoreboard.getLines(8).forEach(line -> line.setValue(ChatColor.MAGIC + "????????"));
     }
 
     @Override
@@ -33,6 +33,6 @@ public class PreGameFeature extends AbstractFeature {
 
     @Override
     public Class[] getDependencies() {
-        return new Class[]{ScoreboardFeature.class, GameFeature.class};
+        return new Class[]{PersonalScoreboardFeature.class, GameFeature.class};
     }
 }

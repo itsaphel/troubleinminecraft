@@ -1,16 +1,15 @@
 package io.indices.troubleinminecraft.features;
 
-import io.indices.troubleinminecraft.player.DeadPlayer;
+import io.indices.troubleinminecraft.game.ChatUtils;
+import io.indices.troubleinminecraft.game.DeadPlayer;
+import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.team.Role;
-import io.indices.troubleinminecraft.util.ChatUtils;
-import lombok.Setter;
 import me.minidigger.voxelgameslib.event.events.player.PlayerEliminationEvent;
 import me.minidigger.voxelgameslib.feature.AbstractFeature;
 import me.minidigger.voxelgameslib.feature.features.MapFeature;
-import me.minidigger.voxelgameslib.feature.features.ScoreboardFeature;
+import me.minidigger.voxelgameslib.feature.features.PersonalScoreboardFeature;
 import me.minidigger.voxelgameslib.map.Marker;
 import me.minidigger.voxelgameslib.map.Vector3D;
-import me.minidigger.voxelgameslib.scoreboard.Scoreboard;
 import me.minidigger.voxelgameslib.user.User;
 import me.minidigger.voxelgameslib.user.UserHandler;
 import net.kyori.text.TextComponent;
@@ -23,6 +22,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -39,14 +39,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class GameFeature extends AbstractFeature {
 
     @Inject
     private UserHandler userHandler;
 
-    @Setter
-    private Scoreboard scoreboard;
+    private PersonalScoreboardFeature.GlobalScoreboard globalScoreboard;
 
     private List<User> innocents = new ArrayList<>();
     private List<User> traitors = new ArrayList<>();
@@ -69,40 +69,50 @@ public class GameFeature extends AbstractFeature {
     @Override
     public void start() {
         // randomly assign classes
-        Object gameStarted = getPhase().getGame().getGameData("gameStarted");
+        Object gameStartedObj = getPhase().getGame().getGameData("gameStarted");
+        boolean gameStarted = false;
 
-        if (gameStarted == null || !(gameStarted instanceof Boolean) || !((Boolean) gameStarted)) {
+        if (gameStartedObj == null || !(gameStartedObj instanceof Boolean) || !((Boolean) gameStartedObj)) {
             // initialise game
             assignRoles();
             createChests();
 
             getPhase().getGame().putGameData("gameStarted", true);
-            // todo save data
-            getPhase().getGame().putGameData("innocents", innocents);
-            getPhase().getGame().putGameData("traitors", traitors);
-            getPhase().getGame().putGameData("detectives", detectives);
-            getPhase().getGame().putGameData("aliveInnocents", aliveInnocents);
-            getPhase().getGame().putGameData("aliveTraitors", aliveTraitors);
-            getPhase().getGame().putGameData("chests", chests);
         } else {
-            // todo load values from previous phase
-            innocents = (ArrayList<User>) getPhase().getGame().getGameData("innocents");
-            traitors = (ArrayList<User>) getPhase().getGame().getGameData("traitors");
-            detectives = (ArrayList<User>) getPhase().getGame().getGameData("detectives");
-            aliveInnocents = (ArrayList<User>) getPhase().getGame().getGameData("aliveInnocents");
-            aliveTraitors = (ArrayList<User>) getPhase().getGame().getGameData("aliveTraitors");
-            chests = (ArrayList<Vector3D>) getPhase().getGame().getGameData("chests");
+            gameStarted = true;
+
+            TIMData timData = (TIMData) getPhase().getGame().getGameData("timData");
+            if (timData != null) {
+                innocents = timData.getInnocents();
+                traitors = timData.getTraitors();
+                detectives = timData.getDetectives();
+                aliveInnocents = timData.getInnocents();
+                aliveTraitors = timData.getAliveTraitors();
+                chests = timData.getChests();
+            }
         }
 
         visiblePlayersLeft = getPhase().getGame().getPlayers().size();
 
         // we have to do this each time the feature is loaded
         initScoreboard();
+
+        if (gameStarted) {
+            notifyRoles();
+        }
     }
 
     @Override
     public void stop() {
-
+        TIMData timData = new TIMData();
+        timData.setInnocents(innocents);
+        timData.setDetectives(detectives);
+        timData.setTraitors(traitors);
+        timData.setAliveInnocents(aliveInnocents);
+        timData.setAliveTraitors(aliveTraitors);
+        timData.setChests(chests);
+        timData.setZombiePlayerMap(zombiePlayerMap);
+        getPhase().getGame().putGameData("timData", timData);
     }
 
     @Override
@@ -112,7 +122,7 @@ public class GameFeature extends AbstractFeature {
 
     @Override
     public Class[] getDependencies() {
-        return new Class[]{ScoreboardFeature.class, MapFeature.class};
+        return new Class[]{PersonalScoreboardFeature.class, MapFeature.class};
     }
 
     public Role getRole(User user) {
@@ -131,27 +141,29 @@ public class GameFeature extends AbstractFeature {
      * Initialise scoreboard
      */
     private void initScoreboard() {
-        scoreboard.setTitle(ChatColor.BLUE + "TIMC");
+        globalScoreboard = getPhase().getFeature(PersonalScoreboardFeature.class).getGlobalScoreboard();
+
+        globalScoreboard.setTitle(ChatColor.BLUE + "TIMC");
 
         // yes, i know this goes upside down. string keys are rip in VGL. will change this tomorrow. it's 5AM rn...
-        scoreboard.createAndAddLine(9, ChatColor.GOLD + ChatColor.BOLD.toString() + "Role");
-        scoreboard.createAndAddLine(8, "test");
+        globalScoreboard.createAndAddLine(9, ChatColor.GOLD + ChatColor.BOLD.toString() + "Role");
+        globalScoreboard.createAndAddLine(8, ChatColor.MAGIC + "????????");
 
-        scoreboard.createAndAddLine(7, ChatColor.RESET + "");
+        globalScoreboard.createAndAddLine(7, ChatColor.RESET + "");
 
-        scoreboard.createAndAddLine(6, ChatColor.GREEN + ChatColor.BOLD.toString() + "Players left");
-        scoreboard.createAndAddLine(5, visiblePlayersLeft + "");
+        globalScoreboard.createAndAddLine(6, ChatColor.GREEN + ChatColor.BOLD.toString() + "Players left");
+        globalScoreboard.createAndAddLine(5, visiblePlayersLeft + "");
 
-        scoreboard.createAndAddLine(4, ChatColor.RESET + ChatColor.RESET.toString() + "");
+        globalScoreboard.createAndAddLine(4, ChatColor.RESET + ChatColor.RESET.toString() + "");
 
-        scoreboard.createAndAddLine(3, ChatColor.AQUA + ChatColor.BOLD.toString() + "Kills");
-        scoreboard.createAndAddLine(2, "test");
+        globalScoreboard.createAndAddLine(3, ChatColor.AQUA + ChatColor.BOLD.toString() + "Kills");
+        globalScoreboard.createAndAddLine(2, "0");
 
-        scoreboard.createAndAddLine(1, ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
+        globalScoreboard.createAndAddLine(1, ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
     }
 
     /**
-     * Choose innocents, traitors and detectives
+     * Choose innocents, traitors and detectives. Do not notify them in this method, as this is called in the GracePhase.
      */
     private void assignRoles() {
         int playerCount = getPhase().getGame().getPlayers().size();
@@ -189,22 +201,56 @@ public class GameFeature extends AbstractFeature {
                 innocents.add(user);
             }
         });
+    }
 
-        // send messages and roles
+    /**
+     * Notifies the roles of their role
+     */
+    private void notifyRoles() {
+        aliveTraitors.addAll(traitors);
+        aliveInnocents.addAll(detectives);
+        aliveInnocents.addAll(innocents);
+
         traitors.forEach(user -> {
-            aliveTraitors.add(user);
-            user.sendMessage(TextComponent.of(ChatColor.RED + "You are a traitor! Go kill all the innocents!")); // todo, lang api and a better message lol
-            // todo set their scoreboard role, currently not possible in VGL per-player using a friendly API, should create a PersonalScoreboard feature
+            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine(8).ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.TRAITOR, true)));
+
+            String traitorListString = traitors.stream()
+                    .filter(u -> !u.getUuid().equals(user.getUuid()))
+                    .map(User::getRawDisplayName)
+                    .collect(Collectors.joining(", "));
+
+            user.sendMessage(TextComponent.of("You are a traitor! Work with your fellow traitors to kill the innocents. Watch out for the detectives, they have the tools to get you too.").color(TextColor.RED));
+
+            if (traitorListString != null && !traitorListString.isEmpty()) {
+                user.sendMessage(TextComponent.of("Your fellow traitors are: ").color(TextColor.RED).append(TextComponent.of(traitorListString).color(TextColor.DARK_RED)));
+            }
+
         });
 
         detectives.forEach(user -> {
-            aliveInnocents.add(user);
-            user.sendMessage(TextComponent.of(ChatColor.BLUE + "You are a detective! Go save all the people!"));
+            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine(8).ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.DETECTIVE, true)));
+
+            String detectiveListString = detectives.stream()
+                    .filter(u -> !u.getUuid().equals(user.getUuid()))
+                    .map(User::getRawDisplayName)
+                    .collect(Collectors.joining(", "));
+
+            user.sendMessage(TextComponent.of("You are a detective! It is your job to save the innocents from the traitors.").color(TextColor.BLUE));
+
+            if (detectiveListString != null && !detectiveListString.isEmpty()) {
+                user.sendMessage(TextComponent.of("Your fellow detectives are: ").color(TextColor.BLUE).append(TextComponent.of(detectiveListString).color(TextColor.DARK_BLUE)));
+            }
         });
 
         innocents.forEach(user -> {
-            aliveInnocents.add(user);
-            user.sendMessage(TextComponent.of(ChatColor.GREEN + "You are an innocent. Find weapons and try to survive against those pesky traitors."));
+            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine(8).ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.INNOCENT, true)));
+            user.sendMessage(TextComponent.of("You are an innocent. Find weapons and try to survive against the traitors. Work with the detectives to find and kill them. Stay alert!").color(TextColor.GREEN));
+
+            String detectiveListString = detectives.stream()
+                    .map(User::getRawDisplayName)
+                    .collect(Collectors.joining(", "));
+
+            user.sendMessage(TextComponent.of("Your detectives are: ").color(TextColor.GREEN).append(TextComponent.of(detectiveListString).color(TextColor.BLUE)));
         });
     }
 
@@ -243,7 +289,10 @@ public class GameFeature extends AbstractFeature {
                 if (event.getEntity().getKiller() != null) {
                     userHandler.getUser(event.getEntity().getKiller().getUniqueId()).ifPresent(killer -> {
                         if (getPhase().getGame().getPlayers().contains(killer)) {
-                            // todo set their scoreboard kills, currently not possible in VGL per-player using a friendly API
+                            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(killer).getLine(2).ifPresent(line -> {
+                                int kills = Integer.parseInt(line.getValue());
+                                line.setValue(++kills + "");
+                            });
                         }
                     });
                 }
@@ -257,7 +306,6 @@ public class GameFeature extends AbstractFeature {
                     }
                 } else {
                     aliveInnocents.remove(user);
-
                     if (aliveInnocents.size() == 0) {
                         // traitors win
                         getPhase().getGame().putGameData("winner", Role.TRAITOR);
@@ -272,7 +320,7 @@ public class GameFeature extends AbstractFeature {
     public void onQuit(PlayerQuitEvent event) {
         userHandler.getUser(event.getPlayer().getUniqueId()).ifPresent(user -> {
             if (getPhase().getGame().getPlayers().contains(user)) {
-
+                //
             }
         });
     }
@@ -285,20 +333,20 @@ public class GameFeature extends AbstractFeature {
                     if (zombiePlayerMap.containsKey(event.getRightClicked())) {
                         DeadPlayer deadPlayer = zombiePlayerMap.get(event.getRightClicked());
 
-                        if(!deadPlayer.isIdentified()) {
+                        if (!deadPlayer.isIdentified()) {
                             visiblePlayersLeft--;
-                            scoreboard.getLine(5).ifPresent(line -> line.setValue(visiblePlayersLeft + ""));
+                            globalScoreboard.getLines(5).forEach(line -> line.setValue(visiblePlayersLeft + ""));
 
                             getPhase().getGame().getPlayers().forEach(otherPlayer -> {
                                         otherPlayer.sendMessage(TextComponent.of("The body of " + deadPlayer.getDisplayName() + " has been found!").color(TextColor.BLUE));
-                                        otherPlayer.sendMessage(TextComponent.of("They were a ").color(TextColor.BLUE).append(TextComponent.of(ChatUtils.formatRoleName(deadPlayer.getRole()) + "").append(TextComponent.of("!").color(TextColor.BLUE))));
+                                        otherPlayer.sendMessage(TextComponent.of("They were a(n) ").color(TextColor.BLUE).append(TextComponent.of(ChatUtils.formatRoleName(deadPlayer.getRole()) + "").append(TextComponent.of("!").color(TextColor.BLUE))));
                                     }
                             );
 
                             //event.getRightClicked().setCustomName(deadPlayer.getDisplayName());
                             deadPlayer.setIdentified(true);
                         } else {
-                            user.sendMessage(TextComponent.of("This is the body of " + deadPlayer.getDisplayName() + ". They were a " + ChatUtils.formatRoleName(deadPlayer.getRole())));
+                            user.sendMessage(TextComponent.of("This is the body of " + deadPlayer.getDisplayName() + ". They were a(n) " + ChatUtils.formatRoleName(deadPlayer.getRole())).color(TextColor.BLUE));
                         }
                     }
                 }
@@ -314,8 +362,10 @@ public class GameFeature extends AbstractFeature {
     }
 
     @EventHandler
-    public void onEntityBurn(EntityDamageEvent event) {
-
+    public void onEntityBurn(EntityCombustEvent event) {
+        if(zombiePlayerMap.containsKey(event.getEntity())) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler

@@ -23,7 +23,7 @@ public class ActivePhase extends AbstractPhase {
         spawnFeature.setRespawn(false);
         addFeature(spawnFeature);
 
-        ScoreboardFeature scoreboardFeature = getGame().createFeature(ScoreboardFeature.class, this);
+        PersonalScoreboardFeature scoreboardFeature = getGame().createFeature(PersonalScoreboardFeature.class, this);
         addFeature(scoreboardFeature);
 
         NoBlockBreakFeature noBlockBreakFeature = getGame().createFeature(NoBlockBreakFeature.class, this);
@@ -43,7 +43,6 @@ public class ActivePhase extends AbstractPhase {
         addFeature(gameModeFeature);
 
         GameFeature gameFeature = getGame().createFeature(GameFeature.class, this);
-        gameFeature.setScoreboard(scoreboardFeature.getScoreboard());
         addFeature(gameFeature);
     }
 }
