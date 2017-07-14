@@ -167,8 +167,8 @@ public class GameFeature extends AbstractFeature {
      */
     private void assignRoles() {
         int playerCount = getPhase().getGame().getPlayers().size();
-        int traitorAmount = (playerCount / 5) + 1; // 1 traitor per 5 players
-        int detectiveAmount = (playerCount / 10); // 1 detective each 10 players
+        int traitorAmount = (playerCount / 4) + 1; // 1 traitor per 4 players, follows the TTT spec in gmod
+        int detectiveAmount = (playerCount / 8); // 1 detective each 8 players, follows the TTT spec in gmod
 
         for (int i = 0; i < traitorAmount; i++) {
             int n = ThreadLocalRandom.current().nextInt(playerCount);
