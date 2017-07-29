@@ -2,4 +2,4 @@ name: TroubleInMinecraft
 version: @version@
 main: io.indices.troubleinminecraft.TroubleInMinecraftPlugin
 author: aphel
-depends: [VoxelGamesLib]
+depend: [VoxelGamesLib]

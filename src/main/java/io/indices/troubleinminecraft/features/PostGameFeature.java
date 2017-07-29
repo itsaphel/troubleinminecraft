@@ -22,13 +22,10 @@ import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 
-import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.game.ChatUtils;
 import io.indices.troubleinminecraft.game.DeadPlayer;
 import io.indices.troubleinminecraft.game.TIMData;
-import io.indices.troubleinminecraft.team.Innocent;
 import io.indices.troubleinminecraft.team.Role;
-import io.indices.troubleinminecraft.team.Traitor;
 import lombok.Setter;
 
 public class PostGameFeature extends AbstractFeature {
@@ -91,15 +88,15 @@ public class PostGameFeature extends AbstractFeature {
             TIMData timData = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
 
             if (winner == Role.TRAITOR) {
-                winningTeam = new Traitor();
-                timData.getTraitors().forEach(traitor -> winningTeam.addPlayer(traitor, traitor.getRating(TroubleInMinecraftPlugin.GAMEMODE)));
+                //winningTeam = new Traitor();
+                //timData.getTraitors().forEach(traitor -> winningTeam.addPlayer(traitor, traitor.getRating(TroubleInMinecraftPlugin.GAMEMODE)));
             } else {
-                winningTeam = new Innocent();
-                timData.getInnocents().forEach(innocent -> winningTeam.addPlayer(innocent, innocent.getRating(TroubleInMinecraftPlugin.GAMEMODE)));
-                timData.getDetectives().forEach(detective -> winningTeam.addPlayer(detective, detective.getRating(TroubleInMinecraftPlugin.GAMEMODE)));
+                //winningTeam = new Innocent();
+                //timData.getInnocents().forEach(innocent -> winningTeam.addPlayer(innocent, innocent.getRating(TroubleInMinecraftPlugin.GAMEMODE)));
+                //timData.getDetectives().forEach(detective -> winningTeam.addPlayer(detective, detective.getRating(TroubleInMinecraftPlugin.GAMEMODE)));
             }
 
-            getPhase().getGame().endGame(winningTeam, null);
+            //getPhase().getGame().endGame(winningTeam, null);
         }
     }
 

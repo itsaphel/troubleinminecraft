@@ -79,9 +79,6 @@ public class GameFeature extends AbstractFeature {
             // initialise game
             assignRoles();
             createChests();
-
-            gameStarted = true;
-            getPhase().getGame().putGameData(timData);
         } else {
             gameStarted = true;
             innocents = timData.getInnocents();
@@ -100,6 +97,9 @@ public class GameFeature extends AbstractFeature {
         if (gameStarted) {
             notifyRoles();
         }
+
+        gameStarted = true;
+        getPhase().getGame().putGameData(timData);
     }
 
     @Override
@@ -279,7 +279,9 @@ public class GameFeature extends AbstractFeature {
                 getPhase().getGame().spectate(user);
 
                 // put a mob there
-                Entity zombie = event.getEntity().getLocation().getWorld().spawnEntity(event.getEntity().getLocation(), EntityType.ZOMBIE);
+                Zombie zombie = event.getEntity().getLocation().getWorld().spawn(event.getEntity().getLocation(), Zombie.class);
+                zombie.setCustomName(getRole(user).getColour() + user.getRawDisplayName());
+                zombie.setBaby(false);
                 DeadPlayer deadPlayer = new DeadPlayer();
                 deadPlayer.setDisplayName(user.getRawDisplayName());
                 deadPlayer.setIdentified(false);

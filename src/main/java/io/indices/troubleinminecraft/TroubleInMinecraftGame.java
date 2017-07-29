@@ -3,6 +3,7 @@ package io.indices.troubleinminecraft;
 import io.indices.troubleinminecraft.phases.ActivePhase;
 import io.indices.troubleinminecraft.phases.GracePhase;
 import io.indices.troubleinminecraft.phases.PostGamePhase;
+import me.minidigger.voxelgameslib.feature.features.VoteFeature;
 import me.minidigger.voxelgameslib.game.AbstractGame;
 import me.minidigger.voxelgameslib.game.GameDefinition;
 import me.minidigger.voxelgameslib.game.GameInfo;
@@ -26,6 +27,8 @@ public class TroubleInMinecraftGame extends AbstractGame {
         GracePhase gracePhase = createPhase(GracePhase.class);
         ActivePhase mainPhase = createPhase(ActivePhase.class);
         PostGamePhase postGamePhase = createPhase(PostGamePhase.class);
+
+        lobbyPhase.getFeature(VoteFeature.class).setEnableVoteMenu(true);
 
         lobbyPhase.setNextPhase(gracePhase);
         gracePhase.setNextPhase(mainPhase);
