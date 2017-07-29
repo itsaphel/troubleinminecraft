@@ -1,9 +1,16 @@
 package io.indices.troubleinminecraft.features;
 
-import io.indices.troubleinminecraft.game.ChatUtils;
-import io.indices.troubleinminecraft.game.DeadPlayer;
-import io.indices.troubleinminecraft.game.TIMData;
-import io.indices.troubleinminecraft.team.Role;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import javax.inject.Inject;
+
 import me.minidigger.voxelgameslib.event.events.player.PlayerEliminationEvent;
 import me.minidigger.voxelgameslib.feature.AbstractFeature;
 import me.minidigger.voxelgameslib.feature.features.MapFeature;
@@ -12,8 +19,7 @@ import me.minidigger.voxelgameslib.map.Marker;
 import me.minidigger.voxelgameslib.map.Vector3D;
 import me.minidigger.voxelgameslib.user.User;
 import me.minidigger.voxelgameslib.user.UserHandler;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -33,13 +39,10 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
+import io.indices.troubleinminecraft.game.ChatUtils;
+import io.indices.troubleinminecraft.game.DeadPlayer;
+import io.indices.troubleinminecraft.game.TIMData;
+import io.indices.troubleinminecraft.team.Role;
 
 public class GameFeature extends AbstractFeature {
 
@@ -69,27 +72,24 @@ public class GameFeature extends AbstractFeature {
     @Override
     public void start() {
         // randomly assign classes
-        Object gameStartedObj = getPhase().getGame().getGameData("gameStarted");
-        boolean gameStarted = false;
+        TIMData timData = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
+        boolean gameStarted = timData.isGameStarted();
 
-        if (gameStartedObj == null || !(gameStartedObj instanceof Boolean) || !((Boolean) gameStartedObj)) {
+        if (!gameStarted) {
             // initialise game
             assignRoles();
             createChests();
 
-            getPhase().getGame().putGameData("gameStarted", true);
+            gameStarted = true;
+            getPhase().getGame().putGameData(timData);
         } else {
             gameStarted = true;
-
-            TIMData timData = (TIMData) getPhase().getGame().getGameData("timData");
-            if (timData != null) {
-                innocents = timData.getInnocents();
-                traitors = timData.getTraitors();
-                detectives = timData.getDetectives();
-                aliveInnocents = timData.getInnocents();
-                aliveTraitors = timData.getAliveTraitors();
-                chests = timData.getChests();
-            }
+            innocents = timData.getInnocents();
+            traitors = timData.getTraitors();
+            detectives = timData.getDetectives();
+            aliveInnocents = timData.getInnocents();
+            aliveTraitors = timData.getAliveTraitors();
+            chests = timData.getChests();
         }
 
         visiblePlayersLeft = getPhase().getGame().getPlayers().size();
@@ -104,7 +104,7 @@ public class GameFeature extends AbstractFeature {
 
     @Override
     public void stop() {
-        TIMData timData = new TIMData();
+        TIMData timData = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
         timData.setInnocents(innocents);
         timData.setDetectives(detectives);
         timData.setTraitors(traitors);
@@ -112,7 +112,7 @@ public class GameFeature extends AbstractFeature {
         timData.setAliveTraitors(aliveTraitors);
         timData.setChests(chests);
         timData.setZombiePlayerMap(zombiePlayerMap);
-        getPhase().getGame().putGameData("timData", timData);
+        getPhase().getGame().putGameData(timData);
     }
 
     @Override
@@ -163,7 +163,8 @@ public class GameFeature extends AbstractFeature {
     }
 
     /**
-     * Choose innocents, traitors and detectives. Do not notify them in this method, as this is called in the GracePhase.
+     * Choose innocents, traitors and detectives. Do not notify them in this method, as this is
+     * called in the GracePhase.
      */
     private void assignRoles() {
         int playerCount = getPhase().getGame().getPlayers().size();
@@ -301,14 +302,18 @@ public class GameFeature extends AbstractFeature {
                     aliveTraitors.remove(user);
                     if (aliveTraitors.size() == 0) {
                         // innocents win
-                        getPhase().getGame().putGameData("winner", Role.INNOCENT);
+                        TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
+                        data.setWinner(Role.INNOCENT);
+                        getPhase().getGame().putGameData(data);
                         getPhase().getGame().endPhase();
                     }
                 } else {
                     aliveInnocents.remove(user);
                     if (aliveInnocents.size() == 0) {
                         // traitors win
-                        getPhase().getGame().putGameData("winner", Role.TRAITOR);
+                        TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
+                        data.setWinner(Role.TRAITOR);
+                        getPhase().getGame().putGameData(data);
                         getPhase().getGame().endPhase();
                     }
                 }
@@ -363,7 +368,7 @@ public class GameFeature extends AbstractFeature {
 
     @EventHandler
     public void onEntityBurn(EntityCombustEvent event) {
-        if(zombiePlayerMap.containsKey(event.getEntity())) {
+        if (zombiePlayerMap.containsKey(event.getEntity())) {
             event.setCancelled(true);
         }
     }
