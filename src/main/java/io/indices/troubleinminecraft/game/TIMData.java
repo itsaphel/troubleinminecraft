@@ -21,13 +21,18 @@ public class TIMData implements GameData {
     private Team innocentTeam;
     private Team traitorTeam;
     private Team detectiveTeam;
+
+    /* todo remove these in favour of Teams */
     private List<User> innocents = new ArrayList<>();
     private List<User> traitors = new ArrayList<>();
     private List<User> detectives = new ArrayList<>();
+    /* end removal */
+
     private List<User> aliveInnocents = new ArrayList<>();
     private List<User> aliveTraitors = new ArrayList<>();
     private List<Vector3D> chests = new ArrayList<>();
     private Map<Entity, DeadPlayer> zombiePlayerMap = new HashMap<>();
+    private Map<User, Integer> playerCredits = new HashMap<>();
 
     private Role winner;
     private boolean gameStarted = false;

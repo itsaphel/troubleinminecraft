@@ -4,7 +4,7 @@ import io.indices.troubleinminecraft.abilities.BodyArmourAbility;
 
 public class BodyArmour extends ShopItem {
     public BodyArmour() {
-        setItemStack(null);
-        addAbility(new BodyArmourAbility(null));
+        itemStack = null;
+        addAbility(BodyArmourAbility.class);
     }
 }

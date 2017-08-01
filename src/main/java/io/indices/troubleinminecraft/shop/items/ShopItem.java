@@ -6,22 +6,32 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public abstract class ShopItem {
-    private ItemStack itemStack;
-    private List<Ability> abilities;
+    protected String name;
+    protected int cost;
+    protected ItemStack itemStack;
+    private List<Class<? extends Ability>> abilities;
 
     ShopItem() {
         //
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCost() {
+        return cost;
     }
 
     public ItemStack getItemStack() {
         return itemStack;
     }
 
-    public void setItemStack(ItemStack itemStack) {
-        this.itemStack = itemStack;
+    public List<Class<? extends Ability>> getAbilities() {
+        return abilities;
     }
 
-    public void addAbility(Ability ability) {
-        abilities.add(ability);
+    public <T extends Ability> void addAbility(Class<T> abilityClass) {
+        abilities.add(abilityClass);
     }
 }

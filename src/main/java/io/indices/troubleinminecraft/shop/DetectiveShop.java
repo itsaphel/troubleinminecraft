@@ -1,4 +1,7 @@
 package io.indices.troubleinminecraft.shop;
 
-public class DetectiveShop {
+import javax.inject.Singleton;
+
+@Singleton
+public class DetectiveShop extends Shop {
 }
