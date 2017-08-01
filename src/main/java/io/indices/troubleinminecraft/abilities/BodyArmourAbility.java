@@ -24,9 +24,7 @@ public class BodyArmourAbility extends Ability {
     private TroubleInMinecraftPlugin plugin;
 
     /**
-     * Create a new ability
-     *
-     * @param user the user the ability will affect/apply to
+     * @see Ability#Ability(User)
      */
     public BodyArmourAbility(User user) {
         super(user);

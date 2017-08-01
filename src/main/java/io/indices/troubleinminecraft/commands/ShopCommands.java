@@ -74,6 +74,7 @@ public class ShopCommands extends BaseCommand {
                                 item.getAbilities().forEach(aClass -> {
                                     try {
                                         Ability ability = aClass.getConstructor(User.class).newInstance(sender);
+                                        ability.start();
                                         game.getActivePhase().addTickable(ability);
                                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                                         e.printStackTrace();
