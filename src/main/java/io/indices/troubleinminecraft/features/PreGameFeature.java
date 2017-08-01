@@ -17,8 +17,6 @@ public class PreGameFeature extends AbstractFeature {
 
     @Override
     public void start() {
-        scoreboard = getPhase().getFeature(PersonalScoreboardFeature.class).getGlobalScoreboard();
-        scoreboard.getLines(8).forEach(line -> line.setValue(ChatColor.MAGIC + "????????"));
     }
 
     @Override

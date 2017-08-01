@@ -18,14 +18,19 @@ repositories {
     maven { url 'https://hub.spigotmc.org/nexus/content/groups/public/' }
     maven { url 'https://oss.sonatype.org/content/groups/public/' }
     maven { url 'https://nexus.indices.io/content/groups/public/' }
+    maven { url 'http://repo.onarandombox.com/content/groups/public/' }
+    maven { url 'http://repo.dmulloy2.net/content/groups/public/' }
 }
 
 dependencies {
+    compile group: 'net.kyori', name: 'text', version: '1.12-SNAPSHOT'
+
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
     compileOnly group: 'org.spigotmc', name: 'spigot-api', version: '1.12-R0.1-SNAPSHOT'
     compileOnly group: 'me.minidigger', name: 'voxelgameslib', version: '2.0-SNAPSHOT'
-    compileOnly group: 'org.projectlombok', name: 'lombok', 'version': '1.16.0'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.0'
+    compileOnly group: 'com.comphenix.protocol', name: 'ProtocolLib', version: '4.2.1'
 }
 
 processResources {
@@ -36,7 +41,7 @@ processResources {
 
 task copyToServer(dependsOn: 'jar', type: Copy) {
     from 'build/libs/troubleinminecraft-1.0-SNAPSHOT.jar'
-    into '../VoxelGamesLibv2/testserver/plugins/'
+    into '../testserver/plugins/'
 }
 
 task javadocJar(type: Jar) {

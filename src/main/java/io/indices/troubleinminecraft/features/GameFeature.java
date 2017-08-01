@@ -145,21 +145,20 @@ public class GameFeature extends AbstractFeature {
 
         globalScoreboard.setTitle(ChatColor.BLUE + "TIMC");
 
-        // yes, i know this goes upside down. string keys are rip in VGL. will change this tomorrow. it's 5AM rn...
-        globalScoreboard.createAndAddLine(9, ChatColor.GOLD + ChatColor.BOLD.toString() + "Role");
-        globalScoreboard.createAndAddLine(8, ChatColor.MAGIC + "????????");
+        globalScoreboard.createAndAddLine("kills", "0");
+        globalScoreboard.createAndAddLine(ChatColor.AQUA + ChatColor.BOLD.toString() + "Kills");
 
-        globalScoreboard.createAndAddLine(7, ChatColor.RESET + "");
+        globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + "");
 
-        globalScoreboard.createAndAddLine(6, ChatColor.GREEN + ChatColor.BOLD.toString() + "Players left");
-        globalScoreboard.createAndAddLine(5, visiblePlayersLeft + "");
+        globalScoreboard.createAndAddLine("players-left", visiblePlayersLeft + "");
+        globalScoreboard.createAndAddLine(ChatColor.GREEN + ChatColor.BOLD.toString() + "Players left");
 
-        globalScoreboard.createAndAddLine(4, ChatColor.RESET + ChatColor.RESET.toString() + "");
+        globalScoreboard.createAndAddLine(ChatColor.RESET + "");
 
-        globalScoreboard.createAndAddLine(3, ChatColor.AQUA + ChatColor.BOLD.toString() + "Kills");
-        globalScoreboard.createAndAddLine(2, "0");
+        globalScoreboard.createAndAddLine("role", ChatColor.MAGIC + "????????");
+        globalScoreboard.createAndAddLine(ChatColor.GOLD + ChatColor.BOLD.toString() + "Role");
 
-        globalScoreboard.createAndAddLine(1, ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
+        globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
     }
 
     /**
@@ -213,7 +212,7 @@ public class GameFeature extends AbstractFeature {
         aliveInnocents.addAll(innocents);
 
         traitors.forEach(user -> {
-            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine(8).ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.TRAITOR, true)));
+            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine("role").ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.TRAITOR, true)));
 
             String traitorListString = traitors.stream()
                     .filter(u -> !u.getUuid().equals(user.getUuid()))
@@ -229,7 +228,7 @@ public class GameFeature extends AbstractFeature {
         });
 
         detectives.forEach(user -> {
-            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine(8).ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.DETECTIVE, true)));
+            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine("role").ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.DETECTIVE, true)));
 
             String detectiveListString = detectives.stream()
                     .filter(u -> !u.getUuid().equals(user.getUuid()))
@@ -244,7 +243,7 @@ public class GameFeature extends AbstractFeature {
         });
 
         innocents.forEach(user -> {
-            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine(8).ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.INNOCENT, true)));
+            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine("role").ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.INNOCENT, true)));
             user.sendMessage(TextComponent.of("You are an innocent. Find weapons and try to survive against the traitors. Work with the detectives to find and kill them. Stay alert!").color(TextColor.GREEN));
 
             String detectiveListString = detectives.stream()
@@ -342,7 +341,7 @@ public class GameFeature extends AbstractFeature {
 
                         if (!deadPlayer.isIdentified()) {
                             visiblePlayersLeft--;
-                            globalScoreboard.getLines(5).forEach(line -> line.setValue(visiblePlayersLeft + ""));
+                            globalScoreboard.getLines("players-left").forEach(line -> line.setValue(visiblePlayersLeft + ""));
 
                             getPhase().getGame().getPlayers().forEach(otherPlayer -> {
                                         otherPlayer.sendMessage(TextComponent.of("The body of " + deadPlayer.getDisplayName() + " has been found!").color(TextColor.BLUE));

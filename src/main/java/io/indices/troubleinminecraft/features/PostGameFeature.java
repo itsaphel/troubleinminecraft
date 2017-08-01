@@ -1,5 +1,6 @@
 package io.indices.troubleinminecraft.features;
 
+
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 
@@ -9,11 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import me.minidigger.voxelgameslib.components.scoreboard.Scoreboard;
-import me.minidigger.voxelgameslib.components.team.Team;
-import me.minidigger.voxelgameslib.feature.AbstractFeature;
 import me.minidigger.voxelgameslib.feature.features.ScoreboardFeature;
-import me.minidigger.voxelgameslib.phase.TimedPhase;
 import me.minidigger.voxelgameslib.user.User;
 
 import org.bukkit.entity.Entity;
@@ -26,23 +23,21 @@ import io.indices.troubleinminecraft.game.ChatUtils;
 import io.indices.troubleinminecraft.game.DeadPlayer;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.team.Role;
-import lombok.Setter;
 
-public class PostGameFeature extends AbstractFeature {
-
-    @Setter
-    private Scoreboard scoreboard;
+public class PostGameFeature extends me.minidigger.voxelgameslib.feature.features.PostGameFeature {
 
     private Map<Entity, DeadPlayer> zombiePlayerMap = new HashMap<>();
     private Role winner;
 
     @Override
     public void init() {
-
+        super.init();
     }
 
     @Override
     public void start() {
+        super.start();
+
         TIMData timData = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
         // just to keep events going
         zombiePlayerMap = timData.getZombiePlayerMap();
@@ -78,31 +73,17 @@ public class PostGameFeature extends AbstractFeature {
 
     @Override
     public void stop() {
-
+        super.stop();
     }
 
     @Override
     public void tick() {
-        if (((TimedPhase) getPhase()).getTicks() == 1) {
-            Team winningTeam;
-            TIMData timData = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
-
-            if (winner == Role.TRAITOR) {
-                //winningTeam = new Traitor();
-                //timData.getTraitors().forEach(traitor -> winningTeam.addPlayer(traitor, traitor.getRating(TroubleInMinecraftPlugin.GAMEMODE)));
-            } else {
-                //winningTeam = new Innocent();
-                //timData.getInnocents().forEach(innocent -> winningTeam.addPlayer(innocent, innocent.getRating(TroubleInMinecraftPlugin.GAMEMODE)));
-                //timData.getDetectives().forEach(detective -> winningTeam.addPlayer(detective, detective.getRating(TroubleInMinecraftPlugin.GAMEMODE)));
-            }
-
-            //getPhase().getGame().endGame(winningTeam, null);
-        }
+        super.tick();
     }
 
     @Override
     public Class[] getDependencies() {
-        return new Class[]{ScoreboardFeature.class};
+        return super.getDependencies();
     }
 
     @EventHandler

@@ -20,8 +20,8 @@ public class TroubleInMinecraftGame extends AbstractGame {
 
     @Override
     public void initGameFromModule() {
-        setMinPlayers(4);
-        setMaxPlayers(20);
+        setMinPlayers(2);
+        setMaxPlayers(2);
 
         LobbyWithVotePhase lobbyPhase = createPhase(LobbyWithVotePhase.class);
         GracePhase gracePhase = createPhase(GracePhase.class);

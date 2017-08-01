@@ -24,7 +24,7 @@ public class PostGamePhase extends TimedPhase {
         spawnFeature.setInitialSpawn(false);
         addFeature(spawnFeature);
 
-        ScoreboardFeature scoreboardFeature = getGame().createFeature(ScoreboardFeature.class, this);
+        PersonalScoreboardFeature scoreboardFeature = getGame().createFeature(PersonalScoreboardFeature.class, this);
         addFeature(scoreboardFeature);
 
         NoBlockBreakFeature noBlockBreakFeature = getGame()
@@ -43,7 +43,6 @@ public class PostGamePhase extends TimedPhase {
         addFeature(gameModeFeature);
 
         PostGameFeature postGameFeature = getGame().createFeature(PostGameFeature.class, this);
-        postGameFeature.setScoreboard(scoreboardFeature.getScoreboard());
         addFeature(postGameFeature);
     }
 }
