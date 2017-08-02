@@ -1,5 +1,9 @@
 package io.indices.troubleinminecraft;
 
+import co.aikar.commands.BukkitCommandManager;
+import com.google.inject.Injector;
+import io.indices.troubleinminecraft.commands.ShopCommands;
+import me.minidigger.voxelgameslib.commands.OverrideCommands;
 import me.minidigger.voxelgameslib.game.GameHandler;
 import me.minidigger.voxelgameslib.game.GameMode;
 import me.minidigger.voxelgameslib.module.Module;
@@ -16,6 +20,9 @@ public class TroubleInMinecraftPlugin extends JavaPlugin implements Module {
     public static final GameMode GAMEMODE = new GameMode("TroubleInMinecraft", TroubleInMinecraftGame.class);
 
     @Inject
+    private Injector injector;
+    private BukkitCommandManager commandManager;
+    @Inject
     private GameHandler gameHandler;
 
     @Override
@@ -31,5 +38,9 @@ public class TroubleInMinecraftPlugin extends JavaPlugin implements Module {
     @Override
     public void disable() {
         //
+    }
+
+    private void registerCommands() {
+        commandManager.registerCommand(injector.getInstance(ShopCommands.class));
     }
 }
