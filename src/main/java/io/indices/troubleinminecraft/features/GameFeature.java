@@ -1,5 +1,6 @@
 package io.indices.troubleinminecraft.features;
 
+import io.indices.troubleinminecraft.game.TIMPlayer;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 
@@ -60,6 +61,7 @@ public class GameFeature extends AbstractFeature {
 
     private List<Vector3D> chests = new ArrayList<>();
 
+    private Map<User, TIMPlayer> playerMap = new HashMap<>();
     private Map<Entity, DeadPlayer> zombiePlayerMap = new HashMap<>();
 
     private int visiblePlayersLeft;
@@ -77,6 +79,7 @@ public class GameFeature extends AbstractFeature {
 
         if (!gameStarted) {
             // initialise game
+            createPlayers();
             assignRoles();
             createChests();
         } else {
@@ -87,6 +90,7 @@ public class GameFeature extends AbstractFeature {
             aliveInnocents = timData.getInnocents();
             aliveTraitors = timData.getAliveTraitors();
             chests = timData.getChests();
+            playerMap = timData.getPlayerMap();
         }
 
         visiblePlayersLeft = getPhase().getGame().getPlayers().size();
@@ -98,7 +102,7 @@ public class GameFeature extends AbstractFeature {
             notifyRoles();
         }
 
-        gameStarted = true;
+        timData.setGameStarted(true);
         getPhase().getGame().putGameData(timData);
     }
 
@@ -135,6 +139,13 @@ public class GameFeature extends AbstractFeature {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Create players
+     */
+    private void createPlayers() {
+        getPhase().getGame().getPlayers().forEach(user -> playerMap.put(user, new TIMPlayer(user)));
     }
 
     /**
@@ -180,6 +191,9 @@ public class GameFeature extends AbstractFeature {
                 i--;
             } else {
                 traitors.add(traitor);
+                TIMPlayer timPlayer = playerMap.get(traitor);
+                timPlayer.setRole(Role.TRAITOR);
+                timPlayer.setCredits(1);
             }
         }
 
@@ -193,12 +207,16 @@ public class GameFeature extends AbstractFeature {
                 i--;
             } else {
                 detectives.add(detective);
+                TIMPlayer timPlayer = playerMap.get(detective);
+                timPlayer.setRole(Role.DETECTIVE);
+                timPlayer.setCredits(1);
             }
         }
 
         getPhase().getGame().getPlayers().forEach(user -> {
             if (!traitors.contains(user) && !detectives.contains(user)) {
                 innocents.add(user);
+                playerMap.get(user).setRole(Role.INNOCENT);
             }
         });
     }
@@ -291,7 +309,7 @@ public class GameFeature extends AbstractFeature {
                 if (event.getEntity().getKiller() != null) {
                     userHandler.getUser(event.getEntity().getKiller().getUniqueId()).ifPresent(killer -> {
                         if (getPhase().getGame().getPlayers().contains(killer)) {
-                            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(killer).getLine(2).ifPresent(line -> {
+                            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(killer).getLine("kills").ifPresent(line -> {
                                 int kills = Integer.parseInt(line.getValue());
                                 line.setValue(++kills + "");
                             });

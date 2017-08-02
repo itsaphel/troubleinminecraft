@@ -31,8 +31,8 @@ public class TIMData implements GameData {
     private List<User> aliveInnocents = new ArrayList<>();
     private List<User> aliveTraitors = new ArrayList<>();
     private List<Vector3D> chests = new ArrayList<>();
+    private Map<User, TIMPlayer> playerMap = new HashMap<>();
     private Map<Entity, DeadPlayer> zombiePlayerMap = new HashMap<>();
-    private Map<User, Integer> playerCredits = new HashMap<>();
 
     private Role winner;
     private boolean gameStarted = false;
