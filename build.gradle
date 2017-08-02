@@ -40,7 +40,7 @@ processResources {
 }
 
 task copyToServer(dependsOn: 'jar', type: Copy) {
-    from 'build/libs/troubleinminecraft-1.0-SNAPSHOT.jar'
+    from 'build/libs/troubleinminecraft-' + project.version + '.jar'
     into '../testserver/plugins/'
 }
 
