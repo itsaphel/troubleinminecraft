@@ -3,7 +3,6 @@ package io.indices.troubleinminecraft;
 import co.aikar.commands.BukkitCommandManager;
 import com.google.inject.Injector;
 import io.indices.troubleinminecraft.commands.ShopCommands;
-import me.minidigger.voxelgameslib.commands.OverrideCommands;
 import me.minidigger.voxelgameslib.game.GameHandler;
 import me.minidigger.voxelgameslib.game.GameMode;
 import me.minidigger.voxelgameslib.module.Module;
@@ -21,6 +20,7 @@ public class TroubleInMinecraftPlugin extends JavaPlugin implements Module {
 
     @Inject
     private Injector injector;
+    @Inject
     private BukkitCommandManager commandManager;
     @Inject
     private GameHandler gameHandler;
@@ -33,6 +33,8 @@ public class TroubleInMinecraftPlugin extends JavaPlugin implements Module {
     @Override
     public void enable() {
         gameHandler.registerGameMode(GAMEMODE);
+
+        registerCommands();
     }
 
     @Override
