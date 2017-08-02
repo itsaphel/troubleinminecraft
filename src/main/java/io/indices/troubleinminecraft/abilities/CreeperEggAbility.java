@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 
 public class CreeperEggAbility extends Ability {
     public static ItemStack itemStack = new ItemBuilder(Material.MONSTER_EGG).meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))
-            .name(ChatColor.GREEN + "Creeper Eggs").lore("Spawn a creeper where your arrows lands.").build();
+            .name("Creeper Eggs").lore("Spawn a creeper where your arrows lands.").build();
 
     public CreeperEggAbility(User user) {
         super(user);

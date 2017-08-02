@@ -2,6 +2,7 @@ package io.indices.troubleinminecraft.abilities;
 
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import me.minidigger.voxelgameslib.components.ability.Ability;
+import me.minidigger.voxelgameslib.game.Game;
 import me.minidigger.voxelgameslib.game.GameHandler;
 import me.minidigger.voxelgameslib.user.User;
 import me.minidigger.voxelgameslib.utils.ItemBuilder;
@@ -9,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class RadarAbility extends Ability {
     /**
      * @see Ability#Ability(User)
      */
-    public RadarAbility(User user) {
+    public RadarAbility(@Nonnull User user) {
         super(user);
     }
 
@@ -40,13 +42,16 @@ public class RadarAbility extends Ability {
     public void tick() {
         // todo make this more efficient if it's going to run every tick. it could also run less often.
 
-        gameHandler.findGame(affected, TroubleInMinecraftPlugin.GAMEMODE).ifPresent(game -> {
+        List<Game> games = gameHandler.getGames(affected.getUuid(), false);
+        if (games.size() == 1) {
+            Game game = games.get(0);
+
             User nearest = getNearestPlayer(game.getPlayers());
 
             if (nearest != null) {
                 affected.getPlayer().setCompassTarget(nearest.getPlayer().getLocation());
             }
-        });
+        }
     }
 
     private User getNearestPlayer(List<User> targets) {

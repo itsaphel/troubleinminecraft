@@ -10,15 +10,18 @@ import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.shop.DetectiveShop;
 import io.indices.troubleinminecraft.shop.TraitorShop;
 import io.indices.troubleinminecraft.shop.items.ShopItem;
+import me.minidigger.voxelgameslib.VoxelGamesLib;
 import me.minidigger.voxelgameslib.components.ability.Ability;
 import me.minidigger.voxelgameslib.components.inventory.BasicInventory;
 import me.minidigger.voxelgameslib.components.inventory.InventoryHandler;
+import me.minidigger.voxelgameslib.game.Game;
 import me.minidigger.voxelgameslib.game.GameHandler;
 import me.minidigger.voxelgameslib.user.GamePlayer;
 import me.minidigger.voxelgameslib.user.User;
 import me.minidigger.voxelgameslib.utils.ChatUtil;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import javax.inject.Inject;
@@ -30,6 +33,8 @@ import java.util.List;
 @CommandAlias("shop")
 public class ShopCommands extends BaseCommand {
     @Inject
+    private TroubleInMinecraftPlugin plugin;
+    @Inject
     private Injector injector;
     @Inject
     private GameHandler gameHandler;
@@ -39,8 +44,16 @@ public class ShopCommands extends BaseCommand {
     @Default
     @CommandPermission("%user")
     public void openShop(User sender) {
-        gameHandler.findGame(sender, TroubleInMinecraftPlugin.GAMEMODE).ifPresent(game -> {
+        List<Game> games = gameHandler.getGames(sender.getUuid(), false);
+
+        if (games.size() == 1) {
+            Game game = games.get(0);
+
             game.getGameData(TIMData.class).ifPresent(timData -> {
+                if (!timData.isGameStarted()) {
+                    return;
+                }
+
                 boolean isTraitor = timData.getTraitors().contains(sender);
                 boolean isDetective = timData.getDetectives().contains(sender);
 
@@ -49,7 +62,7 @@ public class ShopCommands extends BaseCommand {
                     String title;
 
                     if (isTraitor) {
-                        title = ChatColor.RED + "Traitor Shop";
+                        title = ChatColor.DARK_RED + "Traitor Shop";
                     } else {
                         title = ChatColor.BLUE + "Detective Shop";
                     }
@@ -70,12 +83,14 @@ public class ShopCommands extends BaseCommand {
                             int credits = timData.getPlayerCredits().getOrDefault(sender, 0);
                             if (item.getCost() <= credits) {
                                 // woopie, time to buy
-                                sender.getPlayer().getInventory().addItem(item.getItemStack());
                                 item.getAbilities().forEach(aClass -> {
                                     try {
                                         Ability ability = aClass.getConstructor(User.class).newInstance(sender);
+                                        injector.injectMembers(ability);
                                         ability.start();
+                                        Bukkit.getPluginManager().registerEvents(ability, plugin);
                                         game.getActivePhase().addTickable(ability);
+                                        // todo update player credits
                                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                                         e.printStackTrace();
                                     }
@@ -86,13 +101,13 @@ public class ShopCommands extends BaseCommand {
                             }
 
                             shopInv.close(sender.getPlayer());
-                            shopInv.destroy();
+                            inventoryHandler.removeInventory(shopInv.getIdentifier());
                         });
                     }
 
                     sender.getPlayer().openInventory(shopInv.getBukkitInventory());
                 }
             });
-        });
+        }
     }
 }

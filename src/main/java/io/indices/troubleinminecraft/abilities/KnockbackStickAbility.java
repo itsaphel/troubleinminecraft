@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class KnockbackStickAbility extends Ability {
     public static ItemStack itemStack = new ItemBuilder(Material.STICK).enchantment(Enchantment.KNOCKBACK, 2)
-            .name(ChatColor.BLUE + "The Detective's Stick").amount(1).build();
+            .name("The Detective's Stick").amount(1).build();
 
     public KnockbackStickAbility(User user) {
         super(user);

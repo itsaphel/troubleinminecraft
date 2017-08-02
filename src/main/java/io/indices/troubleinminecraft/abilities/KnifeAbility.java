@@ -12,8 +12,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class KnifeAbility extends Ability {
-    public static ItemStack itemStack = new ItemBuilder(Material.DIAMOND_SWORD).name(ChatColor.RED + "Knife")
-            .lore("This will instantly kill the player you hit with it. Careful, it may make a noise when you set this as your selected item!").amount(1).durability(99).build();
+    public static ItemStack itemStack = new ItemBuilder(Material.DIAMOND_SWORD).name("Knife")
+            .lore("This will instantly kill the player you hit with it.")
+            .lore("Careful, it may make a noise when you set this as your selected item!").amount(1).durability(Material.DIAMOND_SWORD.getMaxDurability() - 1).build();
 
     public KnifeAbility(User user) {
         super(user);
@@ -40,10 +41,11 @@ public class KnifeAbility extends Ability {
             Player entity = (Player) event.getEntity();
 
             if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && entity.getInventory().getItemInMainHand() == itemStack) {
-                entity.getInventory().getItemInMainHand().setDurability((short) 100);
+                entity.getInventory().getItemInMainHand().setDurability(Material.DIAMOND_SWORD.getMaxDurability());
                 event.setDamage(9999);
 
                 // todo unregister ability
+
             }
         }
     }
