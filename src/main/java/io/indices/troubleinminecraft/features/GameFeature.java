@@ -1,41 +1,29 @@
 package io.indices.troubleinminecraft.features;
 
 import com.google.gson.annotations.Expose;
+import com.voxelgameslib.voxelgameslib.components.scoreboard.Scoreboard;
+import com.voxelgameslib.voxelgameslib.event.GameEvent;
+import com.voxelgameslib.voxelgameslib.event.events.player.PlayerEliminationEvent;
+import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.user.UserHandler;
 import io.indices.troubleinminecraft.game.ChatUtils;
 import io.indices.troubleinminecraft.game.DeadPlayer;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.game.TIMPlayer;
 import io.indices.troubleinminecraft.team.Role;
-import com.voxelgameslib.voxelgameslib.components.scoreboard.Scoreboard;
-import com.voxelgameslib.voxelgameslib.event.events.player.PlayerEliminationEvent;
-import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
-import com.voxelgameslib.voxelgameslib.map.Marker;
-import com.voxelgameslib.voxelgameslib.map.Vector3D;
-import com.voxelgameslib.voxelgameslib.user.User;
-import com.voxelgameslib.voxelgameslib.user.UserHandler;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Zombie;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityCombustEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -65,13 +53,24 @@ public class GameFeature extends AbstractFeature {
     private boolean notifiedPlayers = false;
 
     @Expose
-    private int rdmPunishmentInnocentInnocent = 20;
+    private int innocentKillTraitorKarma = 20;
     @Expose
-    private int rdmPunishmentInnocentDetective = 40;
+    private int innocentKillInnocentKarma = -20;
     @Expose
-    private int rdmPunishmentDetectiveInnocent = 20;
+    private int innocentKillDetectiveKarma = -40;
     @Expose
-    private int rdmPunishmentTraitorTraitor = 40;
+    private int detectiveKillTraitorKarma = 20;
+    @Expose
+    private int detectiveKillInnocentKarma = -20;
+    @Expose
+    private int detectiveKillDetectiveKarma = -40;
+    @Expose
+    private int traitorKillDetectiveKarma = 40;
+    @Expose
+    private int traitorKillInnocentKarma = 20;
+    @Expose
+    private int traitorKillTraitorKarma = -40;
+
 
     @Override
     public void init() {
@@ -146,6 +145,18 @@ public class GameFeature extends AbstractFeature {
         } else {
             return null;
         }
+    }
+
+    public Map<Entity, DeadPlayer> getZombiePlayerMap() {
+        return zombiePlayerMap;
+    }
+
+    public int getVisiblePlayersLeft() {
+        return visiblePlayersLeft;
+    }
+
+    public void decrementVisiblePlayersLeft() {
+        visiblePlayersLeft--;
     }
 
     /**
@@ -309,137 +320,119 @@ public class GameFeature extends AbstractFeature {
         user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("Credits: " + timPlayer.getCredits()).color(net.md_5.bungee.api.ChatColor.GOLD).create());
     }
 
-    @EventHandler
-    public void onDeath(PlayerDeathEvent event) {
-        userHandler.getUser(event.getEntity().getUniqueId()).ifPresent(user -> {
-            if (getPhase().getGame().getPlayers().contains(user)) {
-                event.setDeathMessage(null);
+    /**
+     * Wrapper to alter the karma for a player
+     *
+     * @param player player to alter for
+     * @param change change to make (positive or negative)
+     */
+    private void updateKarma(TIMPlayer player, int change) {
+        player.setKarma(player.getKarma() + change);
+    }
 
-                Bukkit.getPluginManager().callEvent(new PlayerEliminationEvent(user, getPhase().getGame()));
-                getPhase().getGame().spectate(user);
+    @SuppressWarnings("Duplicates")
+    @GameEvent
+    public void onDeath(PlayerDeathEvent event, User user) {
+        event.setDeathMessage(null);
 
-                TIMPlayer player = playerMap.get(user);
+        Bukkit.getPluginManager().callEvent(new PlayerEliminationEvent(user, getPhase().getGame()));
+        getPhase().getGame().spectate(user);
 
-                // put a mob there
-                Zombie zombie = event.getEntity().getLocation().getWorld().spawn(event.getEntity().getLocation(), Zombie.class);
-                zombie.setCustomName(getRole(user).getColour() + user.getRawDisplayName());
-                zombie.setBaby(false);
-                DeadPlayer deadPlayer = new DeadPlayer();
-                deadPlayer.setDisplayName(user.getRawDisplayName());
-                deadPlayer.setIdentified(false);
-                deadPlayer.setRole(getRole(user));
-                deadPlayer.setUuid(user.getUuid());
-                zombiePlayerMap.put(zombie, deadPlayer);
+        TIMPlayer player = playerMap.get(user);
 
-                if (event.getEntity().getKiller() != null) {
-                    userHandler.getUser(event.getEntity().getKiller().getUniqueId()).ifPresent(killer -> {
-                        if (getPhase().getGame().getPlayers().contains(killer)) {
-                            TIMPlayer killerPlayer = playerMap.get(killer);
-                            killerPlayer.setKills(killerPlayer.getKills() + 1);
+        // put a mob there
+        Zombie zombie = getPhase().getFeature(DeadBodiesFeature.class).spawnBody(event.getEntity().getLocation());
+        DeadPlayer deadPlayer = new DeadPlayer();
+        deadPlayer.setDisplayName(user.getRawDisplayName());
+        deadPlayer.setIdentified(false);
+        deadPlayer.setRole(getRole(user));
+        deadPlayer.setUuid(user.getUuid());
+        zombiePlayerMap.put(zombie, deadPlayer);
 
-                            // let's see if you've been a naughty boy (or girl) -- santa's bad list incoming (somewhat relevant: https://xkcd.com/838/ (p.s. not really relevant))
-                            if (killerPlayer.getRole() == Role.TRAITOR && player.getRole() == Role.TRAITOR) {
-                                killerPlayer.setKarma(killerPlayer.getKarma() - rdmPunishmentTraitorTraitor);
-                            } else if (killerPlayer.getRole() == Role.INNOCENT && player.getRole() == Role.INNOCENT) {
-                                killerPlayer.setKarma(killerPlayer.getKarma() - rdmPunishmentInnocentInnocent);
-                            } else if (killerPlayer.getRole() == Role.INNOCENT && player.getRole() == Role.DETECTIVE) {
-                                killerPlayer.setKarma(killerPlayer.getKarma() - rdmPunishmentInnocentDetective);
-                            } else if (killerPlayer.getRole() == Role.DETECTIVE && player.getRole() == Role.INNOCENT) {
-                                killerPlayer.setKarma(killerPlayer.getKarma() - rdmPunishmentDetectiveInnocent);
-                            }
+        if (event.getEntity().getKiller() != null) {
+            userHandler.getUser(event.getEntity().getKiller().getUniqueId()).ifPresent(killer -> {
+                if (getPhase().getGame().getPlayers().contains(killer)) {
+                    TIMPlayer killerPlayer = playerMap.get(killer);
+                    killerPlayer.setKills(killerPlayer.getKills() + 1);
 
-                            Scoreboard killerScoreboard = getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(killer);
+                    // award karma to the killing player
+                    // let's see if you've been a naughty boy (or girl) -- santa's bad list incoming (somewhat relevant: https://xkcd.com/838/ (p.s. not really relevant))
 
-                            killerScoreboard.getLine("kills").ifPresent(line -> {
-                                line.setValue(killerPlayer.getKills() + "");
-                            });
-
-                            killerScoreboard.getLine("karma").ifPresent(line -> {
-                                line.setValue(killerPlayer.getKarma() + "");
-                            });
+                    if (killerPlayer.getRole() == Role.INNOCENT) {
+                        switch (player.getRole()) {
+                            case TRAITOR:
+                                updateKarma(killerPlayer, innocentKillTraitorKarma);
+                                break;
+                            case INNOCENT:
+                                updateKarma(killerPlayer, innocentKillInnocentKarma);
+                                break;
+                            case DETECTIVE:
+                                updateKarma(killerPlayer, innocentKillDetectiveKarma);
+                                break;
                         }
+                    } else if (killerPlayer.getRole() == Role.DETECTIVE) {
+                        switch (player.getRole()) {
+                            case TRAITOR:
+                                updateKarma(killerPlayer, detectiveKillTraitorKarma);
+                                break;
+                            case INNOCENT:
+                                updateKarma(killerPlayer, detectiveKillInnocentKarma);
+                                break;
+                            case DETECTIVE:
+                                updateKarma(killerPlayer, detectiveKillDetectiveKarma);
+                                break;
+                        }
+                    } else if (killerPlayer.getRole() == Role.TRAITOR) {
+                        switch (player.getRole()) {
+                            case TRAITOR:
+                                updateKarma(killerPlayer, traitorKillTraitorKarma);
+                                break;
+                            case INNOCENT:
+                                updateKarma(killerPlayer, traitorKillInnocentKarma);
+                                break;
+                            case DETECTIVE:
+                                updateKarma(killerPlayer, traitorKillDetectiveKarma);
+                                break;
+                        }
+                    }
+
+                    Scoreboard killerScoreboard = getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(killer);
+
+                    killerScoreboard.getLine("kills").ifPresent(line -> {
+                        line.setValue(killerPlayer.getKills() + "");
+                    });
+
+                    killerScoreboard.getLine("karma").ifPresent(line -> {
+                        line.setValue(killerPlayer.getKarma() + "");
                     });
                 }
+            });
+        }
 
-                if (traitors.contains(user)) {
-                    aliveTraitors.remove(user);
-                    if (aliveTraitors.size() == 0) {
-                        // innocents win
-                        TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
-                        data.setWinner(Role.INNOCENT);
-                        getPhase().getGame().putGameData(data);
-                        getPhase().getGame().endPhase();
-                    }
-                } else {
-                    aliveInnocents.remove(user);
-                    if (aliveInnocents.size() == 0) {
-                        // traitors win
-                        TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
-                        data.setWinner(Role.TRAITOR);
-                        getPhase().getGame().putGameData(data);
-                        getPhase().getGame().endPhase();
-                    }
-                }
+        if (traitors.contains(user)) {
+            aliveTraitors.remove(user);
+            if (aliveTraitors.size() == 0) {
+                // innocents win
+                TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
+                data.setWinner(Role.INNOCENT);
+                getPhase().getGame().putGameData(data);
+                getPhase().getGame().endPhase();
             }
-        });
-    }
-
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        userHandler.getUser(event.getPlayer().getUniqueId()).ifPresent(user -> {
-            if (getPhase().getGame().getPlayers().contains(user)) {
-                //
+        } else {
+            aliveInnocents.remove(user);
+            if (aliveInnocents.size() == 0) {
+                // traitors win
+                TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
+                data.setWinner(Role.TRAITOR);
+                getPhase().getGame().putGameData(data);
+                getPhase().getGame().endPhase();
             }
-        });
-    }
-
-    @EventHandler
-    public void rightClickZombie(PlayerInteractEntityEvent event) {
-        userHandler.getUser(event.getPlayer().getUniqueId()).ifPresent(user -> {
-            if (getPhase().getGame().getPlayers().contains(user)) {
-                if (event.getRightClicked() instanceof Zombie && event.getHand() == EquipmentSlot.HAND) {
-                    if (zombiePlayerMap.containsKey(event.getRightClicked())) {
-                        DeadPlayer deadPlayer = zombiePlayerMap.get(event.getRightClicked());
-
-                        if (!deadPlayer.isIdentified()) {
-                            visiblePlayersLeft--;
-                            globalScoreboard.getLines("players-left").forEach(line -> line.setValue(visiblePlayersLeft + ""));
-
-                            getPhase().getGame().getPlayers().forEach(otherPlayer -> {
-                                        otherPlayer.sendMessage(TextComponent.of("The body of " + deadPlayer.getDisplayName() + " has been found!").color(TextColor.BLUE));
-                                        otherPlayer.sendMessage(TextComponent.of("They were a(n) ").color(TextColor.BLUE).append(TextComponent.of(ChatUtils.formatRoleName(deadPlayer.getRole()) + "").append(TextComponent.of("!").color(TextColor.BLUE))));
-                                    }
-                            );
-
-                            //event.getRightClicked().setCustomName(deadPlayer.getDisplayName());
-                            deadPlayer.setIdentified(true);
-                        } else {
-                            user.sendMessage(TextComponent.of("This is the body of " + deadPlayer.getDisplayName() + ". They were a(n) " + ChatUtils.formatRoleName(deadPlayer.getRole())).color(TextColor.BLUE));
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    @EventHandler
-    public void onZombieDamage(EntityDamageEvent event) {
-        if (zombiePlayerMap.containsKey(event.getEntity())) {
-            event.setCancelled(true);
         }
     }
 
-    @EventHandler
-    public void onEntityBurn(EntityCombustEvent event) {
-        if (zombiePlayerMap.containsKey(event.getEntity())) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onZombieTarget(EntityTargetEvent event) {
-        if (zombiePlayerMap.containsKey(event.getEntity())) {
-            event.setTarget(null);
-        }
+    @GameEvent
+    public void onQuit(PlayerQuitEvent event, User user) {
+        // todo spawn a dead body in their place
+        //
     }
 }
