@@ -11,15 +11,14 @@ import io.indices.troubleinminecraft.game.TIMPlayer;
 import io.indices.troubleinminecraft.shop.DetectiveShop;
 import io.indices.troubleinminecraft.shop.TraitorShop;
 import io.indices.troubleinminecraft.shop.items.ShopItem;
-import me.minidigger.voxelgameslib.VoxelGamesLib;
-import me.minidigger.voxelgameslib.components.ability.Ability;
-import me.minidigger.voxelgameslib.components.inventory.BasicInventory;
-import me.minidigger.voxelgameslib.components.inventory.InventoryHandler;
-import me.minidigger.voxelgameslib.game.Game;
-import me.minidigger.voxelgameslib.game.GameHandler;
-import me.minidigger.voxelgameslib.user.GamePlayer;
-import me.minidigger.voxelgameslib.user.User;
-import me.minidigger.voxelgameslib.utils.ChatUtil;
+import com.voxelgameslib.voxelgameslib.components.ability.Ability;
+import com.voxelgameslib.voxelgameslib.components.inventory.BasicInventory;
+import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
+import com.voxelgameslib.voxelgameslib.game.Game;
+import com.voxelgameslib.voxelgameslib.game.GameHandler;
+import com.voxelgameslib.voxelgameslib.user.GamePlayer;
+import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.utils.ChatUtil;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 import org.bukkit.Bukkit;
@@ -101,7 +100,7 @@ public class ShopCommands extends BaseCommand {
                                 ChatUtil.sendMessage((GamePlayer) sender, TextComponent.of("You do not have enough credits to purchase this item! You need " + (item.getCost() - timPlayer.getCredits()) + " more credits.").color(TextColor.RED));
                             }
 
-                            shopInv.close(sender.getPlayer());
+                            shopInv.close();
                             inventoryHandler.removeInventory(shopInv.getIdentifier());
                         });
                     }

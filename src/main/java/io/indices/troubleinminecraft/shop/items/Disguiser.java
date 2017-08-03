@@ -2,7 +2,7 @@ package io.indices.troubleinminecraft.shop.items;
 
 
 import io.indices.troubleinminecraft.abilities.DisguiserAbility;
-import me.minidigger.voxelgameslib.utils.ItemBuilder;
+import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import org.bukkit.Material;
 
 public class Disguiser extends ShopItem {

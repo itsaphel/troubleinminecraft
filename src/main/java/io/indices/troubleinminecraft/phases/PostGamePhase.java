@@ -1,9 +1,9 @@
 package io.indices.troubleinminecraft.phases;
 
 import io.indices.troubleinminecraft.features.PostGameFeature;
-import me.minidigger.voxelgameslib.GameConstants;
-import me.minidigger.voxelgameslib.feature.features.*;
-import me.minidigger.voxelgameslib.phase.TimedPhase;
+import com.voxelgameslib.voxelgameslib.GameConstants;
+import com.voxelgameslib.voxelgameslib.feature.features.*;
+import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
 import org.bukkit.GameMode;
 
 public class PostGamePhase extends TimedPhase {

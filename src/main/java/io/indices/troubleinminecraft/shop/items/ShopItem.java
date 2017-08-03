@@ -1,6 +1,6 @@
 package io.indices.troubleinminecraft.shop.items;
 
-import me.minidigger.voxelgameslib.components.ability.Ability;
+import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

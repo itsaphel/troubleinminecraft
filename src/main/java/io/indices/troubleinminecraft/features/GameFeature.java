@@ -6,15 +6,15 @@ import io.indices.troubleinminecraft.game.DeadPlayer;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.game.TIMPlayer;
 import io.indices.troubleinminecraft.team.Role;
-import me.minidigger.voxelgameslib.components.scoreboard.Scoreboard;
-import me.minidigger.voxelgameslib.event.events.player.PlayerEliminationEvent;
-import me.minidigger.voxelgameslib.feature.AbstractFeature;
-import me.minidigger.voxelgameslib.feature.features.MapFeature;
-import me.minidigger.voxelgameslib.feature.features.PersonalScoreboardFeature;
-import me.minidigger.voxelgameslib.map.Marker;
-import me.minidigger.voxelgameslib.map.Vector3D;
-import me.minidigger.voxelgameslib.user.User;
-import me.minidigger.voxelgameslib.user.UserHandler;
+import com.voxelgameslib.voxelgameslib.components.scoreboard.Scoreboard;
+import com.voxelgameslib.voxelgameslib.event.events.player.PlayerEliminationEvent;
+import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.map.Marker;
+import com.voxelgameslib.voxelgameslib.map.Vector3D;
+import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.user.UserHandler;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -308,7 +308,7 @@ public class GameFeature extends AbstractFeature {
      * Create chests from markers
      */
     private void createChests() {
-        me.minidigger.voxelgameslib.map.Map map = getPhase().getFeature(MapFeature.class).getMap();
+        com.voxelgameslib.voxelgameslib.map.Map map = getPhase().getFeature(MapFeature.class).getMap();
         for (Marker marker : map.getMarkers()) {
             if (marker.getData().startsWith("chest")) {
                 // tbh, you can just have a chest and not set a marker at all

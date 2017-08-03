@@ -1,8 +1,8 @@
 package io.indices.troubleinminecraft.phases;
 
 import io.indices.troubleinminecraft.features.GameFeature;
-import me.minidigger.voxelgameslib.feature.features.*;
-import me.minidigger.voxelgameslib.phase.AbstractPhase;
+import com.voxelgameslib.voxelgameslib.feature.features.*;
+import com.voxelgameslib.voxelgameslib.phase.AbstractPhase;
 import org.bukkit.GameMode;
 
 public class ActivePhase extends AbstractPhase {

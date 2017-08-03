@@ -1,10 +1,9 @@
 package io.indices.troubleinminecraft.abilities;
 
-import me.minidigger.voxelgameslib.components.ability.Ability;
-import me.minidigger.voxelgameslib.event.GameEvent;
-import me.minidigger.voxelgameslib.user.User;
-import me.minidigger.voxelgameslib.utils.ItemBuilder;
-import org.bukkit.ChatColor;
+import com.voxelgameslib.voxelgameslib.components.ability.Ability;
+import com.voxelgameslib.voxelgameslib.event.GameEvent;
+import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

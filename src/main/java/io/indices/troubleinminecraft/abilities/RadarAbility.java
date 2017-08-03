@@ -1,13 +1,11 @@
 package io.indices.troubleinminecraft.abilities;
 
-import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
-import me.minidigger.voxelgameslib.components.ability.Ability;
-import me.minidigger.voxelgameslib.game.Game;
-import me.minidigger.voxelgameslib.game.GameHandler;
-import me.minidigger.voxelgameslib.user.User;
-import me.minidigger.voxelgameslib.utils.ItemBuilder;
+import com.voxelgameslib.voxelgameslib.components.ability.Ability;
+import com.voxelgameslib.voxelgameslib.game.Game;
+import com.voxelgameslib.voxelgameslib.game.GameHandler;
+import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;

@@ -3,11 +3,11 @@ package io.indices.troubleinminecraft;
 import io.indices.troubleinminecraft.phases.ActivePhase;
 import io.indices.troubleinminecraft.phases.GracePhase;
 import io.indices.troubleinminecraft.phases.PostGamePhase;
-import me.minidigger.voxelgameslib.feature.features.VoteFeature;
-import me.minidigger.voxelgameslib.game.AbstractGame;
-import me.minidigger.voxelgameslib.game.GameDefinition;
-import me.minidigger.voxelgameslib.game.GameInfo;
-import me.minidigger.voxelgameslib.phase.phases.LobbyWithVotePhase;
+import com.voxelgameslib.voxelgameslib.feature.features.VoteFeature;
+import com.voxelgameslib.voxelgameslib.game.AbstractGame;
+import com.voxelgameslib.voxelgameslib.game.GameDefinition;
+import com.voxelgameslib.voxelgameslib.game.GameInfo;
+import com.voxelgameslib.voxelgameslib.phase.phases.LobbyWithVotePhase;
 
 import javax.annotation.Nonnull;
 

@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import me.minidigger.voxelgameslib.feature.features.ScoreboardFeature;
-import me.minidigger.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.feature.features.ScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.user.User;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -24,7 +24,7 @@ import io.indices.troubleinminecraft.game.DeadPlayer;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.team.Role;
 
-public class PostGameFeature extends me.minidigger.voxelgameslib.feature.features.PostGameFeature {
+public class PostGameFeature extends com.voxelgameslib.voxelgameslib.feature.features.PostGameFeature {
 
     private Map<Entity, DeadPlayer> zombiePlayerMap = new HashMap<>();
     private Role winner;

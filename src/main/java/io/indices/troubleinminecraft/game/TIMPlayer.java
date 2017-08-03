@@ -3,7 +3,7 @@ package io.indices.troubleinminecraft.game;
 import io.indices.troubleinminecraft.team.Role;
 import lombok.Getter;
 import lombok.Setter;
-import me.minidigger.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.user.User;
 
 @Getter
 @Setter

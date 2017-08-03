@@ -1,7 +1,7 @@
 package io.indices.troubleinminecraft.abilities;
 
-import me.minidigger.voxelgameslib.components.ability.Ability;
-import me.minidigger.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.components.ability.Ability;
+import com.voxelgameslib.voxelgameslib.user.User;
 
 public class DisguiserAbility extends Ability {
     /**

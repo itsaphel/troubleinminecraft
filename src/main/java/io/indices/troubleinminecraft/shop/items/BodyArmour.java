@@ -1,7 +1,7 @@
 package io.indices.troubleinminecraft.shop.items;
 
 import io.indices.troubleinminecraft.abilities.BodyArmourAbility;
-import me.minidigger.voxelgameslib.utils.ItemBuilder;
+import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 

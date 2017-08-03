@@ -4,10 +4,10 @@ import io.indices.troubleinminecraft.team.Role;
 import lombok.Getter;
 import lombok.Setter;
 
-import me.minidigger.voxelgameslib.components.team.Team;
-import me.minidigger.voxelgameslib.game.GameData;
-import me.minidigger.voxelgameslib.map.Vector3D;
-import me.minidigger.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.components.team.Team;
+import com.voxelgameslib.voxelgameslib.game.GameData;
+import com.voxelgameslib.voxelgameslib.map.Vector3D;
+import com.voxelgameslib.voxelgameslib.user.User;
 import org.bukkit.entity.Entity;
 
 import java.util.ArrayList;

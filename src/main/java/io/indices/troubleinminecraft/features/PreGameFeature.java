@@ -1,8 +1,8 @@
 package io.indices.troubleinminecraft.features;
 
 import lombok.Setter;
-import me.minidigger.voxelgameslib.feature.AbstractFeature;
-import me.minidigger.voxelgameslib.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
 import org.bukkit.ChatColor;
 
 public class PreGameFeature extends AbstractFeature {

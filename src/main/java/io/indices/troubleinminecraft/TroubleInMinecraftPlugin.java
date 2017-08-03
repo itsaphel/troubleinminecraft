@@ -3,11 +3,11 @@ package io.indices.troubleinminecraft;
 import co.aikar.commands.BukkitCommandManager;
 import com.google.inject.Injector;
 import io.indices.troubleinminecraft.commands.ShopCommands;
-import me.minidigger.voxelgameslib.game.GameHandler;
-import me.minidigger.voxelgameslib.game.GameMode;
-import me.minidigger.voxelgameslib.module.Module;
-import me.minidigger.voxelgameslib.module.ModuleHandler;
-import me.minidigger.voxelgameslib.module.ModuleInfo;
+import com.voxelgameslib.voxelgameslib.game.GameHandler;
+import com.voxelgameslib.voxelgameslib.game.GameMode;
+import com.voxelgameslib.voxelgameslib.module.Module;
+import com.voxelgameslib.voxelgameslib.module.ModuleHandler;
+import com.voxelgameslib.voxelgameslib.module.ModuleInfo;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.inject.Inject;
