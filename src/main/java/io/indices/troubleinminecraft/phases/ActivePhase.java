@@ -1,5 +1,6 @@
 package io.indices.troubleinminecraft.phases;
 
+import io.indices.troubleinminecraft.features.ChestItemPickupFeature;
 import io.indices.troubleinminecraft.features.GameFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.*;
 import com.voxelgameslib.voxelgameslib.phase.AbstractPhase;
@@ -41,6 +42,9 @@ public class ActivePhase extends AbstractPhase {
         GameModeFeature gameModeFeature = getGame().createFeature(GameModeFeature.class, this);
         gameModeFeature.setGameMode(GameMode.SURVIVAL);
         addFeature(gameModeFeature);
+
+        ChestItemPickupFeature chestItemPickupFeature = getGame().createFeature(ChestItemPickupFeature.class, this);
+        addFeature(chestItemPickupFeature);
 
         GameFeature gameFeature = getGame().createFeature(GameFeature.class, this);
         addFeature(gameFeature);

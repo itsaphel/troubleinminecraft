@@ -46,7 +46,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class GameFeature extends AbstractFeature {
-
     @Inject
     private UserHandler userHandler;
 
@@ -58,8 +57,6 @@ public class GameFeature extends AbstractFeature {
 
     private List<User> aliveInnocents = new ArrayList<>(); // detectives are classed as innocents for these purposes
     private List<User> aliveTraitors = new ArrayList<>();
-
-    private List<Vector3D> chests = new ArrayList<>();
 
     private Map<User, TIMPlayer> playerMap = new HashMap<>();
     private Map<Entity, DeadPlayer> zombiePlayerMap = new HashMap<>();
@@ -91,14 +88,12 @@ public class GameFeature extends AbstractFeature {
             // initialise game
             createPlayers();
             assignRoles();
-            createChests();
         } else {
             innocents = timData.getInnocents();
             traitors = timData.getTraitors();
             detectives = timData.getDetectives();
             aliveInnocents = timData.getInnocents();
             aliveTraitors = timData.getAliveTraitors();
-            chests = timData.getChests();
             playerMap = timData.getPlayerMap();
         }
 
@@ -123,7 +118,6 @@ public class GameFeature extends AbstractFeature {
         timData.setTraitors(traitors);
         timData.setAliveInnocents(aliveInnocents);
         timData.setAliveTraitors(aliveTraitors);
-        timData.setChests(chests);
         timData.setZombiePlayerMap(zombiePlayerMap);
         timData.setPlayerMap(playerMap);
         getPhase().getGame().putGameData(timData);
@@ -305,20 +299,6 @@ public class GameFeature extends AbstractFeature {
     }
 
     /**
-     * Create chests from markers
-     */
-    private void createChests() {
-        com.voxelgameslib.voxelgameslib.map.Map map = getPhase().getFeature(MapFeature.class).getMap();
-        for (Marker marker : map.getMarkers()) {
-            if (marker.getData().startsWith("chest")) {
-                // tbh, you can just have a chest and not set a marker at all
-                marker.getLoc().toLocation(map.getWorldName()).getBlock().setType(Material.CHEST);
-                chests.add(marker.getLoc());
-            }
-        }
-    }
-
-    /**
      * Set a user's credits
      *
      * @param user user to adjust credits for
@@ -461,34 +441,5 @@ public class GameFeature extends AbstractFeature {
         if (zombiePlayerMap.containsKey(event.getEntity())) {
             event.setTarget(null);
         }
-    }
-
-    @EventHandler
-    public void interactWithChest(PlayerInteractEvent event) {
-        userHandler.getUser(event.getPlayer().getUniqueId()).ifPresent(user -> {
-            if (getPhase().getGame().getPlayers().contains(user)) {
-                if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.CHEST) {
-
-                    event.getClickedBlock().setType(Material.AIR); // remove the chest
-
-                    Inventory playerInv = event.getPlayer().getInventory();
-
-                    int chance = ThreadLocalRandom.current().nextInt(3);
-
-                    if (chance == 0) {
-                        playerInv.addItem(new ItemStack(Material.WOOD_SWORD));
-                    } else if (chance == 1) {
-                        playerInv.addItem(new ItemStack(Material.STONE_SWORD));
-                    } else {
-                        if (!playerInv.contains(Material.BOW)) {
-                            playerInv.addItem(new ItemStack(Material.BOW));
-                        }
-                        playerInv.addItem(new ItemStack(Material.ARROW, 32));
-                    }
-
-                    event.setCancelled(true);
-                }
-            }
-        });
     }
 }

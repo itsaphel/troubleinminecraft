@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import com.voxelgameslib.voxelgameslib.components.team.Team;
 import com.voxelgameslib.voxelgameslib.game.GameData;
-import com.voxelgameslib.voxelgameslib.map.Vector3D;
 import com.voxelgameslib.voxelgameslib.user.User;
 import org.bukkit.entity.Entity;
 
@@ -30,7 +29,6 @@ public class TIMData implements GameData {
 
     private List<User> aliveInnocents = new ArrayList<>();
     private List<User> aliveTraitors = new ArrayList<>();
-    private List<Vector3D> chests = new ArrayList<>();
     private Map<User, TIMPlayer> playerMap = new HashMap<>();
     private Map<Entity, DeadPlayer> zombiePlayerMap = new HashMap<>();
 

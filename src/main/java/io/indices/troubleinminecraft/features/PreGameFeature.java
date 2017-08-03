@@ -1,5 +1,6 @@
 package io.indices.troubleinminecraft.features;
 
+import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
 import lombok.Setter;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
@@ -17,6 +18,9 @@ public class PreGameFeature extends AbstractFeature {
 
     @Override
     public void start() {
+        if (getPhase() instanceof TimedPhase) {
+            getPhase().getGame().getPlayers().forEach(user -> user.getPlayer().sendTitle(ChatColor.RED + "You have " + (((TimedPhase) getPhase()).getTicks() / 20) + " seconds to find a weapon!", null));
+        }
     }
 
     @Override

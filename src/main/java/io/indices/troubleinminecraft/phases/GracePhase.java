@@ -1,5 +1,6 @@
 package io.indices.troubleinminecraft.phases;
 
+import io.indices.troubleinminecraft.features.ChestItemPickupFeature;
 import io.indices.troubleinminecraft.features.GameFeature;
 import io.indices.troubleinminecraft.features.PreGameFeature;
 import com.voxelgameslib.voxelgameslib.GameConstants;
@@ -48,6 +49,9 @@ public class GracePhase extends TimedPhase {
         GameModeFeature gameModeFeature = getGame().createFeature(GameModeFeature.class, this);
         gameModeFeature.setGameMode(GameMode.SURVIVAL);
         addFeature(gameModeFeature);
+
+        ChestItemPickupFeature chestItemPickupFeature = getGame().createFeature(ChestItemPickupFeature.class, this);
+        addFeature(chestItemPickupFeature);
 
         GameFeature gameFeature = getGame().createFeature(GameFeature.class, this);
         addFeature(gameFeature);
