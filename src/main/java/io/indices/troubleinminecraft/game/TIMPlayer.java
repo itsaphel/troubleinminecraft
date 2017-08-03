@@ -12,6 +12,8 @@ public class TIMPlayer {
     private Role role;
     private boolean alive = true;
     private int credits = 0;
+    private int karma = 1000; // todo persist karma for 20 games
+    private int kills = 0;
 
     public TIMPlayer(User user) {
         this.user = user;

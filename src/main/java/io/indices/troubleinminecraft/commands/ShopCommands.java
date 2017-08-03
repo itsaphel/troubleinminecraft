@@ -7,6 +7,7 @@ import co.aikar.commands.annotation.Default;
 import com.google.inject.Injector;
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.game.TIMData;
+import io.indices.troubleinminecraft.game.TIMPlayer;
 import io.indices.troubleinminecraft.shop.DetectiveShop;
 import io.indices.troubleinminecraft.shop.TraitorShop;
 import io.indices.troubleinminecraft.shop.items.ShopItem;
@@ -80,8 +81,8 @@ public class ShopCommands extends BaseCommand {
                         shopInv.getBukkitInventory().setItem(index++, item.getItemStack());
                         shopInv.addClickAction(item.getItemStack(), (itemStack, inventoryClickEvent) -> {
                             // let's see if you can purchase the item
-                            int credits = timData.getPlayerCredits().getOrDefault(sender, 0);
-                            if (item.getCost() <= credits) {
+                            TIMPlayer timPlayer = timData.getPlayerMap().get(sender);
+                            if (item.getCost() <= timPlayer.getCredits()) {
                                 // woopie, time to buy
                                 item.getAbilities().forEach(aClass -> {
                                     try {
@@ -89,7 +90,7 @@ public class ShopCommands extends BaseCommand {
                                         injector.injectMembers(ability);
                                         ability.start();
                                         Bukkit.getPluginManager().registerEvents(ability, plugin);
-                                        game.getActivePhase().addTickable(ability);
+                                        game.getActivePhase().addTickable(ability.getIdentifier(), ability);
                                         // todo update player credits
                                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                                         e.printStackTrace();
@@ -97,7 +98,7 @@ public class ShopCommands extends BaseCommand {
                                 });
                                 ChatUtil.sendMessage((GamePlayer) sender, TextComponent.of("You have bought " + item.getName() + ".").color(TextColor.GREEN));
                             } else {
-                                ChatUtil.sendMessage((GamePlayer) sender, TextComponent.of("You do not have enough credits to purchase this item! You need " + (item.getCost() - credits) + " more credits.").color(TextColor.RED));
+                                ChatUtil.sendMessage((GamePlayer) sender, TextComponent.of("You do not have enough credits to purchase this item! You need " + (item.getCost() - timPlayer.getCredits()) + " more credits.").color(TextColor.RED));
                             }
 
                             shopInv.close(sender.getPlayer());

@@ -1,17 +1,12 @@
 package io.indices.troubleinminecraft.features;
 
+import com.google.gson.annotations.Expose;
+import io.indices.troubleinminecraft.game.ChatUtils;
+import io.indices.troubleinminecraft.game.DeadPlayer;
+import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.game.TIMPlayer;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-import javax.inject.Inject;
-
+import io.indices.troubleinminecraft.team.Role;
+import me.minidigger.voxelgameslib.components.scoreboard.Scoreboard;
 import me.minidigger.voxelgameslib.event.events.player.PlayerEliminationEvent;
 import me.minidigger.voxelgameslib.feature.AbstractFeature;
 import me.minidigger.voxelgameslib.feature.features.MapFeature;
@@ -20,12 +15,14 @@ import me.minidigger.voxelgameslib.map.Marker;
 import me.minidigger.voxelgameslib.map.Vector3D;
 import me.minidigger.voxelgameslib.user.User;
 import me.minidigger.voxelgameslib.user.UserHandler;
-
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -40,10 +37,13 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.indices.troubleinminecraft.game.ChatUtils;
-import io.indices.troubleinminecraft.game.DeadPlayer;
-import io.indices.troubleinminecraft.game.TIMData;
-import io.indices.troubleinminecraft.team.Role;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class GameFeature extends AbstractFeature {
 
@@ -65,6 +65,16 @@ public class GameFeature extends AbstractFeature {
     private Map<Entity, DeadPlayer> zombiePlayerMap = new HashMap<>();
 
     private int visiblePlayersLeft;
+    private boolean notifiedPlayers = false;
+
+    @Expose
+    private int rdmPunishmentInnocentInnocent = 20;
+    @Expose
+    private int rdmPunishmentInnocentDetective = 40;
+    @Expose
+    private int rdmPunishmentDetectiveInnocent = 20;
+    @Expose
+    private int rdmPunishmentTraitorTraitor = 40;
 
     @Override
     public void init() {
@@ -83,7 +93,6 @@ public class GameFeature extends AbstractFeature {
             assignRoles();
             createChests();
         } else {
-            gameStarted = true;
             innocents = timData.getInnocents();
             traitors = timData.getTraitors();
             detectives = timData.getDetectives();
@@ -116,12 +125,16 @@ public class GameFeature extends AbstractFeature {
         timData.setAliveTraitors(aliveTraitors);
         timData.setChests(chests);
         timData.setZombiePlayerMap(zombiePlayerMap);
+        timData.setPlayerMap(playerMap);
         getPhase().getGame().putGameData(timData);
     }
 
     @Override
     public void tick() {
-
+        if (notifiedPlayers) {
+            traitors.forEach(this::updateCredits);
+            detectives.forEach(this::updateCredits);
+        }
     }
 
     @Override
@@ -156,6 +169,13 @@ public class GameFeature extends AbstractFeature {
 
         globalScoreboard.setTitle(ChatColor.BLUE + "TIMC");
 
+        // read this upside down ;) scoreboards suck
+
+        globalScoreboard.createAndAddLine("karma", "1000");
+        globalScoreboard.createAndAddLine(ChatColor.RED + ChatColor.BOLD.toString() + "Karma");
+
+        globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
+
         globalScoreboard.createAndAddLine("kills", "0");
         globalScoreboard.createAndAddLine(ChatColor.AQUA + ChatColor.BOLD.toString() + "Kills");
 
@@ -170,6 +190,15 @@ public class GameFeature extends AbstractFeature {
         globalScoreboard.createAndAddLine(ChatColor.GOLD + ChatColor.BOLD.toString() + "Role");
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
+
+        // initialise player-specific variables
+
+        getPhase().getGame().getPlayers().forEach(user -> {
+            TIMPlayer player = playerMap.get(user);
+            Scoreboard scoreboard = getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user);
+
+            scoreboard.getLine("karma").ifPresent(line -> line.setValue(player.getKarma() + ""));
+        });
     }
 
     /**
@@ -239,10 +268,9 @@ public class GameFeature extends AbstractFeature {
 
             user.sendMessage(TextComponent.of("You are a traitor! Work with your fellow traitors to kill the innocents. Watch out for the detectives, they have the tools to get you too.").color(TextColor.RED));
 
-            if (traitorListString != null && !traitorListString.isEmpty()) {
+            if (traitorListString != null && !traitorListString.isEmpty() && traitors.size() >= 2) {
                 user.sendMessage(TextComponent.of("Your fellow traitors are: ").color(TextColor.RED).append(TextComponent.of(traitorListString).color(TextColor.DARK_RED)));
             }
-
         });
 
         detectives.forEach(user -> {
@@ -255,7 +283,7 @@ public class GameFeature extends AbstractFeature {
 
             user.sendMessage(TextComponent.of("You are a detective! It is your job to save the innocents from the traitors.").color(TextColor.BLUE));
 
-            if (detectiveListString != null && !detectiveListString.isEmpty()) {
+            if (detectiveListString != null && !detectiveListString.isEmpty() && detectives.size() >= 2) {
                 user.sendMessage(TextComponent.of("Your fellow detectives are: ").color(TextColor.BLUE).append(TextComponent.of(detectiveListString).color(TextColor.DARK_BLUE)));
             }
         });
@@ -264,12 +292,16 @@ public class GameFeature extends AbstractFeature {
             getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine("role").ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.INNOCENT, true)));
             user.sendMessage(TextComponent.of("You are an innocent. Find weapons and try to survive against the traitors. Work with the detectives to find and kill them. Stay alert!").color(TextColor.GREEN));
 
-            String detectiveListString = detectives.stream()
-                    .map(User::getRawDisplayName)
-                    .collect(Collectors.joining(", "));
+            if (detectives.size() != 0) {
+                String detectiveListString = detectives.stream()
+                        .map(User::getRawDisplayName)
+                        .collect(Collectors.joining(", "));
 
-            user.sendMessage(TextComponent.of("Your detectives are: ").color(TextColor.GREEN).append(TextComponent.of(detectiveListString).color(TextColor.BLUE)));
+                user.sendMessage(TextComponent.of("Your detectives are: ").color(TextColor.GREEN).append(TextComponent.of(detectiveListString).color(TextColor.BLUE)));
+            }
         });
+
+        notifiedPlayers = true;
     }
 
     /**
@@ -286,6 +318,17 @@ public class GameFeature extends AbstractFeature {
         }
     }
 
+    /**
+     * Set a user's credits
+     *
+     * @param user user to adjust credits for
+     */
+    private void updateCredits(User user) {
+        TIMPlayer timPlayer = playerMap.get(user);
+
+        user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("Credits: " + timPlayer.getCredits()).color(net.md_5.bungee.api.ChatColor.GOLD).create());
+    }
+
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         userHandler.getUser(event.getEntity().getUniqueId()).ifPresent(user -> {
@@ -294,6 +337,8 @@ public class GameFeature extends AbstractFeature {
 
                 Bukkit.getPluginManager().callEvent(new PlayerEliminationEvent(user, getPhase().getGame()));
                 getPhase().getGame().spectate(user);
+
+                TIMPlayer player = playerMap.get(user);
 
                 // put a mob there
                 Zombie zombie = event.getEntity().getLocation().getWorld().spawn(event.getEntity().getLocation(), Zombie.class);
@@ -309,9 +354,28 @@ public class GameFeature extends AbstractFeature {
                 if (event.getEntity().getKiller() != null) {
                     userHandler.getUser(event.getEntity().getKiller().getUniqueId()).ifPresent(killer -> {
                         if (getPhase().getGame().getPlayers().contains(killer)) {
-                            getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(killer).getLine("kills").ifPresent(line -> {
-                                int kills = Integer.parseInt(line.getValue());
-                                line.setValue(++kills + "");
+                            TIMPlayer killerPlayer = playerMap.get(killer);
+                            killerPlayer.setKills(killerPlayer.getKills() + 1);
+
+                            // let's see if you've been a naughty boy (or girl) -- santa's bad list incoming (somewhat relevant: https://xkcd.com/838/ (p.s. not really relevant))
+                            if (killerPlayer.getRole() == Role.TRAITOR && player.getRole() == Role.TRAITOR) {
+                                killerPlayer.setKarma(killerPlayer.getKarma() - rdmPunishmentTraitorTraitor);
+                            } else if (killerPlayer.getRole() == Role.INNOCENT && player.getRole() == Role.INNOCENT) {
+                                killerPlayer.setKarma(killerPlayer.getKarma() - rdmPunishmentInnocentInnocent);
+                            } else if (killerPlayer.getRole() == Role.INNOCENT && player.getRole() == Role.DETECTIVE) {
+                                killerPlayer.setKarma(killerPlayer.getKarma() - rdmPunishmentInnocentDetective);
+                            } else if (killerPlayer.getRole() == Role.DETECTIVE && player.getRole() == Role.INNOCENT) {
+                                killerPlayer.setKarma(killerPlayer.getKarma() - rdmPunishmentDetectiveInnocent);
+                            }
+
+                            Scoreboard killerScoreboard = getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(killer);
+
+                            killerScoreboard.getLine("kills").ifPresent(line -> {
+                                line.setValue(killerPlayer.getKills() + "");
+                            });
+
+                            killerScoreboard.getLine("karma").ifPresent(line -> {
+                                line.setValue(killerPlayer.getKarma() + "");
                             });
                         }
                     });
