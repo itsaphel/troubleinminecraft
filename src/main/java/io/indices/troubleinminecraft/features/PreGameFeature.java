@@ -19,7 +19,7 @@ public class PreGameFeature extends AbstractFeature {
     @Override
     public void start() {
         if (getPhase() instanceof TimedPhase) {
-            getPhase().getGame().getPlayers().forEach(user -> user.getPlayer().sendTitle(ChatColor.RED + "You have " + (((TimedPhase) getPhase()).getTicks() / 20) + " seconds to find a weapon!", null));
+            getPhase().getGame().getPlayers().forEach(user -> user.getPlayer().sendTitle(ChatColor.RED.toString() + (((TimedPhase) getPhase()).getTicks() / 20) + " seconds", "to find a weapon!"));
         }
     }
 
