@@ -43,7 +43,7 @@ public class DeadBodiesFeature extends AbstractFeature {
     }
 
     @Override
-    public Class[] getDependencies() {
+    public Class[] getSoftDependencies() {
         return new Class[]{GameFeature.class, PersonalScoreboardFeature.class};
     }
 

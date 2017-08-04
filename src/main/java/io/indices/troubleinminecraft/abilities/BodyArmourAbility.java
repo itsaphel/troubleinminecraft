@@ -9,11 +9,11 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
-import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 
@@ -60,7 +60,7 @@ public class BodyArmourAbility extends Ability {
 
     }
 
-    @GameEvent
+    @EventHandler
     public void takeArmourOff(InventoryClickEvent event) {
         if (event.getWhoClicked().getUniqueId().equals(affected.getUuid()) && event.getSlotType() == InventoryType.SlotType.ARMOR) {
             // u ain't takin' this armour off m8

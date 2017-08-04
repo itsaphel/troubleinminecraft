@@ -8,6 +8,7 @@ import com.voxelgameslib.voxelgameslib.event.events.player.PlayerEliminationEven
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.user.UserHandler;
 import io.indices.troubleinminecraft.game.ChatUtils;
@@ -128,6 +129,15 @@ public class GameFeature extends AbstractFeature {
         if (notifiedPlayers) {
             traitors.getPlayers().forEach(this::updateCredits);
             detectives.getPlayers().forEach(this::updateCredits);
+        }
+
+        if (getPhase() instanceof TimedPhase) {
+            if (((TimedPhase) getPhase()).getTicks() <= 1) {
+                // time ran out
+                setWinner(Role.INNOCENT);
+                getPhase().getGame().getAllUsers().forEach(user -> user.sendMessage(TextComponent.of("Time ran out! The innocents win!").color(TextColor.GREEN)));
+                getPhase().getGame().endPhase();
+            }
         }
     }
 
@@ -333,6 +343,17 @@ public class GameFeature extends AbstractFeature {
         player.setKarma(player.getKarma() + change);
     }
 
+    /**
+     * Set the winner of the game (for the next Phase)
+     *
+     * @param winner the winning role (either innocent or traitor, detectives are innocents for all intents and purposes)
+     */
+    private void setWinner(Role winner) {
+        TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
+        data.setWinner(winner);
+        getPhase().getGame().putGameData(data);
+    }
+
     @SuppressWarnings("Duplicates")
     @GameEvent
     public void onDeath(PlayerDeathEvent event, User user) {
@@ -341,6 +362,7 @@ public class GameFeature extends AbstractFeature {
         Bukkit.getPluginManager().callEvent(new PlayerEliminationEvent(user, getPhase().getGame()));
 
         user.getPlayer().spigot().respawn(); // prevents a glitch where they are teleported while dead
+        getPhase().getGame().leave(user);
         getPhase().getGame().spectate(user);
 
         TIMPlayer player = playerMap.get(user);
@@ -420,18 +442,14 @@ public class GameFeature extends AbstractFeature {
             aliveTraitors.remove(user);
             if (aliveTraitors.size() == 0) {
                 // innocents win
-                TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
-                data.setWinner(Role.INNOCENT);
-                getPhase().getGame().putGameData(data);
+                setWinner(Role.INNOCENT);
                 getPhase().getGame().endPhase();
             }
         } else {
             aliveInnocents.remove(user);
             if (aliveInnocents.size() == 0) {
                 // traitors win
-                TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
-                data.setWinner(Role.TRAITOR);
-                getPhase().getGame().putGameData(data);
+                setWinner(Role.TRAITOR);
                 getPhase().getGame().endPhase();
             }
         }
@@ -439,7 +457,13 @@ public class GameFeature extends AbstractFeature {
 
     @GameEvent
     public void onQuit(PlayerQuitEvent event, User user) {
-        // todo spawn a dead body in their place
-        //
+        // put a mob there
+        Zombie zombie = getPhase().getFeature(DeadBodiesFeature.class).spawnBody(event.getPlayer().getLocation());
+        DeadPlayer deadPlayer = new DeadPlayer();
+        deadPlayer.setDisplayName(user.getRawDisplayName());
+        deadPlayer.setIdentified(false);
+        deadPlayer.setRole(getRole(user));
+        deadPlayer.setUuid(user.getUuid());
+        zombiePlayerMap.put(zombie, deadPlayer);
     }
 }

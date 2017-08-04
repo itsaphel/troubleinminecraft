@@ -90,7 +90,8 @@ public class ShopCommands extends BaseCommand {
                                         ability.start();
                                         Bukkit.getPluginManager().registerEvents(ability, plugin);
                                         game.getActivePhase().addTickable(ability.getIdentifier(), ability);
-                                        // todo update player credits
+
+                                        timPlayer.setCredits(timPlayer.getCredits() - item.getCost());
                                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                                         e.printStackTrace();
                                     }
