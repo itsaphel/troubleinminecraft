@@ -40,7 +40,7 @@ public class BodyArmourAbility extends Ability {
                     @Override
                     public void onPacketSending(PacketEvent event) {
                         EnumWrappers.ItemSlot slot = event.getPacket().getItemSlots().read(0);
-                        if (event.getPlayer() == affected.getPlayer() && (slot == EnumWrappers.ItemSlot.HEAD || slot == EnumWrappers.ItemSlot.CHEST || slot == EnumWrappers.ItemSlot.LEGS || slot == EnumWrappers.ItemSlot.FEET)) { // just in case i want to add more armours
+                        if (event.getPlayer().getUniqueId() == affected.getPlayer().getUniqueId() && (slot == EnumWrappers.ItemSlot.HEAD || slot == EnumWrappers.ItemSlot.CHEST || slot == EnumWrappers.ItemSlot.LEGS || slot == EnumWrappers.ItemSlot.FEET)) { // just in case i want to add more armours
                             event.setCancelled(true);
                         }
                     }
