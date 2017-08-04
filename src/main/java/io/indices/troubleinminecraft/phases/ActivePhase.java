@@ -1,17 +1,28 @@
 package io.indices.troubleinminecraft.phases;
 
-import io.indices.troubleinminecraft.features.ChestItemPickupFeature;
-import io.indices.troubleinminecraft.features.GameFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.*;
-import com.voxelgameslib.voxelgameslib.phase.AbstractPhase;
+import com.voxelgameslib.voxelgameslib.feature.features.GameModeFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.HealFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.NoBlockBreakFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.NoBlockPlaceFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.NoHungerLossFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.SpawnFeature;
+import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
+
 import org.bukkit.GameMode;
 
-public class ActivePhase extends AbstractPhase {
+import io.indices.troubleinminecraft.features.ChestItemPickupFeature;
+import io.indices.troubleinminecraft.features.DeadBodiesFeature;
+import io.indices.troubleinminecraft.features.GameFeature;
+
+public class ActivePhase extends TimedPhase {
 
     @Override
     public void init() {
         setName("ActivePhase");
         super.init();
+        setTicks(3 * 60 * 20);
         setAllowJoin(false);
         setAllowSpectate(true);
 
@@ -48,5 +59,8 @@ public class ActivePhase extends AbstractPhase {
 
         GameFeature gameFeature = getGame().createFeature(GameFeature.class, this);
         addFeature(gameFeature);
+
+        DeadBodiesFeature deadBodiesFeature = getGame().createFeature(DeadBodiesFeature.class, this);
+        addFeature(deadBodiesFeature);
     }
 }
