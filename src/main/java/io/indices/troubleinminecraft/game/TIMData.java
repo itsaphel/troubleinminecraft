@@ -17,15 +17,9 @@ import java.util.Map;
 @Getter
 @Setter
 public class TIMData implements GameData {
-    private Team innocentTeam;
-    private Team traitorTeam;
-    private Team detectiveTeam;
-
-    /* todo remove these in favour of Teams */
-    private List<User> innocents = new ArrayList<>();
-    private List<User> traitors = new ArrayList<>();
-    private List<User> detectives = new ArrayList<>();
-    /* end removal */
+    private Team innocents;
+    private Team traitors;
+    private Team detectives;
 
     private List<User> aliveInnocents = new ArrayList<>();
     private List<User> aliveTraitors = new ArrayList<>();

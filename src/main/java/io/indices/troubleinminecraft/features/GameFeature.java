@@ -2,6 +2,7 @@ package io.indices.troubleinminecraft.features;
 
 import com.google.gson.annotations.Expose;
 import com.voxelgameslib.voxelgameslib.components.scoreboard.Scoreboard;
+import com.voxelgameslib.voxelgameslib.components.team.Team;
 import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.event.events.player.PlayerEliminationEvent;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
@@ -39,9 +40,9 @@ public class GameFeature extends AbstractFeature {
 
     private PersonalScoreboardFeature.GlobalScoreboard globalScoreboard;
 
-    private List<User> innocents = new ArrayList<>();
-    private List<User> traitors = new ArrayList<>();
-    private List<User> detectives = new ArrayList<>();
+    private Team innocents;
+    private Team traitors;
+    private Team detectives;
 
     private List<User> aliveInnocents = new ArrayList<>(); // detectives are classed as innocents for these purposes
     private List<User> aliveTraitors = new ArrayList<>();
@@ -91,7 +92,7 @@ public class GameFeature extends AbstractFeature {
             innocents = timData.getInnocents();
             traitors = timData.getTraitors();
             detectives = timData.getDetectives();
-            aliveInnocents = timData.getInnocents();
+            aliveInnocents = timData.getAliveInnocents();
             aliveTraitors = timData.getAliveTraitors();
             playerMap = timData.getPlayerMap();
         }
@@ -125,8 +126,8 @@ public class GameFeature extends AbstractFeature {
     @Override
     public void tick() {
         if (notifiedPlayers) {
-            traitors.forEach(this::updateCredits);
-            detectives.forEach(this::updateCredits);
+            traitors.getPlayers().forEach(this::updateCredits);
+            detectives.getPlayers().forEach(this::updateCredits);
         }
     }
 
@@ -224,7 +225,7 @@ public class GameFeature extends AbstractFeature {
                 // choose again
                 i--;
             } else {
-                traitors.add(traitor);
+                traitors.join(traitor, traitor.getRating(getPhase().getGame().getGameMode()));
                 TIMPlayer timPlayer = playerMap.get(traitor);
                 timPlayer.setRole(Role.TRAITOR);
                 timPlayer.setCredits(1);
@@ -240,18 +241,16 @@ public class GameFeature extends AbstractFeature {
                 // choose again
                 i--;
             } else {
-                detectives.add(detective);
+                detectives.join(detective, detective.getRating(getPhase().getGame().getGameMode()));
                 TIMPlayer timPlayer = playerMap.get(detective);
                 timPlayer.setRole(Role.DETECTIVE);
                 timPlayer.setCredits(1);
             }
         }
 
-        getPhase().getGame().getPlayers().forEach(user -> {
-            if (!traitors.contains(user) && !detectives.contains(user)) {
-                innocents.add(user);
-                playerMap.get(user).setRole(Role.INNOCENT);
-            }
+        getPhase().getGame().getPlayers().stream().filter(u -> !traitors.contains(u) && !detectives.contains(u)).forEach(innocent -> {
+            innocents.join(innocent, innocent.getRating(getPhase().getGame().getGameMode()));
+            playerMap.get(innocent).setRole(Role.INNOCENT);
         });
     }
 
@@ -259,46 +258,46 @@ public class GameFeature extends AbstractFeature {
      * Notifies the roles of their role
      */
     private void notifyRoles() {
-        aliveTraitors.addAll(traitors);
-        aliveInnocents.addAll(detectives);
-        aliveInnocents.addAll(innocents);
+        aliveTraitors.addAll(traitors.getPlayers());
+        aliveInnocents.addAll(detectives.getPlayers());
+        aliveInnocents.addAll(innocents.getPlayers());
 
-        traitors.forEach(user -> {
+        traitors.getPlayers().forEach(user -> {
             getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine("role").ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.TRAITOR, true)));
 
-            String traitorListString = traitors.stream()
+            String traitorListString = traitors.getPlayers().stream()
                     .filter(u -> !u.getUuid().equals(user.getUuid()))
                     .map(User::getRawDisplayName)
                     .collect(Collectors.joining(", "));
 
             user.sendMessage(TextComponent.of("You are a traitor! Work with your fellow traitors to kill the innocents. Watch out for the detectives, they have the tools to get you too.").color(TextColor.RED));
 
-            if (traitorListString != null && !traitorListString.isEmpty() && traitors.size() >= 2) {
+            if (traitorListString != null && !traitorListString.isEmpty() && traitors.getPlayers().size() >= 2) {
                 user.sendMessage(TextComponent.of("Your fellow traitors are: ").color(TextColor.RED).append(TextComponent.of(traitorListString).color(TextColor.DARK_RED)));
             }
         });
 
-        detectives.forEach(user -> {
+        detectives.getPlayers().forEach(user -> {
             getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine("role").ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.DETECTIVE, true)));
 
-            String detectiveListString = detectives.stream()
+            String detectiveListString = detectives.getPlayers().stream()
                     .filter(u -> !u.getUuid().equals(user.getUuid()))
                     .map(User::getRawDisplayName)
                     .collect(Collectors.joining(", "));
 
             user.sendMessage(TextComponent.of("You are a detective! It is your job to save the innocents from the traitors.").color(TextColor.BLUE));
 
-            if (detectiveListString != null && !detectiveListString.isEmpty() && detectives.size() >= 2) {
+            if (detectiveListString != null && !detectiveListString.isEmpty() && detectives.getPlayers().size() >= 2) {
                 user.sendMessage(TextComponent.of("Your fellow detectives are: ").color(TextColor.BLUE).append(TextComponent.of(detectiveListString).color(TextColor.DARK_BLUE)));
             }
         });
 
-        innocents.forEach(user -> {
+        innocents.getPlayers().forEach(user -> {
             getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine("role").ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.INNOCENT, true)));
             user.sendMessage(TextComponent.of("You are an innocent. Find weapons and try to survive against the traitors. Work with the detectives to find and kill them. Stay alert!").color(TextColor.GREEN));
 
-            if (detectives.size() != 0) {
-                String detectiveListString = detectives.stream()
+            if (detectives.getPlayers().size() != 0) {
+                String detectiveListString = detectives.getPlayers().stream()
                         .map(User::getRawDisplayName)
                         .collect(Collectors.joining(", "));
 
@@ -336,6 +335,8 @@ public class GameFeature extends AbstractFeature {
         event.setDeathMessage(null);
 
         Bukkit.getPluginManager().callEvent(new PlayerEliminationEvent(user, getPhase().getGame()));
+
+        user.getPlayer().spigot().respawn(); // prevents a glitch where they are teleported while dead
         getPhase().getGame().spectate(user);
 
         TIMPlayer player = playerMap.get(user);
@@ -388,9 +389,11 @@ public class GameFeature extends AbstractFeature {
                                 updateKarma(killerPlayer, traitorKillTraitorKarma);
                                 break;
                             case INNOCENT:
+                                player.setCredits(player.getCredits() + 1);
                                 updateKarma(killerPlayer, traitorKillInnocentKarma);
                                 break;
                             case DETECTIVE:
+                                player.setCredits(player.getCredits() + 3);
                                 updateKarma(killerPlayer, traitorKillDetectiveKarma);
                                 break;
                         }

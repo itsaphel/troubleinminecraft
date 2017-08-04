@@ -22,7 +22,7 @@ public class ActivePhase extends TimedPhase {
     public void init() {
         setName("ActivePhase");
         super.init();
-        setTicks(3 * 60 * 20);
+        setTicks(3 * 60 * 20); // 3 minutes
         setAllowJoin(false);
         setAllowSpectate(true);
 
