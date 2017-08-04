@@ -6,6 +6,7 @@ import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeatur
 import com.voxelgameslib.voxelgameslib.user.User;
 import io.indices.troubleinminecraft.game.ChatUtils;
 import io.indices.troubleinminecraft.game.DeadPlayer;
+import io.indices.troubleinminecraft.phases.PostGamePhase;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 import org.bukkit.ChatColor;
@@ -57,6 +58,11 @@ public class DeadBodiesFeature extends AbstractFeature {
     @GameEvent
     public void rightClickZombie(PlayerInteractEntityEvent event, User user) {
         if (event.getRightClicked() instanceof Zombie && event.getHand() == EquipmentSlot.HAND) {
+
+            if (getPhase() instanceof PostGamePhase) {
+                return;
+            }
+
             Map<Entity, DeadPlayer> zombiePlayerMap = getPhase().getFeature(GameFeature.class).getZombiePlayerMap();
             if (zombiePlayerMap.containsKey(event.getRightClicked())) {
                 DeadPlayer deadPlayer = zombiePlayerMap.get(event.getRightClicked());

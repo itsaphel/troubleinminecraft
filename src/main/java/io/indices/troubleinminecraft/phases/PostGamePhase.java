@@ -1,5 +1,6 @@
 package io.indices.troubleinminecraft.phases;
 
+import io.indices.troubleinminecraft.features.DeadBodiesFeature;
 import io.indices.troubleinminecraft.features.PostGameFeature;
 import com.voxelgameslib.voxelgameslib.GameConstants;
 import com.voxelgameslib.voxelgameslib.feature.features.*;
@@ -44,5 +45,8 @@ public class PostGamePhase extends TimedPhase {
 
         PostGameFeature postGameFeature = getGame().createFeature(PostGameFeature.class, this);
         addFeature(postGameFeature);
+
+        DeadBodiesFeature deadBodiesFeature = getGame().createFeature(DeadBodiesFeature.class, this);
+        addFeature(deadBodiesFeature);
     }
 }

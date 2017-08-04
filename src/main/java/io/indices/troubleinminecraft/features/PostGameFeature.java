@@ -49,12 +49,12 @@ public class PostGameFeature extends com.voxelgameslib.voxelgameslib.feature.fea
             if (this.winner == Role.TRAITOR) {
                 textColor = Role.TRAITOR.getTextColour();
             } else {
-                textColor = Role.TRAITOR.getTextColour();
+                textColor = Role.INNOCENT.getTextColour();
             }
 
             List<User> traitors;
             if (timData.getTraitors() != null) {
-                traitors = timData.getTraitors();
+                traitors = timData.getTraitors().getPlayers();
             } else {
                 traitors = new ArrayList<>();
             }
@@ -65,7 +65,7 @@ public class PostGameFeature extends com.voxelgameslib.voxelgameslib.feature.fea
 
 
             getPhase().getGame().getAllUsers().forEach(user -> {
-                user.sendMessage(TextComponent.of("The " + ChatUtils.formatRoleName(this.winner) + " have won the game!").color(textColor));
+                user.sendMessage(TextComponent.of("The " + this.winner.getName() + "s have won the game!").color(textColor));
                 user.sendMessage(TextComponent.of("The traitors were: ").color(textColor).append(TextComponent.of(traitorListString).color(TextColor.DARK_RED)));
             });
         }
@@ -84,26 +84,5 @@ public class PostGameFeature extends com.voxelgameslib.voxelgameslib.feature.fea
     @Override
     public Class[] getDependencies() {
         return super.getDependencies();
-    }
-
-    @EventHandler
-    public void onZombieDamage(EntityDamageEvent event) {
-        if (zombiePlayerMap.containsKey(event.getEntity())) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onEntityBurn(EntityCombustEvent event) {
-        if (zombiePlayerMap.containsKey(event.getEntity())) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onZombieTarget(EntityTargetEvent event) {
-        if (zombiePlayerMap.containsKey(event.getEntity())) {
-            event.setTarget(null);
-        }
     }
 }
