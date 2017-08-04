@@ -1,16 +1,7 @@
 package io.indices.troubleinminecraft.commands;
 
-import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
 import com.google.inject.Injector;
-import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
-import io.indices.troubleinminecraft.game.TIMData;
-import io.indices.troubleinminecraft.game.TIMPlayer;
-import io.indices.troubleinminecraft.shop.DetectiveShop;
-import io.indices.troubleinminecraft.shop.TraitorShop;
-import io.indices.troubleinminecraft.shop.items.ShopItem;
+
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.components.inventory.BasicInventory;
 import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
@@ -19,15 +10,28 @@ import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.user.GamePlayer;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ChatUtil;
+
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
+import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
+import io.indices.troubleinminecraft.game.TIMData;
+import io.indices.troubleinminecraft.game.TIMPlayer;
+import io.indices.troubleinminecraft.shop.DetectiveShop;
+import io.indices.troubleinminecraft.shop.TraitorShop;
+import io.indices.troubleinminecraft.shop.items.ShopItem;
 
 @Singleton
 @CommandAlias("shop")

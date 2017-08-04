@@ -1,8 +1,8 @@
 package io.indices.troubleinminecraft.shop;
 
-import io.indices.troubleinminecraft.shop.items.*;
-
 import javax.inject.Singleton;
+
+import io.indices.troubleinminecraft.shop.items.BodyArmour;
 
 @Singleton
 public class DetectiveShop extends Shop {

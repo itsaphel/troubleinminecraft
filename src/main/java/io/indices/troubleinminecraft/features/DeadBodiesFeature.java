@@ -4,11 +4,12 @@ import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
 import com.voxelgameslib.voxelgameslib.user.User;
-import io.indices.troubleinminecraft.game.ChatUtils;
-import io.indices.troubleinminecraft.game.DeadPlayer;
-import io.indices.troubleinminecraft.phases.PostGamePhase;
+
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
+
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -19,7 +20,9 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import java.util.Map;
+import io.indices.troubleinminecraft.game.ChatUtils;
+import io.indices.troubleinminecraft.game.DeadPlayer;
+import io.indices.troubleinminecraft.phases.PostGamePhase;
 
 public class DeadBodiesFeature extends AbstractFeature {
     @Override

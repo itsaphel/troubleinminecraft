@@ -1,9 +1,10 @@
 package io.indices.troubleinminecraft.game;
 
+import com.voxelgameslib.voxelgameslib.user.User;
+
 import io.indices.troubleinminecraft.team.Role;
 import lombok.Getter;
 import lombok.Setter;
-import com.voxelgameslib.voxelgameslib.user.User;
 
 @Getter
 @Setter

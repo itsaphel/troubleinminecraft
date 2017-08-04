@@ -1,10 +1,12 @@
 package io.indices.troubleinminecraft.features;
 
-import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
-import lombok.Setter;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
+
 import org.bukkit.ChatColor;
+
+import lombok.Setter;
 
 public class PreGameFeature extends AbstractFeature {
 

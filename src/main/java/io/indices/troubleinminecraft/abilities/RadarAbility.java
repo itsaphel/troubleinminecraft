@@ -5,12 +5,13 @@ import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.util.List;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class RadarAbility extends Ability {
     @Inject

@@ -1,10 +1,11 @@
 package io.indices.troubleinminecraft.shop.items;
 
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.bukkit.inventory.ItemStack;
 
 public abstract class ShopItem {
     protected String name;

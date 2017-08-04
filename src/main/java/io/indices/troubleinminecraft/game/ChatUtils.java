@@ -1,7 +1,8 @@
 package io.indices.troubleinminecraft.game;
 
-import io.indices.troubleinminecraft.team.Role;
 import org.apache.commons.lang.StringUtils;
+
+import io.indices.troubleinminecraft.team.Role;
 
 public class ChatUtils {
 

@@ -1,6 +1,7 @@
 package io.indices.troubleinminecraft.team;
 
 import net.kyori.text.format.TextColor;
+
 import org.bukkit.ChatColor;
 
 public enum Role {

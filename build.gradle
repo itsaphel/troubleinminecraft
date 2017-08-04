@@ -60,11 +60,13 @@ artifacts {
 }
 
 signing {
-    required { !project.version.endsWith('-SNAPSHOT') && gradle.taskGraph.hasTask('uploadArchives') }
+    required {
+        !project.version.endsWith('-SNAPSHOT') && gradle.taskGraph.hasTask('uploadArchives')
+    }
     sign configurations.archives
 }
 
-if(project.hasProperty('indicesUsername') && project.hasProperty('indicesPassword')) {
+if (project.hasProperty('indicesUsername') && project.hasProperty('indicesPassword')) {
     uploadArchives {
         repositories {
             mavenDeployer {

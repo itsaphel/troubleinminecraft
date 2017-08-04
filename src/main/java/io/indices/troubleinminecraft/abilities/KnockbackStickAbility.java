@@ -3,6 +3,7 @@ package io.indices.troubleinminecraft.abilities;
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
+
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;

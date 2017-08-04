@@ -1,10 +1,10 @@
 package io.indices.troubleinminecraft.game;
 
+import java.util.UUID;
+
 import io.indices.troubleinminecraft.team.Role;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Getter
 @Setter

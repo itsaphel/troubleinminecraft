@@ -1,6 +1,8 @@
 package io.indices.troubleinminecraft.features;
 
 
+import com.voxelgameslib.voxelgameslib.user.User;
+
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 
@@ -10,16 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.voxelgameslib.voxelgameslib.feature.features.ScoreboardFeature;
-import com.voxelgameslib.voxelgameslib.user.User;
-
 import org.bukkit.entity.Entity;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityCombustEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityTargetEvent;
 
-import io.indices.troubleinminecraft.game.ChatUtils;
 import io.indices.troubleinminecraft.game.DeadPlayer;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.team.Role;
@@ -42,7 +36,7 @@ public class PostGameFeature extends com.voxelgameslib.voxelgameslib.feature.fea
         // just to keep events going
         zombiePlayerMap = timData.getZombiePlayerMap();
 
-        if (timData.getWinner() != null ) {
+        if (timData.getWinner() != null) {
             this.winner = timData.getWinner();
             TextColor textColor;
 

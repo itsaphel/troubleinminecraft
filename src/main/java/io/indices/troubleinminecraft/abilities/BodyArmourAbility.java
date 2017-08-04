@@ -7,17 +7,19 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
+
+import javax.inject.Inject;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 
-import javax.inject.Inject;
+import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 
 public class BodyArmourAbility extends Ability {
     @Inject

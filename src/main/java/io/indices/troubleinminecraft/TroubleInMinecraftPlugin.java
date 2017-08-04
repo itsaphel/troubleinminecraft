@@ -1,17 +1,20 @@
 package io.indices.troubleinminecraft;
 
-import co.aikar.commands.BukkitCommandManager;
 import com.google.inject.Injector;
-import io.indices.troubleinminecraft.commands.ShopCommands;
+
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.game.GameMode;
 import com.voxelgameslib.voxelgameslib.module.Module;
 import com.voxelgameslib.voxelgameslib.module.ModuleHandler;
 import com.voxelgameslib.voxelgameslib.module.ModuleInfo;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+import co.aikar.commands.BukkitCommandManager;
+import io.indices.troubleinminecraft.commands.ShopCommands;
 
 @Singleton
 @ModuleInfo(name = "TroubleInMinecraft", authors = "aphel", version = "1.0")

@@ -1,6 +1,7 @@
 package io.indices.troubleinminecraft.features;
 
 import com.google.gson.annotations.Expose;
+
 import com.voxelgameslib.voxelgameslib.components.scoreboard.Scoreboard;
 import com.voxelgameslib.voxelgameslib.components.team.Team;
 import com.voxelgameslib.voxelgameslib.event.GameEvent;
@@ -11,15 +12,20 @@ import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeatur
 import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.user.UserHandler;
-import io.indices.troubleinminecraft.game.ChatUtils;
-import io.indices.troubleinminecraft.game.DeadPlayer;
-import io.indices.troubleinminecraft.game.TIMData;
-import io.indices.troubleinminecraft.game.TIMPlayer;
-import io.indices.troubleinminecraft.team.Role;
+
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import javax.inject.Inject;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
@@ -27,13 +33,11 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
+import io.indices.troubleinminecraft.game.ChatUtils;
+import io.indices.troubleinminecraft.game.DeadPlayer;
+import io.indices.troubleinminecraft.game.TIMData;
+import io.indices.troubleinminecraft.game.TIMPlayer;
+import io.indices.troubleinminecraft.team.Role;
 
 public class GameFeature extends AbstractFeature {
     @Inject
@@ -346,7 +350,8 @@ public class GameFeature extends AbstractFeature {
     /**
      * Set the winner of the game (for the next Phase)
      *
-     * @param winner the winning role (either innocent or traitor, detectives are innocents for all intents and purposes)
+     * @param winner the winning role (either innocent or traitor, detectives are innocents for all
+     *               intents and purposes)
      */
     private void setWinner(Role winner) {
         TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());

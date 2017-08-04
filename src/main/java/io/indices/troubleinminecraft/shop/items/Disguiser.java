@@ -1,9 +1,11 @@
 package io.indices.troubleinminecraft.shop.items;
 
 
-import io.indices.troubleinminecraft.abilities.DisguiserAbility;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
+
 import org.bukkit.Material;
+
+import io.indices.troubleinminecraft.abilities.DisguiserAbility;
 
 public class Disguiser extends ShopItem {
     public Disguiser() {
