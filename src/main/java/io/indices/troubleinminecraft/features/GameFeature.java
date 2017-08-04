@@ -216,6 +216,10 @@ public class GameFeature extends AbstractFeature {
         int traitorAmount = (playerCount / 4) + 1; // 1 traitor per 4 players, follows the TTT spec in gmod
         int detectiveAmount = (playerCount / 8); // 1 detective each 8 players, follows the TTT spec in gmod
 
+        innocents = new Team(playerCount - traitorAmount - detectiveAmount, Role.INNOCENT.getName(), Role.INNOCENT.getColour(), getPhase().getGame());
+        traitors = new Team(traitorAmount, Role.TRAITOR.getName(), Role.TRAITOR.getColour(), getPhase().getGame());
+        detectives = new Team(detectiveAmount, Role.DETECTIVE.getName(), Role.DETECTIVE.getColour(), getPhase().getGame());
+
         for (int i = 0; i < traitorAmount; i++) {
             int n = ThreadLocalRandom.current().nextInt(playerCount);
 
