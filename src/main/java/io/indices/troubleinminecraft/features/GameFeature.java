@@ -9,10 +9,12 @@ import com.voxelgameslib.voxelgameslib.event.events.player.PlayerEliminationEven
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.user.UserHandler;
 
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -139,7 +141,7 @@ public class GameFeature extends AbstractFeature {
             if (((TimedPhase) getPhase()).getTicks() <= 1) {
                 // time ran out
                 setWinner(Role.INNOCENT);
-                getPhase().getGame().getAllUsers().forEach(user -> user.sendMessage(TextComponent.of("Time ran out! The innocents win!").color(TextColor.GREEN)));
+                getPhase().getGame().getAllUsers().forEach(user -> Lang.msg(user, TIMLangKey.TIME_RAN_OUT_INNOCENTS_WIN));
                 getPhase().getGame().endPhase();
             }
         }
@@ -187,27 +189,27 @@ public class GameFeature extends AbstractFeature {
     private void initScoreboard() {
         globalScoreboard = getPhase().getFeature(PersonalScoreboardFeature.class).getGlobalScoreboard();
 
-        globalScoreboard.setTitle(ChatColor.BLUE + "TIMC");
+        globalScoreboard.setTitle(Lang.string(TIMLangKey.SCOREBOARD_TIM));
 
         // read this upside down ;) scoreboards suck
 
         globalScoreboard.createAndAddLine("karma", "1000");
-        globalScoreboard.createAndAddLine(ChatColor.RED + ChatColor.BOLD.toString() + "Karma");
+        globalScoreboard.createAndAddLine(Lang.string(TIMLangKey.SCOREBOARD_KARMA));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
 
         globalScoreboard.createAndAddLine("kills", "0");
-        globalScoreboard.createAndAddLine(ChatColor.AQUA + ChatColor.BOLD.toString() + "Kills");
+        globalScoreboard.createAndAddLine(Lang.string(TIMLangKey.SCOREBOARD_KILLS));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + "");
 
         globalScoreboard.createAndAddLine("players-left", visiblePlayersLeft + "");
-        globalScoreboard.createAndAddLine(ChatColor.GREEN + ChatColor.BOLD.toString() + "Players left");
+        globalScoreboard.createAndAddLine(Lang.string(TIMLangKey.SCOREBOARD_PLAYERS_LEFT));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + "");
 
         globalScoreboard.createAndAddLine("role", ChatColor.MAGIC + "????????");
-        globalScoreboard.createAndAddLine(ChatColor.GOLD + ChatColor.BOLD.toString() + "Role");
+        globalScoreboard.createAndAddLine(Lang.string(TIMLangKey.SCOREBOARD_ROLE));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
 
@@ -288,10 +290,10 @@ public class GameFeature extends AbstractFeature {
                     .map(User::getRawDisplayName)
                     .collect(Collectors.joining(", "));
 
-            user.sendMessage(TextComponent.of("You are a traitor! Work with your fellow traitors to kill the innocents. Watch out for the detectives, they have the tools to get you too.").color(TextColor.RED));
+            Lang.msg(user, TIMLangKey.YOU_ARE_A_TRAITOR);
 
             if (traitorListString != null && !traitorListString.isEmpty() && traitors.getPlayers().size() >= 2) {
-                user.sendMessage(TextComponent.of("Your fellow traitors are: ").color(TextColor.RED).append(TextComponent.of(traitorListString).color(TextColor.DARK_RED)));
+                Lang.msg(user, TIMLangKey.YOUR_FELLOW_TRAITORS_ARE, traitorListString);
             }
         });
 
@@ -303,23 +305,23 @@ public class GameFeature extends AbstractFeature {
                     .map(User::getRawDisplayName)
                     .collect(Collectors.joining(", "));
 
-            user.sendMessage(TextComponent.of("You are a detective! It is your job to save the innocents from the traitors.").color(TextColor.BLUE));
+            Lang.msg(user, TIMLangKey.YOU_ARE_A_DETECTIVE);
 
             if (detectiveListString != null && !detectiveListString.isEmpty() && detectives.getPlayers().size() >= 2) {
-                user.sendMessage(TextComponent.of("Your fellow detectives are: ").color(TextColor.BLUE).append(TextComponent.of(detectiveListString).color(TextColor.DARK_BLUE)));
+                Lang.msg(user, TIMLangKey.YOUR_FELLOW_DETECTIVES_ARE, detectiveListString);
             }
         });
 
         innocents.getPlayers().forEach(user -> {
             getPhase().getFeature(PersonalScoreboardFeature.class).getScoreboardForUser(user).getLine("role").ifPresent(line -> line.setValue(ChatUtils.formatRoleName(Role.INNOCENT, true)));
-            user.sendMessage(TextComponent.of("You are an innocent. Find weapons and try to survive against the traitors. Work with the detectives to find and kill them. Stay alert!").color(TextColor.GREEN));
+            Lang.msg(user, TIMLangKey.YOU_ARE_AN_INNOCENT);
 
             if (detectives.getPlayers().size() != 0) {
                 String detectiveListString = detectives.getPlayers().stream()
                         .map(User::getRawDisplayName)
                         .collect(Collectors.joining(", "));
 
-                user.sendMessage(TextComponent.of("Your detectives are: ").color(TextColor.GREEN).append(TextComponent.of(detectiveListString).color(TextColor.BLUE)));
+                Lang.msg(user, TIMLangKey.YOUR_DETECTIVES_ARE, detectiveListString);
             }
         });
 
@@ -334,7 +336,7 @@ public class GameFeature extends AbstractFeature {
     private void updateCredits(User user) {
         TIMPlayer timPlayer = playerMap.get(user);
 
-        user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("Credits: " + timPlayer.getCredits()).color(net.md_5.bungee.api.ChatColor.GOLD).create());
+        user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(Lang.string(TIMLangKey.ACTION_BAR_CREDITS, timPlayer.getCredits())).create());
     }
 
     /**

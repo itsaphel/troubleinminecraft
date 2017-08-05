@@ -3,8 +3,10 @@ package io.indices.troubleinminecraft.features;
 import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 
@@ -75,7 +77,7 @@ public class DeadBodiesFeature extends AbstractFeature {
                     getPhase().getFeature(PersonalScoreboardFeature.class).getGlobalScoreboard().getLines("players-left").forEach(line -> line.setValue(getPhase().getFeature(GameFeature.class).getVisiblePlayersLeft() + ""));
 
                     getPhase().getGame().getPlayers().forEach(otherPlayer -> {
-                                otherPlayer.sendMessage(TextComponent.of("The body of " + deadPlayer.getDisplayName() + " has been found!").color(TextColor.BLUE));
+                        Lang.msg(otherPlayer, TIMLangKey.THE_BODY_OF_X_HAS_BEEN_FOUND, deadPlayer.getDisplayName());
                                 otherPlayer.sendMessage(TextComponent.of("They were a(n) ").color(TextColor.BLUE).append(TextComponent.of(ChatUtils.formatRoleName(deadPlayer.getRole()) + "").append(TextComponent.of("!").color(TextColor.BLUE))));
                             }
                     );

@@ -2,9 +2,11 @@ package io.indices.troubleinminecraft.abilities;
 
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.event.GameEvent;
+import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,7 +19,7 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 
 public class CreeperEggAbility extends Ability {
     public static ItemStack itemStack = new ItemBuilder(Material.MONSTER_EGG).meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))
-            .name("Creeper Eggs").lore("Spawn a creeper where your arrows lands.").build();
+            .name(Lang.string(TIMLangKey.ITEM_CREEPER_EGG_TITLE)).lore(Lang.string(TIMLangKey.ITEM_CREEPER_EGG_LORE)).build();
 
     public CreeperEggAbility(User user) {
         super(user);

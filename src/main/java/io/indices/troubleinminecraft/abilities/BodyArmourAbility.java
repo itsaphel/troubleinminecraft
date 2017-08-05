@@ -8,11 +8,13 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
+import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
 import javax.inject.Inject;
 
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -49,7 +51,7 @@ public class BodyArmourAbility extends Ability {
                 }
         );
 
-        affected.getPlayer().getInventory().setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE).amount(1).name(ChatColor.RED + "Standard-issue Traitor Armour").build());
+        affected.getPlayer().getInventory().setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE).amount(1).name(Lang.string(TIMLangKey.ITEM_BODY_ARMOUR_TITLE)).build());
     }
 
     @Override

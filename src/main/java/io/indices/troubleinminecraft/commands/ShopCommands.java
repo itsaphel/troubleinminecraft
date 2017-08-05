@@ -7,10 +7,12 @@ import com.voxelgameslib.voxelgameslib.components.inventory.BasicInventory;
 import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
 import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
+import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.GamePlayer;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ChatUtil;
 
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 
@@ -66,9 +68,9 @@ public class ShopCommands extends BaseCommand {
                     String title;
 
                     if (isTraitor) {
-                        title = ChatColor.DARK_RED + "Traitor Shop";
+                        title = Lang.string(TIMLangKey.SHOP_TRAITOR_INV_TITLE);
                     } else {
-                        title = ChatColor.BLUE + "Detective Shop";
+                        title = Lang.string(TIMLangKey.SHOP_DETECTIVE_INV_TITLE);
                     }
 
                     BasicInventory shopInv = inventoryHandler.createInventory(BasicInventory.class, sender.getPlayer(), title, 9);
@@ -100,9 +102,9 @@ public class ShopCommands extends BaseCommand {
                                         e.printStackTrace();
                                     }
                                 });
-                                ChatUtil.sendMessage((GamePlayer) sender, TextComponent.of("You have bought " + item.getName() + ".").color(TextColor.GREEN));
+                                Lang.msg(sender, TIMLangKey.SHOP_YOU_HAVE_BOUGHT_X, item.getName());
                             } else {
-                                ChatUtil.sendMessage((GamePlayer) sender, TextComponent.of("You do not have enough credits to purchase this item! You need " + (item.getCost() - timPlayer.getCredits()) + " more credits.").color(TextColor.RED));
+                                Lang.msg(sender, TIMLangKey.SHOP_YOU_DO_NOT_HAVE_ENOUGH_CREDITS, item.getCost() - timPlayer.getCredits());
                             }
 
                             shopInv.close();

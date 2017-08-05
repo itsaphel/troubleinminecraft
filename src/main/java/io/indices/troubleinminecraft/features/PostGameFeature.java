@@ -1,8 +1,10 @@
 package io.indices.troubleinminecraft.features;
 
 
+import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 

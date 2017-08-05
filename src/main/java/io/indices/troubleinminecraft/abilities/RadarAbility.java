@@ -3,6 +3,7 @@ package io.indices.troubleinminecraft.abilities;
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
+import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,8 +19,8 @@ public class RadarAbility extends Ability {
     @Inject
     private GameHandler gameHandler;
 
-    public static ItemStack itemStack = new ItemBuilder(Material.COMPASS).amount(1).name("Innocent Tracker")
-            .lore("This will point you towards the nearest innocent player.").build();
+    public static ItemStack itemStack = new ItemBuilder(Material.COMPASS).amount(1).name(Lang.string(TIMLangKey.ITEM_RADAR_TITLE))
+            .lore(Lang.string(TIMLangKey.ITEM_RADAR_LORE)).build();
 
     /**
      * @see Ability#Ability(User)
