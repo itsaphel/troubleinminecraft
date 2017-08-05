@@ -15,6 +15,7 @@ import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.user.UserHandler;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -189,27 +190,27 @@ public class GameFeature extends AbstractFeature {
     private void initScoreboard() {
         globalScoreboard = getPhase().getFeature(PersonalScoreboardFeature.class).getGlobalScoreboard();
 
-        globalScoreboard.setTitle(Lang.string(TIMLangKey.SCOREBOARD_TIM));
+        globalScoreboard.setTitle(LegacyComponent.to(Lang.trans(TIMLangKey.SCOREBOARD_TIM)));
 
         // read this upside down ;) scoreboards suck
 
         globalScoreboard.createAndAddLine("karma", "1000");
-        globalScoreboard.createAndAddLine(Lang.string(TIMLangKey.SCOREBOARD_KARMA));
+        globalScoreboard.createAndAddLine(LegacyComponent.to(Lang.trans(TIMLangKey.SCOREBOARD_KARMA)));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
 
         globalScoreboard.createAndAddLine("kills", "0");
-        globalScoreboard.createAndAddLine(Lang.string(TIMLangKey.SCOREBOARD_KILLS));
+        globalScoreboard.createAndAddLine(LegacyComponent.to(Lang.trans(TIMLangKey.SCOREBOARD_KILLS)));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + "");
 
         globalScoreboard.createAndAddLine("players-left", visiblePlayersLeft + "");
-        globalScoreboard.createAndAddLine(Lang.string(TIMLangKey.SCOREBOARD_PLAYERS_LEFT));
+        globalScoreboard.createAndAddLine(LegacyComponent.to(Lang.trans(TIMLangKey.SCOREBOARD_PLAYERS_LEFT)));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + "");
 
         globalScoreboard.createAndAddLine("role", ChatColor.MAGIC + "????????");
-        globalScoreboard.createAndAddLine(Lang.string(TIMLangKey.SCOREBOARD_ROLE));
+        globalScoreboard.createAndAddLine(LegacyComponent.to(Lang.trans(TIMLangKey.SCOREBOARD_ROLE)));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
 
@@ -336,7 +337,7 @@ public class GameFeature extends AbstractFeature {
     private void updateCredits(User user) {
         TIMPlayer timPlayer = playerMap.get(user);
 
-        user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(Lang.string(TIMLangKey.ACTION_BAR_CREDITS, timPlayer.getCredits())).create());
+        user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(LegacyComponent.to(Lang.trans(TIMLangKey.ACTION_BAR_CREDITS, timPlayer.getCredits()))).create());
     }
 
     /**

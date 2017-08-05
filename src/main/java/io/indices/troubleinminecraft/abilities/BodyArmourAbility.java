@@ -15,6 +15,7 @@ import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import javax.inject.Inject;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -51,7 +52,7 @@ public class BodyArmourAbility extends Ability {
                 }
         );
 
-        affected.getPlayer().getInventory().setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE).amount(1).name(Lang.string(TIMLangKey.ITEM_BODY_ARMOUR_TITLE)).build());
+        affected.getPlayer().getInventory().setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_BODY_ARMOUR_TITLE))).build());
     }
 
     @Override

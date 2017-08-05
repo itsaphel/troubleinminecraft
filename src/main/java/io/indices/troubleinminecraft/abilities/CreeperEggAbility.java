@@ -7,6 +7,7 @@ import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,7 +20,7 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 
 public class CreeperEggAbility extends Ability {
     public static ItemStack itemStack = new ItemBuilder(Material.MONSTER_EGG).meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))
-            .name(Lang.string(TIMLangKey.ITEM_CREEPER_EGG_TITLE)).lore(Lang.string(TIMLangKey.ITEM_CREEPER_EGG_LORE)).build();
+            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_TITLE))).lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_LORE))).build();
 
     public CreeperEggAbility(User user) {
         super(user);

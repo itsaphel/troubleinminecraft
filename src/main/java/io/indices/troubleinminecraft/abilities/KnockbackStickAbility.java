@@ -6,13 +6,14 @@ import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 public class KnockbackStickAbility extends Ability {
     public static ItemStack itemStack = new ItemBuilder(Material.STICK).enchantment(Enchantment.KNOCKBACK, 2)
-            .name(Lang.string(TIMLangKey.ITEM_KNOCKBACK_STICK_TITLE)).amount(1).build();
+            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNOCKBACK_STICK_TITLE))).amount(1).build();
 
     public KnockbackStickAbility(User user) {
         super(user);

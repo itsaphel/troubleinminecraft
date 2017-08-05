@@ -13,6 +13,7 @@ import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ChatUtil;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 
@@ -68,9 +69,9 @@ public class ShopCommands extends BaseCommand {
                     String title;
 
                     if (isTraitor) {
-                        title = Lang.string(TIMLangKey.SHOP_TRAITOR_INV_TITLE);
+                        title = LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_TRAITOR_INV_TITLE));
                     } else {
-                        title = Lang.string(TIMLangKey.SHOP_DETECTIVE_INV_TITLE);
+                        title = LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_DETECTIVE_INV_TITLE));
                     }
 
                     BasicInventory shopInv = inventoryHandler.createInventory(BasicInventory.class, sender.getPlayer(), title, 9);

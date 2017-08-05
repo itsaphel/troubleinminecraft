@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,8 +20,8 @@ public class RadarAbility extends Ability {
     @Inject
     private GameHandler gameHandler;
 
-    public static ItemStack itemStack = new ItemBuilder(Material.COMPASS).amount(1).name(Lang.string(TIMLangKey.ITEM_RADAR_TITLE))
-            .lore(Lang.string(TIMLangKey.ITEM_RADAR_LORE)).build();
+    public static ItemStack itemStack = new ItemBuilder(Material.COMPASS).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_RADAR_TITLE)))
+            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_RADAR_LORE))).build();
 
     /**
      * @see Ability#Ability(User)
