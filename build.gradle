@@ -12,6 +12,8 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+defaultTasks 'clean', 'build'
+
 repositories {
     mavenLocal()
     mavenCentral()
@@ -23,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'net.kyori', name: 'text', version: '1.12-SNAPSHOT'
+    compile group: 'net.kyori', name: 'text', version: '1.12-SNAPSHOT', changing: true
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
@@ -38,6 +40,7 @@ processResources {
             'version': project.version
     ]
 }
+
 
 task copyToServer(dependsOn: 'jar', type: Copy) {
     from 'build/libs/troubleinminecraft-' + project.version + '.jar'
@@ -54,9 +57,11 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-artifacts {
-    archives javadocJar
-    archives sourcesJar
+if (!project.hasProperty("dev")) {
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+    }
 }
 
 signing {
