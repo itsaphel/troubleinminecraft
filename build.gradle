@@ -12,10 +12,6 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-ext {
-    dev = true
-}
-
 defaultTasks 'clean', 'build'
 
 repositories {
@@ -29,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'net.kyori', name: 'text', version: '1.12-SNAPSHOT'
+    compile group: 'net.kyori', name: 'text', version: '1.12-SNAPSHOT', changing: true
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
@@ -46,61 +42,61 @@ processResources {
 }
 
 
-if (dev) {
-    task copyToServer(dependsOn: 'jar', type: Copy) {
-        from 'build/libs/troubleinminecraft-' + project.version + '.jar'
-        into '../testserver/plugins/'
-    }
-} else {
-    task javadocJar(type: Jar) {
-        classifier 'javadoc'
-        from javadoc
-    }
+task copyToServer(dependsOn: 'jar', type: Copy) {
+    from 'build/libs/troubleinminecraft-' + project.version + '.jar'
+    into '../testserver/plugins/'
+}
 
-    task sourcesJar(type: Jar) {
-        classifier 'sources'
-        from sourceSets.main.allSource
-    }
+task javadocJar(type: Jar) {
+    classifier 'javadoc'
+    from javadoc
+}
 
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+if (!project.hasProperty("dev")) {
     artifacts {
         archives javadocJar
         archives sourcesJar
     }
+}
 
-    signing {
-        required {
-            !project.version.endsWith('-SNAPSHOT') && gradle.taskGraph.hasTask('uploadArchives')
-        }
-        sign configurations.archives
+signing {
+    required {
+        !project.version.endsWith('-SNAPSHOT') && gradle.taskGraph.hasTask('uploadArchives')
     }
+    sign configurations.archives
+}
 
-    if (project.hasProperty('indicesUsername') && project.hasProperty('indicesPassword')) {
-        uploadArchives {
-            repositories {
-                mavenDeployer {
-                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+if (project.hasProperty('indicesUsername') && project.hasProperty('indicesPassword')) {
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-                    repository(url: 'https://nexus.indices.io/content/repositories/releases/') {
-                        authentication(userName: indicesUsername, password: indicesPassword)
+                repository(url: 'https://nexus.indices.io/content/repositories/releases/') {
+                    authentication(userName: indicesUsername, password: indicesPassword)
+                }
+
+                snapshotRepository(url: 'https://nexus.indices.io/content/repositories/snapshots/') {
+                    authentication(userName: indicesUsername, password: indicesPassword)
+                }
+
+                pom.project {
+                    name project.name
+
+                    issueManagement {
+                        system 'GitHub Issues'
+                        url 'https://github.com/LordRobust/troubleinminecraft/issues'
                     }
 
-                    snapshotRepository(url: 'https://nexus.indices.io/content/repositories/snapshots/') {
-                        authentication(userName: indicesUsername, password: indicesPassword)
-                    }
-
-                    pom.project {
-                        name project.name
-
-                        issueManagement {
-                            system 'GitHub Issues'
-                            url 'https://github.com/LordRobust/troubleinminecraft/issues'
-                        }
-
-                        scm {
-                            connection 'scm:git@github.com:LordRobust/troubleinminecraft.git'
-                            developerConnection 'scm:git@github.com:LordRobust/troubleinminecraft.git'
-                            url 'https://github.com/LordRobust/troubleinminecraft/'
-                        }
+                    scm {
+                        connection 'scm:git@github.com:LordRobust/troubleinminecraft.git'
+                        developerConnection 'scm:git@github.com:LordRobust/troubleinminecraft.git'
+                        url 'https://github.com/LordRobust/troubleinminecraft/'
                     }
                 }
             }
