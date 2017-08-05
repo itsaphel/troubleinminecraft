@@ -1,16 +1,18 @@
 package io.indices.troubleinminecraft.abilities;
 
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
-import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.LegacyComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,17 +39,17 @@ public class KnifeAbility extends Ability {
 
     }
 
-    @GameEvent
-    public void onDamage(EntityDamageEvent event) {
-        if (event.getEntityType() == EntityType.PLAYER && event.getEntity().getUniqueId().equals(affected.getUuid())) {
-            Player entity = (Player) event.getEntity();
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent event) {
+        if (event.getDamager().getUniqueId().equals(affected.getUuid())) {
+            Player entity = (Player) event.getDamager();
 
-            if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && entity.getInventory().getItemInMainHand() == itemStack) {
+            Bukkit.getLogger().info(entity.getItemInHand().toString());
+            if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && entity.getInventory().getItemInMainHand().equals(itemStack)) {
                 entity.getInventory().getItemInMainHand().setDurability(Material.DIAMOND_SWORD.getMaxDurability());
                 event.setDamage(9999);
 
-                // todo unregister ability
-
+                unregister(true);
             }
         }
     }

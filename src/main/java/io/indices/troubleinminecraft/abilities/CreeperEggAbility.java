@@ -1,7 +1,6 @@
 package io.indices.troubleinminecraft.abilities;
 
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
-import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
@@ -14,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SpawnEggMeta;
@@ -41,7 +41,7 @@ public class CreeperEggAbility extends Ability {
 
     }
 
-    @GameEvent
+    @EventHandler
     public void firedArrowLands(ProjectileHitEvent event) {
         if (event.getEntity() instanceof Arrow) {
             Arrow arrow = (Arrow) event.getEntity();

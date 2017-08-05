@@ -7,6 +7,7 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 
@@ -54,7 +55,7 @@ public class DeadBodiesFeature extends AbstractFeature {
 
     public Zombie spawnBody(Location location) {
         Zombie zombie = location.getWorld().spawn(location, Zombie.class);
-        zombie.setCustomName(ChatColor.RESET + "??????????");
+        zombie.setCustomName(LegacyComponent.to(Lang.trans(TIMLangKey.UNIDENTIFIED_BODY)));
         zombie.setBaby(false);
 
         return zombie;

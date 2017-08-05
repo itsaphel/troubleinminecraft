@@ -31,16 +31,18 @@ public enum TIMLangKey implements ExternalTranslatable {
 
     TIME_RAN_OUT_INNOCENTS_WIN("{green}Time ran out! The innocents win!"),
 
+    UNIDENTIFIED_BODY("Unidentified Body"),
+
     ITEM_BODY_ARMOUR_TITLE("Standard-issue Body Armour"),
     ITEM_CREEPER_EGG_TITLE("{green}Creeper Eggs"),
     ITEM_CREEPER_EGG_LORE("Spawn a creeper where your arrows lands."),
     ITEM_DISGUISER_TITLE("{red}Disguiser"),
-    ITEM_DISGUISER_LORE("Disguise as a random player. Good for when cover is blown."),
+    ITEM_DISGUISER_LORE("Disguise as a random player."),
     ITEM_KNIFE_TITLE("{red}Knife"),
-    ITEM_KNIFE_LORE("This will instantly kill the player you hit with it."),
+    ITEM_KNIFE_LORE("Instantly kill the player you hit with it. One use only."),
     ITEM_KNOCKBACK_STICK_TITLE("{blue}The Detective's Stick"),
     ITEM_RADAR_TITLE("{green}Radar"),
-    ITEM_RADAR_LORE("This will point you towards the nearest innocent player."),
+    ITEM_RADAR_LORE("Points you towards the nearest innocent player."),
 
     SHOP_TRAITOR_INV_TITLE("{red}Traitor Shop"),
     SHOP_DETECTIVE_INV_TITLE("{blue}Detective Shop"),

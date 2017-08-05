@@ -42,8 +42,6 @@ public class RadarAbility extends Ability {
 
     @Override
     public void tick() {
-        // todo make this more efficient if it's going to run every tick. it could also run less often.
-
         List<Game> games = gameHandler.getGames(affected.getUuid(), false);
         if (games.size() == 1) {
             Game game = games.get(0);

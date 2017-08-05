@@ -1,5 +1,6 @@
 package io.indices.troubleinminecraft.phases;
 
+import com.voxelgameslib.voxelgameslib.GameConstants;
 import com.voxelgameslib.voxelgameslib.feature.features.GameModeFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.HealFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
@@ -22,7 +23,7 @@ public class ActivePhase extends TimedPhase {
     public void init() {
         setName("ActivePhase");
         super.init();
-        setTicks(3 * 60 * 20); // 3 minutes
+        setTicks(3 * 60 * GameConstants.TPS); // 3 minutes
         setAllowJoin(false);
         setAllowSpectate(true);
 

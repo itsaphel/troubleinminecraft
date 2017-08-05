@@ -15,6 +15,7 @@ import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.user.UserHandler;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
+import io.indices.troubleinminecraft.phases.ActivePhase;
 import net.kyori.text.LegacyComponent;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
@@ -138,8 +139,8 @@ public class GameFeature extends AbstractFeature {
             detectives.getPlayers().forEach(this::updateCredits);
         }
 
-        if (getPhase() instanceof TimedPhase) {
-            if (((TimedPhase) getPhase()).getTicks() <= 1) {
+        if (getPhase() instanceof TimedPhase && getPhase() instanceof ActivePhase) {
+            if (((TimedPhase) getPhase()).getTicks() == 1) {
                 // time ran out
                 setWinner(Role.INNOCENT);
                 getPhase().getGame().getAllUsers().forEach(user -> Lang.msg(user, TIMLangKey.TIME_RAN_OUT_INNOCENTS_WIN));
@@ -249,7 +250,7 @@ public class GameFeature extends AbstractFeature {
                 traitors.join(traitor, traitor.getRating(getPhase().getGame().getGameMode()));
                 TIMPlayer timPlayer = playerMap.get(traitor);
                 timPlayer.setRole(Role.TRAITOR);
-                timPlayer.setCredits(1);
+                timPlayer.setCredits(50);
             }
         }
 
@@ -370,7 +371,7 @@ public class GameFeature extends AbstractFeature {
         Bukkit.getPluginManager().callEvent(new PlayerEliminationEvent(user, getPhase().getGame()));
 
         user.getPlayer().spigot().respawn(); // prevents a glitch where they are teleported while dead
-        getPhase().getGame().leave(user);
+        //getPhase().getGame().leave(user);
         getPhase().getGame().spectate(user);
 
         TIMPlayer player = playerMap.get(user);
