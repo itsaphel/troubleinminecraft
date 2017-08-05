@@ -12,6 +12,12 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+ext {
+    dev = true
+}
+
+defaultTasks 'clean', 'build'
+
 repositories {
     mavenLocal()
     mavenCentral()
@@ -39,59 +45,62 @@ processResources {
     ]
 }
 
-task copyToServer(dependsOn: 'jar', type: Copy) {
-    from 'build/libs/troubleinminecraft-' + project.version + '.jar'
-    into '../testserver/plugins/'
-}
 
-task javadocJar(type: Jar) {
-    classifier 'javadoc'
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
-    classifier 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-signing {
-    required {
-        !project.version.endsWith('-SNAPSHOT') && gradle.taskGraph.hasTask('uploadArchives')
+if (dev) {
+    task copyToServer(dependsOn: 'jar', type: Copy) {
+        from 'build/libs/troubleinminecraft-' + project.version + '.jar'
+        into '../testserver/plugins/'
     }
-    sign configurations.archives
-}
+} else {
+    task javadocJar(type: Jar) {
+        classifier 'javadoc'
+        from javadoc
+    }
 
-if (project.hasProperty('indicesUsername') && project.hasProperty('indicesPassword')) {
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    task sourcesJar(type: Jar) {
+        classifier 'sources'
+        from sourceSets.main.allSource
+    }
 
-                repository(url: 'https://nexus.indices.io/content/repositories/releases/') {
-                    authentication(userName: indicesUsername, password: indicesPassword)
-                }
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+    }
 
-                snapshotRepository(url: 'https://nexus.indices.io/content/repositories/snapshots/') {
-                    authentication(userName: indicesUsername, password: indicesPassword)
-                }
+    signing {
+        required {
+            !project.version.endsWith('-SNAPSHOT') && gradle.taskGraph.hasTask('uploadArchives')
+        }
+        sign configurations.archives
+    }
 
-                pom.project {
-                    name project.name
+    if (project.hasProperty('indicesUsername') && project.hasProperty('indicesPassword')) {
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-                    issueManagement {
-                        system 'GitHub Issues'
-                        url 'https://github.com/LordRobust/troubleinminecraft/issues'
+                    repository(url: 'https://nexus.indices.io/content/repositories/releases/') {
+                        authentication(userName: indicesUsername, password: indicesPassword)
                     }
 
-                    scm {
-                        connection 'scm:git@github.com:LordRobust/troubleinminecraft.git'
-                        developerConnection 'scm:git@github.com:LordRobust/troubleinminecraft.git'
-                        url 'https://github.com/LordRobust/troubleinminecraft/'
+                    snapshotRepository(url: 'https://nexus.indices.io/content/repositories/snapshots/') {
+                        authentication(userName: indicesUsername, password: indicesPassword)
+                    }
+
+                    pom.project {
+                        name project.name
+
+                        issueManagement {
+                            system 'GitHub Issues'
+                            url 'https://github.com/LordRobust/troubleinminecraft/issues'
+                        }
+
+                        scm {
+                            connection 'scm:git@github.com:LordRobust/troubleinminecraft.git'
+                            developerConnection 'scm:git@github.com:LordRobust/troubleinminecraft.git'
+                            url 'https://github.com/LordRobust/troubleinminecraft/'
+                        }
                     }
                 }
             }
