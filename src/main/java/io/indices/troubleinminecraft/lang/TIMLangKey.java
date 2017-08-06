@@ -3,8 +3,8 @@ package io.indices.troubleinminecraft.lang;
 import com.voxelgameslib.voxelgameslib.lang.ExternalTranslatable;
 import com.voxelgameslib.voxelgameslib.lang.Translatable;
 
-import javax.annotation.Nonnull;
 import java.util.UUID;
+import javax.annotation.Nonnull;
 
 public enum TIMLangKey implements ExternalTranslatable {
 
@@ -75,11 +75,13 @@ public enum TIMLangKey implements ExternalTranslatable {
     }
 
     @Override
+    @Nonnull
     public UUID getUuid() {
         return uuid;
     }
 
     @Override
+    @Nonnull
     public Translatable[] getValues() {
         return values();
     }

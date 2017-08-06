@@ -5,8 +5,10 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
-import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.LegacyComponent;
+
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,11 +20,13 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SpawnEggMeta;
 
+import io.indices.troubleinminecraft.lang.TIMLangKey;
+
 public class CreeperEggAbility extends Ability {
     public static ItemStack itemStack = new ItemBuilder(Material.MONSTER_EGG).meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))
             .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_TITLE))).lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_LORE))).build();
 
-    public CreeperEggAbility(User user) {
+    public CreeperEggAbility(@Nonnull User user) {
         super(user);
     }
 
@@ -42,7 +46,7 @@ public class CreeperEggAbility extends Ability {
     }
 
     @EventHandler
-    public void firedArrowLands(ProjectileHitEvent event) {
+    public void firedArrowLands(@Nonnull ProjectileHitEvent event) {
         if (event.getEntity() instanceof Arrow) {
             Arrow arrow = (Arrow) event.getEntity();
 

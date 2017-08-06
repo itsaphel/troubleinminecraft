@@ -9,12 +9,9 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.map.Marker;
 import com.voxelgameslib.voxelgameslib.user.User;
 
-import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import org.bukkit.Location;
@@ -25,6 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.game.TraitorTester;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import io.indices.troubleinminecraft.team.Role;
 
 public class TraitorTesterFeature extends AbstractFeature {
@@ -59,6 +57,7 @@ public class TraitorTesterFeature extends AbstractFeature {
     }
 
     @Override
+    @Nonnull
     public Class[] getDependencies() {
         return new Class[]{MapFeature.class, GameFeature.class};
     }
@@ -114,7 +113,7 @@ public class TraitorTesterFeature extends AbstractFeature {
     }
 
     @GameEvent
-    public void onTest(PlayerInteractEvent event, User interactor) { // is interactor even a word???
+    public void onTest(@Nonnull PlayerInteractEvent event, @Nonnull User interactor) { // is interactor even a word???
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getMaterial() == Material.STONE_BUTTON) {
             testers.forEach((id, tester) -> {
                 if (tester.getButton().equals(event.getClickedBlock().getLocation())) {

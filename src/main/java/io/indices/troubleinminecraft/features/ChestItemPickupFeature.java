@@ -6,6 +6,7 @@ import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.user.UserHandler;
 
 import java.util.concurrent.ThreadLocalRandom;
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import org.bukkit.Material;
@@ -58,7 +59,7 @@ public class ChestItemPickupFeature extends AbstractFeature {
     }*/
 
     @GameEvent
-    public void interactWithChest(PlayerInteractEvent event, User user) {
+    public void interactWithChest(@Nonnull PlayerInteractEvent event, @Nonnull User user) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.CHEST) {
             event.getClickedBlock().setType(Material.AIR); // remove the chest
 

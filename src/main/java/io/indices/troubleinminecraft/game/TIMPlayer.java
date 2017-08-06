@@ -2,6 +2,8 @@ package io.indices.troubleinminecraft.game;
 
 import com.voxelgameslib.voxelgameslib.user.User;
 
+import javax.annotation.Nonnull;
+
 import io.indices.troubleinminecraft.team.Role;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +18,7 @@ public class TIMPlayer {
     private int karma = 1000; // todo persist karma for 20 games
     private int kills = 0;
 
-    public TIMPlayer(User user) {
+    public TIMPlayer(@Nonnull User user) {
         this.user = user;
     }
 }

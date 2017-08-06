@@ -4,6 +4,7 @@ import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 import org.bukkit.inventory.ItemStack;
 
@@ -17,6 +18,7 @@ public abstract class ShopItem {
         //
     }
 
+    @Nonnull
     public String getName() {
         return name;
     }
@@ -25,15 +27,17 @@ public abstract class ShopItem {
         return cost;
     }
 
+    @Nonnull
     public ItemStack getItemStack() {
         return itemStack;
     }
 
+    @Nonnull
     public List<Class<? extends Ability>> getAbilities() {
         return abilities;
     }
 
-    public <T extends Ability> void addAbility(Class<T> abilityClass) {
+    public <T extends Ability> void addAbility(@Nonnull Class<T> abilityClass) {
         abilities.add(abilityClass);
     }
 }

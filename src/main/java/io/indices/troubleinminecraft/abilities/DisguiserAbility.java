@@ -3,11 +3,13 @@ package io.indices.troubleinminecraft.abilities;
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.user.User;
 
+import javax.annotation.Nonnull;
+
 public class DisguiserAbility extends Ability {
     /**
      * @see Ability#Ability(User)
      */
-    public DisguiserAbility(User user) {
+    public DisguiserAbility(@Nonnull User user) {
         super(user);
     }
 

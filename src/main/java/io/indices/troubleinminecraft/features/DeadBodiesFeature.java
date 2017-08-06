@@ -6,14 +6,13 @@ import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeatur
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 
-import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.LegacyComponent;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 
 import java.util.Map;
+import javax.annotation.Nonnull;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Zombie;
@@ -25,6 +24,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import io.indices.troubleinminecraft.game.ChatUtils;
 import io.indices.troubleinminecraft.game.DeadPlayer;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import io.indices.troubleinminecraft.phases.PostGamePhase;
 
 public class DeadBodiesFeature extends AbstractFeature {
@@ -49,11 +49,13 @@ public class DeadBodiesFeature extends AbstractFeature {
     }
 
     @Override
+    @Nonnull
     public Class[] getSoftDependencies() {
         return new Class[]{GameFeature.class, PersonalScoreboardFeature.class};
     }
 
-    public Zombie spawnBody(Location location) {
+    @Nonnull
+    public Zombie spawnBody(@Nonnull Location location) {
         Zombie zombie = location.getWorld().spawn(location, Zombie.class);
         zombie.setCustomName(LegacyComponent.to(Lang.trans(TIMLangKey.UNIDENTIFIED_BODY)));
         zombie.setBaby(false);
@@ -62,7 +64,7 @@ public class DeadBodiesFeature extends AbstractFeature {
     }
 
     @GameEvent
-    public void rightClickZombie(PlayerInteractEntityEvent event, User user) {
+    public void rightClickZombie(@Nonnull PlayerInteractEntityEvent event, @Nonnull User user) {
         if (event.getRightClicked() instanceof Zombie && event.getHand() == EquipmentSlot.HAND) {
 
             if (getPhase() instanceof PostGamePhase) {
@@ -93,21 +95,21 @@ public class DeadBodiesFeature extends AbstractFeature {
     }
 
     @GameEvent
-    public void onZombieDamage(EntityDamageEvent event) {
+    public void onZombieDamage(@Nonnull EntityDamageEvent event) {
         if (getPhase().getFeature(GameFeature.class).getZombiePlayerMap().containsKey(event.getEntity())) {
             event.setCancelled(true);
         }
     }
 
     @GameEvent
-    public void onEntityBurn(EntityCombustEvent event) {
+    public void onEntityBurn(@Nonnull EntityCombustEvent event) {
         if (getPhase().getFeature(GameFeature.class).getZombiePlayerMap().containsKey(event.getEntity())) {
             event.setCancelled(true);
         }
     }
 
     @GameEvent
-    public void onZombieTarget(EntityTargetEvent event) {
+    public void onZombieTarget(@Nonnull EntityTargetEvent event) {
         if (getPhase().getFeature(GameFeature.class).getZombiePlayerMap().containsKey(event.getEntity())) {
             event.setTarget(null);
         }

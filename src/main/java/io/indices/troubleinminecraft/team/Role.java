@@ -2,6 +2,8 @@ package io.indices.troubleinminecraft.team;
 
 import net.kyori.text.format.TextColor;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 
 public enum Role {
@@ -13,20 +15,23 @@ public enum Role {
     private final ChatColor colour;
     private final TextColor textColor;
 
-    Role(String name, ChatColor colour, TextColor textColor) {
+    Role(@Nonnull String name, @Nonnull ChatColor colour, @Nonnull TextColor textColor) {
         this.name = name;
         this.colour = colour;
         this.textColor = textColor;
     }
 
+    @Nonnull
     public String getName() {
         return name;
     }
 
+    @Nonnull
     public ChatColor getColour() {
         return colour;
     }
 
+    @Nonnull
     public TextColor getTextColour() {
         return textColor;
     }

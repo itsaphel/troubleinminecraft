@@ -2,6 +2,7 @@ package io.indices.troubleinminecraft.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 import org.bukkit.Location;
 
@@ -16,11 +17,11 @@ public class TraitorTester {
     private List<Location> barriers = new ArrayList<>();
     private boolean inUse = false;
 
-    public void addLightLocation(Location location) {
+    public void addLightLocation(@Nonnull Location location) {
         lights.add(location);
     }
 
-    public void addBarierLocation(Location location) {
+    public void addBarierLocation(@Nonnull Location location) {
         barriers.add(location);
     }
 }

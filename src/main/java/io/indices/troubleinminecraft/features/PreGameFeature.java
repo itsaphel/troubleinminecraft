@@ -4,6 +4,8 @@ import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
 import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 
 import lombok.Setter;
@@ -36,6 +38,7 @@ public class PreGameFeature extends AbstractFeature {
     }
 
     @Override
+    @Nonnull
     public Class[] getDependencies() {
         return new Class[]{PersonalScoreboardFeature.class, GameFeature.class};
     }

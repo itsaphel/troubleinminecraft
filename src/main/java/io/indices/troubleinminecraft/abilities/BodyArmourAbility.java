@@ -12,17 +12,18 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
+import net.kyori.text.LegacyComponent;
+
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 
 public class BodyArmourAbility extends Ability {
     @Inject
@@ -31,7 +32,7 @@ public class BodyArmourAbility extends Ability {
     /**
      * @see Ability#Ability(User)
      */
-    public BodyArmourAbility(User user) {
+    public BodyArmourAbility(@Nonnull User user) {
         super(user);
     }
 
@@ -43,7 +44,7 @@ public class BodyArmourAbility extends Ability {
                 new PacketAdapter(plugin, ListenerPriority.NORMAL,
                         PacketType.Play.Server.ENTITY_EQUIPMENT) {
                     @Override
-                    public void onPacketSending(PacketEvent event) {
+                    public void onPacketSending(@Nonnull PacketEvent event) {
                         EnumWrappers.ItemSlot slot = event.getPacket().getItemSlots().read(0);
                         if (event.getPacket().getIntegers().read(0) == affected.getPlayer().getEntityId() && (slot == EnumWrappers.ItemSlot.HEAD || slot == EnumWrappers.ItemSlot.CHEST || slot == EnumWrappers.ItemSlot.LEGS || slot == EnumWrappers.ItemSlot.FEET)) { // just in case i want to add more armours
                             event.setCancelled(true);
@@ -66,7 +67,7 @@ public class BodyArmourAbility extends Ability {
     }
 
     @EventHandler
-    public void takeArmourOff(InventoryClickEvent event) {
+    public void takeArmourOff(@Nonnull InventoryClickEvent event) {
         if (event.getWhoClicked().getUniqueId().equals(affected.getUuid()) && event.getSlotType() == InventoryType.SlotType.ARMOR) {
             // u ain't takin' this armour off m8
             event.setCancelled(true);

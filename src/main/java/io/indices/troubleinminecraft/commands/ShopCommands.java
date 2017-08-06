@@ -8,22 +8,17 @@ import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
 import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
-import com.voxelgameslib.voxelgameslib.user.GamePlayer;
 import com.voxelgameslib.voxelgameslib.user.User;
-import com.voxelgameslib.voxelgameslib.utils.ChatUtil;
 
-import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.LegacyComponent;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
@@ -32,6 +27,7 @@ import co.aikar.commands.annotation.Default;
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.game.TIMPlayer;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import io.indices.troubleinminecraft.shop.DetectiveShop;
 import io.indices.troubleinminecraft.shop.TraitorShop;
 import io.indices.troubleinminecraft.shop.items.ShopItem;
@@ -50,7 +46,7 @@ public class ShopCommands extends BaseCommand {
 
     @Default
     @CommandPermission("%user")
-    public void openShop(User sender) {
+    public void openShop(@Nonnull User sender) {
         List<Game> games = gameHandler.getGames(sender.getUuid(), false);
 
         if (games.size() == 1) {

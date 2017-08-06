@@ -7,14 +7,17 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
+import net.kyori.text.LegacyComponent;
+
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 
 public class RadarAbility extends Ability {
     @Inject
@@ -54,7 +57,8 @@ public class RadarAbility extends Ability {
         }
     }
 
-    private User getNearestPlayer(List<User> targets) {
+    @Nullable
+    private User getNearestPlayer(@Nonnull List<User> targets) {
         double nearestDistance = 0.0D;
         User nearest = null;
 

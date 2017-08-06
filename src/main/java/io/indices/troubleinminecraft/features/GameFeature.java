@@ -14,11 +14,7 @@ import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.user.UserHandler;
 
-import io.indices.troubleinminecraft.lang.TIMLangKey;
-import io.indices.troubleinminecraft.phases.ActivePhase;
 import net.kyori.text.LegacyComponent;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 
@@ -28,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import org.bukkit.Bukkit;
@@ -41,6 +39,8 @@ import io.indices.troubleinminecraft.game.ChatUtils;
 import io.indices.troubleinminecraft.game.DeadPlayer;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.game.TIMPlayer;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
+import io.indices.troubleinminecraft.phases.ActivePhase;
 import io.indices.troubleinminecraft.team.Role;
 
 public class GameFeature extends AbstractFeature {
@@ -150,11 +150,13 @@ public class GameFeature extends AbstractFeature {
     }
 
     @Override
+    @Nonnull
     public Class[] getDependencies() {
         return new Class[]{PersonalScoreboardFeature.class, MapFeature.class};
     }
 
-    public Role getRole(User user) {
+    @Nullable
+    public Role getRole(@Nonnull User user) {
         if (traitors.contains(user)) {
             return Role.TRAITOR;
         } else if (detectives.contains(user)) {
@@ -166,6 +168,7 @@ public class GameFeature extends AbstractFeature {
         }
     }
 
+    @Nonnull
     public Map<Entity, DeadPlayer> getZombiePlayerMap() {
         return zombiePlayerMap;
     }
@@ -335,7 +338,7 @@ public class GameFeature extends AbstractFeature {
      *
      * @param user user to adjust credits for
      */
-    private void updateCredits(User user) {
+    private void updateCredits(@Nonnull User user) {
         TIMPlayer timPlayer = playerMap.get(user);
 
         user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(LegacyComponent.to(Lang.trans(TIMLangKey.ACTION_BAR_CREDITS, timPlayer.getCredits()))).create());
@@ -347,7 +350,7 @@ public class GameFeature extends AbstractFeature {
      * @param player player to alter for
      * @param change change to make (positive or negative)
      */
-    private void updateKarma(TIMPlayer player, int change) {
+    private void updateKarma(@Nonnull TIMPlayer player, int change) {
         player.setKarma(player.getKarma() + change);
     }
 
@@ -357,7 +360,7 @@ public class GameFeature extends AbstractFeature {
      * @param winner the winning role (either innocent or traitor, detectives are innocents for all
      *               intents and purposes)
      */
-    private void setWinner(Role winner) {
+    private void setWinner(@Nonnull Role winner) {
         TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
         data.setWinner(winner);
         getPhase().getGame().putGameData(data);
@@ -365,7 +368,7 @@ public class GameFeature extends AbstractFeature {
 
     @SuppressWarnings("Duplicates")
     @GameEvent
-    public void onDeath(PlayerDeathEvent event, User user) {
+    public void onDeath(@Nonnull PlayerDeathEvent event, @Nonnull User user) {
         event.setDeathMessage(null);
 
         Bukkit.getPluginManager().callEvent(new PlayerEliminationEvent(user, getPhase().getGame()));
@@ -465,7 +468,7 @@ public class GameFeature extends AbstractFeature {
     }
 
     @GameEvent
-    public void onQuit(PlayerQuitEvent event, User user) {
+    public void onQuit(@Nonnull PlayerQuitEvent event, @Nonnull User user) {
         // put a mob there
         Zombie zombie = getPhase().getFeature(DeadBodiesFeature.class).spawnBody(event.getPlayer().getLocation());
         DeadPlayer deadPlayer = new DeadPlayer();
