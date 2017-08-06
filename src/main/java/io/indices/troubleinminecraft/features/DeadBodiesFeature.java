@@ -28,25 +28,6 @@ import io.indices.troubleinminecraft.lang.TIMLangKey;
 import io.indices.troubleinminecraft.phases.PostGamePhase;
 
 public class DeadBodiesFeature extends AbstractFeature {
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void tick() {
-
-    }
 
     @Override
     @Nonnull

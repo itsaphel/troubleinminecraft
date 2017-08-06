@@ -37,23 +37,8 @@ public class TraitorTesterFeature extends AbstractFeature {
     private int testerLightGlowSeconds = 5;
 
     @Override
-    public void init() {
-
-    }
-
-    @Override
     public void start() {
         loadTesters();
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void tick() {
-
     }
 
     @Override

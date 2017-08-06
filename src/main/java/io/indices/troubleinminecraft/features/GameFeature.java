@@ -81,12 +81,6 @@ public class GameFeature extends AbstractFeature {
     @Expose
     private int traitorKillTraitorKarma = -40;
 
-
-    @Override
-    public void init() {
-
-    }
-
     @Override
     public void start() {
         // randomly assign classes

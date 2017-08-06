@@ -21,26 +21,6 @@ public class ChestItemPickupFeature extends AbstractFeature {
 
     //private List<Vector3D> chests = new ArrayList<>(); // markers not used here currently
 
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void tick() {
-
-    }
-
     /*
      * Currently not in use
 

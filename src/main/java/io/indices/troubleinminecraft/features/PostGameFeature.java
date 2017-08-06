@@ -24,11 +24,6 @@ public class PostGameFeature extends com.voxelgameslib.voxelgameslib.feature.fea
     private Role winner;
 
     @Override
-    public void init() {
-        super.init();
-    }
-
-    @Override
     public void start() {
         super.start();
 
@@ -63,15 +58,5 @@ public class PostGameFeature extends com.voxelgameslib.voxelgameslib.feature.fea
                 user.sendMessage(TextComponent.of("The traitors were: ").color(textColor).append(TextComponent.of(traitorListString).color(TextColor.DARK_RED)));
             });
         }
-    }
-
-    @Override
-    public void stop() {
-        super.stop();
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
     }
 }
