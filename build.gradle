@@ -22,6 +22,7 @@ repositories {
     maven { url 'https://nexus.indices.io/content/groups/public/' }
     maven { url 'http://repo.onarandombox.com/content/groups/public/' }
     maven { url 'http://repo.dmulloy2.net/content/groups/public/' }
+    maven { url "http://repo.inventivetalent.org/content/repositories/snapshots/" }
 }
 
 dependencies {
