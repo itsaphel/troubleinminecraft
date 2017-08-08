@@ -57,7 +57,7 @@ public class KnifeAbility extends Ability {
     }
 
     @EventHandler
-    public void onItemSwitch(PlayerItemHeldEvent event) {
+    public void onItemSwitch(@Nonnull PlayerItemHeldEvent event) {
         if (event.getPlayer().getUniqueId().equals(affected.getUuid())) {
             if (event.getPlayer().getInventory().getItem(event.getNewSlot()).equals(itemStack)) {
                 event.getPlayer().getLocation().getWorld().playSound(event.getPlayer().getLocation(), Sound.BLOCK_ANVIL_PLACE, 0.2F, 1F);

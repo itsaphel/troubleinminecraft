@@ -23,6 +23,7 @@ repositories {
     maven { url 'http://repo.onarandombox.com/content/groups/public/' }
     maven { url 'http://repo.dmulloy2.net/content/groups/public/' }
     maven { url "http://repo.inventivetalent.org/content/repositories/snapshots/" }
+    maven { url "http://repo.md-5.net/content/groups/public/" }
 }
 
 dependencies {
@@ -34,6 +35,7 @@ dependencies {
     compileOnly group: 'com.voxelgameslib', name: 'voxelgameslib', version: '2.0-SNAPSHOT', changing: true
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.0'
     compileOnly group: 'com.comphenix.protocol', name: 'ProtocolLib', version: '4.2.1'
+    compileOnly group: 'LibsDisguises', name: 'LibsDisguises', version: '9.4.0'
 }
 
 processResources {
