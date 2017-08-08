@@ -4,20 +4,19 @@ import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.LegacyComponent;
-
-import javax.annotation.Nonnull;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.indices.troubleinminecraft.lang.TIMLangKey;
+import javax.annotation.Nonnull;
 
 public class KnifeAbility extends Ability {
     public static ItemStack itemStack = new ItemBuilder(Material.DIAMOND_SWORD).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_TITLE)))
@@ -53,6 +52,15 @@ public class KnifeAbility extends Ability {
                 event.setDamage(9999);
 
                 unregister(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onItemSwitch(PlayerItemHeldEvent event) {
+        if (event.getPlayer().getUniqueId().equals(affected.getUuid())) {
+            if (event.getPlayer().getInventory().getItem(event.getNewSlot()).equals(itemStack)) {
+                event.getPlayer().getLocation().getWorld().playSound(event.getPlayer().getLocation(), Sound.BLOCK_ANVIL_PLACE, 0.2F, 1F);
             }
         }
     }
