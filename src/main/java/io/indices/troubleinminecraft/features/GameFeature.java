@@ -335,7 +335,7 @@ public class GameFeature extends AbstractFeature {
     private void updateCredits(@Nonnull User user) {
         TIMPlayer timPlayer = playerMap.get(user);
 
-        user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(LegacyComponent.to(Lang.trans(TIMLangKey.ACTION_BAR_CREDITS, timPlayer.getCredits()))).create());
+        user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(LegacyComponent.to(Lang.transVar(TIMLangKey.ACTION_BAR_CREDITS, timPlayer.getCredits()))).create());
     }
 
     /**
