@@ -23,7 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
-public class C4Ability extends Ability {
+public class C4Ability extends ExplosionAbility {
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.TNT).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_C4_TITLE))).lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_C4_LORE))).build();
 
     @Inject
@@ -62,23 +62,6 @@ public class C4Ability extends Ability {
         }
     }
 
-    public void explode() {
-        plantedLocation.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, plantedLocation, 1);
-
-        Game game = gameHandler.getGames(affected.getUuid(), false).get(0);
-
-        if (game != null) {
-            game.getPlayers().forEach(user -> {
-                if (user.getPlayer().getLocation().distanceSquared(plantedLocation) < 10 * 10) {
-                    // cya m8
-                    user.getPlayer().setHealth(0);
-                }
-            });
-        }
-
-        unregister(true);
-    }
-
     @EventHandler
     public void onPlant(PlayerInteractEvent event) {
         if (event.getPlayer().getUniqueId().equals(affected.getUuid())) {
@@ -93,7 +76,7 @@ public class C4Ability extends Ability {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        explode();
+                        explode(gameHandler, plantedLocation, 12);
                     }
                 }.runTaskLater(plugin, bombTickTime * 20);
             }
