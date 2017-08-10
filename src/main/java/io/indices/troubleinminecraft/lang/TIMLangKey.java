@@ -34,7 +34,7 @@ public enum TIMLangKey implements ExternalTranslatable {
     UNIDENTIFIED_BODY("Unidentified Body"),
 
     ITEM_BODY_ARMOUR_TITLE("Standard-issue Body Armour"),
-    ITEM_CREEPER_EGG_TITLE("{green}Creeper Eggs"),
+    ITEM_CREEPER_EGG_TITLE("{red}Creeper Eggs"),
     ITEM_CREEPER_EGG_LORE("Spawn a creeper where your arrows lands."),
     ITEM_DISGUISER_TITLE("{red}Disguiser"),
     ITEM_DISGUISER_LORE("Disguise as a random player."),
@@ -47,6 +47,8 @@ public enum TIMLangKey implements ExternalTranslatable {
     ITEM_C4_LORE("Kills everyone in the area when it blows up."),
     ITEM_JIHAD_TITLE("{red}Jihad Bomb"),
     ITEM_JIHAD_LORE("Blow yourself and everyone near you up."),
+    ITEM_FLARE_GUN_TITLE("{red}Flare Gun"),
+    ITEM_FLARE_GUN_LORE("Burn dead bodies (zombies) so they can't be identified."),
 
     SHOP_TRAITOR_INV_TITLE("{red}Traitor Shop"),
     SHOP_DETECTIVE_INV_TITLE("{blue}Detective Shop"),

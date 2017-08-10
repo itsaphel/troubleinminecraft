@@ -19,8 +19,12 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 
 public class KnifeAbility extends Ability {
-    public static ItemStack ITEM_STACK = new ItemBuilder(Material.DIAMOND_SWORD).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_TITLE)))
-            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_LORE))).amount(1).durability(Material.DIAMOND_SWORD.getMaxDurability() - 1).build();
+    public static ItemStack ITEM_STACK = new ItemBuilder(Material.DIAMOND_SWORD)
+            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_TITLE)))
+            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_LORE)))
+            .amount(1)
+            .durability(Material.DIAMOND_SWORD.getMaxDurability() - 1)
+            .build();
 
     public KnifeAbility(@Nonnull User user) {
         super(user);

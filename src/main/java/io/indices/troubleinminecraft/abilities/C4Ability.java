@@ -24,7 +24,11 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 public class C4Ability extends ExplosionAbility {
-    public static ItemStack ITEM_STACK = new ItemBuilder(Material.TNT).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_C4_TITLE))).lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_C4_LORE))).build();
+    public static ItemStack ITEM_STACK = new ItemBuilder(Material.TNT)
+            .amount(1)
+            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_C4_TITLE)))
+            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_C4_LORE)))
+            .build();
 
     @Inject
     private TroubleInMinecraftPlugin plugin;

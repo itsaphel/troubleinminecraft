@@ -13,5 +13,6 @@ public class TraitorShop extends Shop {
         items.add(new Knife());
         items.add(new Radar());
         items.add(new C4());
+        items.add(new Jihad());
     }
 }

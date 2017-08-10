@@ -23,8 +23,11 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
 public class CreeperEggAbility extends Ability {
-    public static ItemStack ITEM_STACK = new ItemBuilder(Material.MONSTER_EGG).meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))
-            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_TITLE))).lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_LORE))).build();
+    public static ItemStack ITEM_STACK = new ItemBuilder(Material.MONSTER_EGG)
+            .meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))
+            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_TITLE)))
+            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_LORE)))
+            .build();
 
     public CreeperEggAbility(@Nonnull User user) {
         super(user);
