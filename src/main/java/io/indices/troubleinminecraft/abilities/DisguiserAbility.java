@@ -33,7 +33,7 @@ public class DisguiserAbility extends Ability {
         Game game = injector.getInstance(GameHandler.class).getGames(affected.getUuid(), false).get(0);
 
         PlayerDisguise playerDisguise;
-        int random = ThreadLocalRandom.current().nextInt(game.getPlayers().size());
+        int random = ThreadLocalRandom.current().nextInt(game.getPlayers().stream().filter(u -> !u.getUuid().equals(affected.getUuid())).collect(Collectors.toList()).size());
         playerDisguise = new PlayerDisguise(game.getPlayers().get(random).getPlayer().getName());
 
         DisguiseAPI.disguiseToPlayers(affected.getPlayer(), playerDisguise, game.getAllUsers().stream().map(User::getPlayer).collect(Collectors.toList()));
