@@ -13,10 +13,10 @@ public enum TIMLangKey implements ExternalTranslatable {
     ACTION_BAR_CREDITS("{gold}Credits: {credits}", "credits"),
 
     SCOREBOARD_TIM("{blue}TIM"),
-    SCOREBOARD_KARMA("{red}{bold}Karma"),
-    SCOREBOARD_KILLS("{aqua}{bold}Kills"),
-    SCOREBOARD_PLAYERS_LEFT("{green}{bold}Players left"),
-    SCOREBOARD_ROLE("{gold}{bold}Role"),
+    SCOREBOARD_KARMA("{red}{bold}Karma{/bold}"),
+    SCOREBOARD_KILLS("{aqua}{bold}Kills{/bold}"),
+    SCOREBOARD_PLAYERS_LEFT("{green}{bold}Players left{/bold}"),
+    SCOREBOARD_ROLE("{gold}{bold}Role{/bold}"),
 
     YOU_ARE_A_TRAITOR("{red}You are a traitor! Work with your fellow traitors to kill the innocents. Watch out for the detectives, they have the tools to get you too."),
     YOUR_FELLOW_TRAITORS_ARE("{red}Your fellow traitors are: {dark_red}{traitors}{red}.", "traitors"),
