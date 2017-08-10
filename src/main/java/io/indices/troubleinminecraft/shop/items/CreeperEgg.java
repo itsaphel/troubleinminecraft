@@ -6,6 +6,6 @@ public class CreeperEgg extends ShopItem {
     public CreeperEgg() {
         name = "Creeper Eggs";
         cost = 2;
-        itemStack = CreeperEggAbility.itemStack;
+        itemStack = CreeperEggAbility.ITEM_STACK;
     }
 }

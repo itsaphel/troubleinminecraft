@@ -24,7 +24,7 @@ public class RadarAbility extends Ability {
     @Inject
     private GameHandler gameHandler;
 
-    public static ItemStack itemStack = new ItemBuilder(Material.COMPASS).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_RADAR_TITLE)))
+    public static ItemStack ITEM_STACK = new ItemBuilder(Material.COMPASS).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_RADAR_TITLE)))
             .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_RADAR_LORE))).build();
 
     /**
@@ -36,7 +36,7 @@ public class RadarAbility extends Ability {
 
     @Override
     public void start() {
-        affected.getPlayer().getInventory().addItem(itemStack);
+        affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 
     @Override

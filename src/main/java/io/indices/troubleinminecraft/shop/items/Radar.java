@@ -9,7 +9,7 @@ public class Radar extends ShopItem {
     public Radar() {
         name = LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_RADAR_TITLE));
         cost = 1;
-        itemStack = RadarAbility.itemStack;
+        itemStack = RadarAbility.ITEM_STACK;
         addAbility(RadarAbility.class);
     }
 }

@@ -2,11 +2,7 @@ package io.indices.troubleinminecraft.shop;
 
 import javax.inject.Singleton;
 
-import io.indices.troubleinminecraft.shop.items.BodyArmour;
-import io.indices.troubleinminecraft.shop.items.CreeperEgg;
-import io.indices.troubleinminecraft.shop.items.Disguiser;
-import io.indices.troubleinminecraft.shop.items.Knife;
-import io.indices.troubleinminecraft.shop.items.Radar;
+import io.indices.troubleinminecraft.shop.items.*;
 
 @Singleton
 public class TraitorShop extends Shop {
@@ -16,5 +12,6 @@ public class TraitorShop extends Shop {
         items.add(new Disguiser());
         items.add(new Knife());
         items.add(new Radar());
+        items.add(new C4());
     }
 }

@@ -9,7 +9,7 @@ public class KnockbackStick extends ShopItem {
     public KnockbackStick() {
         name = LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNOCKBACK_STICK_TITLE));
         cost = 1;
-        itemStack = KnockbackStickAbility.itemStack;
+        itemStack = KnockbackStickAbility.ITEM_STACK;
         addAbility(KnockbackStickAbility.class);
     }
 }

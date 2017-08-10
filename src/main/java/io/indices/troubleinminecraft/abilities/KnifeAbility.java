@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 
 public class KnifeAbility extends Ability {
-    public static ItemStack itemStack = new ItemBuilder(Material.DIAMOND_SWORD).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_TITLE)))
+    public static ItemStack ITEM_STACK = new ItemBuilder(Material.DIAMOND_SWORD).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_TITLE)))
             .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_LORE))).amount(1).durability(Material.DIAMOND_SWORD.getMaxDurability() - 1).build();
 
     public KnifeAbility(@Nonnull User user) {
@@ -28,7 +28,7 @@ public class KnifeAbility extends Ability {
 
     @Override
     public void start() {
-        affected.getPlayer().getInventory().addItem(itemStack);
+        affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class KnifeAbility extends Ability {
             Player entity = (Player) event.getDamager();
 
             Bukkit.getLogger().info(entity.getItemInHand().toString());
-            if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && entity.getInventory().getItemInMainHand().equals(itemStack)) {
+            if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && entity.getInventory().getItemInMainHand().equals(ITEM_STACK)) {
                 entity.getInventory().getItemInMainHand().setDurability(Material.DIAMOND_SWORD.getMaxDurability());
                 event.setDamage(9999);
 
@@ -60,7 +60,7 @@ public class KnifeAbility extends Ability {
     public void onItemSwitch(@Nonnull PlayerItemHeldEvent event) {
         if (event.getPlayer().getUniqueId().equals(affected.getUuid())) {
             ItemStack newItem = event.getPlayer().getInventory().getItem(event.getNewSlot());
-            if (newItem != null && newItem.equals(itemStack)) {
+            if (newItem != null && newItem.equals(ITEM_STACK)) {
                 event.getPlayer().getLocation().getWorld().playSound(event.getPlayer().getLocation(), Sound.BLOCK_ANVIL_PLACE, 0.2F, 1F);
             }
         }

@@ -43,6 +43,10 @@ public enum TIMLangKey implements ExternalTranslatable {
     ITEM_KNOCKBACK_STICK_TITLE("{blue}The Detective's Stick"),
     ITEM_RADAR_TITLE("{green}Radar"),
     ITEM_RADAR_LORE("Points you towards the nearest innocent player."),
+    ITEM_C4_TITLE("{red}C4"),
+    ITEM_C4_LORE("Kills everyone in the area when it blows up."),
+    ITEM_JIHAD_TITLE("{red}Jihad Bomb"),
+    ITEM_JIHAD_LORE("Blow yourself and everyone near you up."),
 
     SHOP_TRAITOR_INV_TITLE("{red}Traitor Shop"),
     SHOP_DETECTIVE_INV_TITLE("{blue}Detective Shop"),

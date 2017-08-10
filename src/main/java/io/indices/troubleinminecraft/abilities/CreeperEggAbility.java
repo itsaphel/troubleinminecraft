@@ -23,7 +23,7 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
 public class CreeperEggAbility extends Ability {
-    public static ItemStack itemStack = new ItemBuilder(Material.MONSTER_EGG).meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))
+    public static ItemStack ITEM_STACK = new ItemBuilder(Material.MONSTER_EGG).meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))
             .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_TITLE))).lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_LORE))).build();
 
     public CreeperEggAbility(@Nonnull User user) {
@@ -32,7 +32,7 @@ public class CreeperEggAbility extends Ability {
 
     @Override
     public void start() {
-        affected.getPlayer().getInventory().addItem(itemStack);
+        affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CreeperEggAbility extends Ability {
             Arrow arrow = (Arrow) event.getEntity();
 
             if (arrow.getShooter() instanceof Player && ((Player) arrow.getShooter()).getUniqueId().equals(affected.getUuid())) {
-                if (affected.getPlayer().getInventory().contains(itemStack)) {
+                if (affected.getPlayer().getInventory().contains(ITEM_STACK)) {
                     Location spawnLoc;
 
                     if (event.getHitBlock() != null) {
@@ -61,9 +61,9 @@ public class CreeperEggAbility extends Ability {
                     }
 
                     for (ItemStack stack : affected.getPlayer().getInventory().getContents()) {
-                        if (stack == itemStack) {
+                        if (stack == ITEM_STACK) {
                             if (stack.getAmount() == 1) {
-                                affected.getPlayer().getInventory().remove(itemStack);
+                                affected.getPlayer().getInventory().remove(ITEM_STACK);
                             } else {
                                 stack.setAmount(stack.getAmount() - 1);
                             }

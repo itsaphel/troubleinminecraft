@@ -9,7 +9,7 @@ public class Knife extends ShopItem {
     public Knife() {
         name = LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_TITLE));
         cost = 2;
-        itemStack = KnifeAbility.itemStack;
+        itemStack = KnifeAbility.ITEM_STACK;
         addAbility(KnifeAbility.class);
     }
 }
