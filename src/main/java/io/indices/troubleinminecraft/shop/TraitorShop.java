@@ -9,6 +9,7 @@ public class TraitorShop extends Shop {
     public TraitorShop() {
         items.add(new BodyArmour());
         items.add(new CreeperEgg());
+        items.add(new FlareGun());
         items.add(new Disguiser());
         items.add(new Knife());
         items.add(new Radar());
