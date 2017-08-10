@@ -31,10 +31,10 @@ The game ends only on two conditions:
 
 This plugin will be developed to add more features to match the Garry's Mod version as much as possible. Here's a list of the things currently on our plate:
 
-* Traitor shop
-* Detective shop
-* Karma system
-* Traitor testers
+* Traitor shop (#2 - **COMPLETE**)
+* Detective shop (#3 - **IN PROGRESS**)
+* Karma system (#4 - **IN PROGRESS**)
+* Traitor testers (#5 - **IN PROGRESS**)
 
 ## VoxelGamesLib
 
