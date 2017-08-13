@@ -2,24 +2,16 @@ package io.indices.troubleinminecraft.commands;
 
 import com.google.inject.Injector;
 
-import com.voxelgameslib.voxelgameslib.components.ability.Ability;
-import com.voxelgameslib.voxelgameslib.components.inventory.BasicInventory;
 import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
 import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
-import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 
-import io.indices.troubleinminecraft.shop.items.ShopItem;
-import net.kyori.text.LegacyComponent;
-
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.bukkit.Bukkit;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
@@ -27,12 +19,6 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.game.TIMData;
-import io.indices.troubleinminecraft.game.TIMPlayer;
-import io.indices.troubleinminecraft.lang.TIMLangKey;
-import io.indices.troubleinminecraft.shop.DetectiveShop;
-import io.indices.troubleinminecraft.shop.TraitorShop;
-import io.indices.troubleinminecraft.shop.items.role.RoleItem;
-
 @Singleton
 @CommandAlias("shop")
 public class ShopCommands extends BaseCommand {
@@ -65,13 +51,13 @@ public class ShopCommands extends BaseCommand {
                     int index = 0;
                     String title;
 
-                    if (isTraitor) {
+                    /*if (isTraitor) {
                         title = LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_TRAITOR_INV_TITLE));
                     } else {
                         title = LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_DETECTIVE_INV_TITLE));
-                    }
+                    }*/
 
-                    BasicInventory shopInv = inventoryHandler.createInventory(BasicInventory.class, sender.getPlayer(), title, 9);
+                    /*BasicInventory shopInv = inventoryHandler.createInventory(BasicInventory.class, sender.getPlayer(), title, 9);
                     List<? extends ShopItem> items;
 
                     if (isTraitor) {
@@ -91,7 +77,7 @@ public class ShopCommands extends BaseCommand {
                         });
                     }
 
-                    sender.getPlayer().openInventory(shopInv.getBukkitInventory());
+                    sender.getPlayer().openInventory(shopInv.getBukkitInventory());*/
                 }
             });
         }

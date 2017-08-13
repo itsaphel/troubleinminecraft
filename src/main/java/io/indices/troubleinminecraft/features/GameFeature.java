@@ -14,6 +14,7 @@ import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.user.UserHandler;
 
+import io.indices.troubleinminecraft.shop.ShopRegistry;
 import net.kyori.text.LegacyComponent;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -86,6 +87,10 @@ public class GameFeature extends AbstractFeature {
         // randomly assign classes
         TIMData timData = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
         boolean gameStarted = timData.isGameStarted();
+
+        // general initialisation
+        ShopRegistry shopRegistry = new ShopRegistry();
+        shopRegistry.register();
 
         if (!gameStarted) {
             // initialise game

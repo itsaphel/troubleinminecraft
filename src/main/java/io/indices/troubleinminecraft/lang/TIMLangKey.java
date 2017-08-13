@@ -57,6 +57,7 @@ public enum TIMLangKey implements ExternalTranslatable {
 
     SHOP_TRAITOR_INV_TITLE("{red}Traitor Shop"),
     SHOP_DETECTIVE_INV_TITLE("{blue}Detective Shop"),
+    SHOP_POINTS_SHOP_INV_TITLE("{gold}Points Shop"),
     SHOP_YOU_HAVE_BOUGHT_X("{green}You have bought a {yellow}{item}{green}.", "item"),
     SHOP_YOU_DO_NOT_HAVE_ENOUGH_CREDITS("{red}You do not have enough credits to purchase this item! You need {yellow}{credits} {red}more credits.", "credits");
 
