@@ -1,8 +1,5 @@
 package io.indices.troubleinminecraft.commands;
 
-import com.google.inject.Injector;
-
-import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
 import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.user.User;
@@ -17,19 +14,15 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
-import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.game.TIMData;
+import io.indices.troubleinminecraft.shop.Shop;
+import io.indices.troubleinminecraft.shop.ShopRegistry;
+
 @Singleton
 @CommandAlias("shop")
 public class ShopCommands extends BaseCommand {
     @Inject
-    private TroubleInMinecraftPlugin plugin;
-    @Inject
-    private Injector injector;
-    @Inject
     private GameHandler gameHandler;
-    @Inject
-    private InventoryHandler inventoryHandler;
 
     @Default
     @CommandPermission("%user")
@@ -48,36 +41,18 @@ public class ShopCommands extends BaseCommand {
                 boolean isDetective = timData.getDetectives().contains(sender);
 
                 if (isTraitor || isDetective) {
-                    int index = 0;
-                    String title;
+                    ShopRegistry shopRegistry = new ShopRegistry();
+                    shopRegistry.register();
 
-                    /*if (isTraitor) {
-                        title = LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_TRAITOR_INV_TITLE));
-                    } else {
-                        title = LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_DETECTIVE_INV_TITLE));
-                    }*/
-
-                    /*BasicInventory shopInv = inventoryHandler.createInventory(BasicInventory.class, sender.getPlayer(), title, 9);
-                    List<? extends ShopItem> items;
+                    Shop shop;
 
                     if (isTraitor) {
-                        items = injector.getInstance(TraitorShop.class).getItems();
+                        shop = shopRegistry.getTraitorShop();
                     } else {
-                        items = injector.getInstance(DetectiveShop.class).getItems();
+                        shop = shopRegistry.getDetectiveShop();
                     }
 
-                    for (ShopItem item : items) {
-                        shopInv.getBukkitInventory().setItem(index++, item.getItemStack());
-                        shopInv.addClickAction(item.getItemStack(), (itemStack, inventoryClickEvent) -> {
-                            // let's see if you can purchase the item
-                            item.purchase(sender);
-
-                            shopInv.close();
-                            inventoryHandler.removeInventory(shopInv.getIdentifier());
-                        });
-                    }
-
-                    sender.getPlayer().openInventory(shopInv.getBukkitInventory());*/
+                    sender.getPlayer().openInventory(shop.make(sender).getBukkitInventory());
                 }
             });
         }

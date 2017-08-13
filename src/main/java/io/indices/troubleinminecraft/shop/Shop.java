@@ -3,7 +3,6 @@ package io.indices.troubleinminecraft.shop;
 import com.voxelgameslib.voxelgameslib.components.inventory.BasicInventory;
 import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
 import com.voxelgameslib.voxelgameslib.user.User;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.inject.Inject;
@@ -19,7 +18,6 @@ public class Shop {
     private Currency currency;
     private Map<ItemStack, Item> items;
     private Map<ItemStack, Consumer<User>> purchaseActions = new HashMap<>();
-    private BasicInventory inventory; // todo make pagedinventory
 
     public Shop title(String title) {
         this.title = title;
@@ -48,19 +46,12 @@ public class Shop {
 
     public void purchase(User purchaser, ItemStack item) {
         purchaseActions.get(item).accept(purchaser);
+        purchaser.getPlayer().closeInventory();
     }
 
-    public Shop make() {
-        return this;
-    }
-
-    public void open(User user) {
-        inventory = inventoryHandler.createInventory(BasicInventory.class, user.getPlayer(), title, items.size());
-
-        //purchaseActions.forEach(((itemStack, userConsumer) -> inventory.addClickAction(itemStack, (is, u) -> purchase(u, is))));
-    }
-
-    public BasicInventory inventory() {
+    public BasicInventory make(User user) {
+        BasicInventory inventory = inventoryHandler.createInventory(BasicInventory.class, user, title, items.size());
+        purchaseActions.forEach(((itemStack, userConsumer) -> inventory.addClickAction(itemStack, (is, u) -> purchase(u, is))));
         return inventory;
     }
 }

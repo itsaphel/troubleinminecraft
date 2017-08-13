@@ -23,17 +23,14 @@ public class ShopRegistry {
                 .addItem(new Item()
                         .itemStack(bodyArmourStack)
                         .addAbility(BodyArmourAbility.class))
-                .onPurchase(bodyArmourStack, (user) -> user.getPlayer().getInventory().addItem(bodyArmourStack))
-                .make();
+                .onPurchase(bodyArmourStack, (user) -> user.getPlayer().getInventory().addItem(bodyArmourStack));
 
         detectiveShop = new Shop()
                 .title(LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_DETECTIVE_INV_TITLE)))
-                .currency(Currency.CREDITS)
-                .make();
+                .currency(Currency.CREDITS);
 
         pointsShop = new Shop()
                 .title(LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_POINTS_SHOP_INV_TITLE)))
-                .currency(Currency.POINTS)
-                .make();
+                .currency(Currency.POINTS);
     }
 }
