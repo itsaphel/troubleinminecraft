@@ -2,17 +2,17 @@ package io.indices.troubleinminecraft.features;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+
 import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.map.Marker;
 import com.voxelgameslib.voxelgameslib.user.User;
-
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,6 +26,7 @@ import io.indices.troubleinminecraft.lang.TIMLangKey;
 import io.indices.troubleinminecraft.team.Role;
 
 public class TraitorTesterFeature extends AbstractFeature {
+
     @Inject
     private TroubleInMinecraftPlugin plugin;
 
@@ -113,6 +114,7 @@ public class TraitorTesterFeature extends AbstractFeature {
                     getPhase().getGame().getAllUsers().forEach(user -> Lang.msg(user, TIMLangKey.X_HAS_ENTERED_THE_TRAITOR_TESTER, interactor.getDisplayName()));
 
                     new BukkitRunnable() {
+
                         @Override
                         public void run() {
                             Role interactorRole = getPhase().getFeature(GameFeature.class).getRole(interactor);
@@ -121,6 +123,7 @@ public class TraitorTesterFeature extends AbstractFeature {
                                 tester.getBarriers().forEach(loc -> loc.getBlock().setType(Material.AIR));
 
                                 new BukkitRunnable() {
+
                                     @Override
                                     public void run() {
                                         tester.getLights().forEach(loc -> loc.getBlock().setType(Material.REDSTONE_LAMP_OFF));

@@ -1,20 +1,24 @@
 package io.indices.troubleinminecraft.abilities;
 
 import com.google.inject.Injector;
+
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.user.User;
-import me.libraryaddict.disguise.DisguiseAPI;
-import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
+
 import org.bukkit.Bukkit;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 
 public class DisguiserAbility extends Ability {
+
     @Inject
     private Injector injector;
 

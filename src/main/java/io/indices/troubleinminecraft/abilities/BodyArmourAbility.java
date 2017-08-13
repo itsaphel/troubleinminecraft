@@ -7,15 +7,16 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.voxelgameslib.voxelgameslib.components.ability.Ability;
-import com.voxelgameslib.voxelgameslib.lang.Lang;
-import com.voxelgameslib.voxelgameslib.user.User;
-import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
 import net.kyori.text.LegacyComponent;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
+import com.voxelgameslib.voxelgameslib.components.ability.Ability;
+import com.voxelgameslib.voxelgameslib.lang.Lang;
+import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -26,6 +27,7 @@ import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
 public class BodyArmourAbility extends Ability {
+
     @Inject
     private TroubleInMinecraftPlugin plugin;
 
@@ -43,6 +45,7 @@ public class BodyArmourAbility extends Ability {
         protocolManager.addPacketListener(
                 new PacketAdapter(plugin, ListenerPriority.NORMAL,
                         PacketType.Play.Server.ENTITY_EQUIPMENT) {
+
                     @Override
                     public void onPacketSending(@Nonnull PacketEvent event) {
                         EnumWrappers.ItemSlot slot = event.getPacket().getItemSlots().read(0);

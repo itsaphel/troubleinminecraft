@@ -1,17 +1,19 @@
 package io.indices.troubleinminecraft.features;
 
+import net.kyori.text.LegacyComponent;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
+
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
+
 import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
-import io.indices.troubleinminecraft.game.ChatUtils;
-import io.indices.troubleinminecraft.game.DeadPlayer;
-import io.indices.troubleinminecraft.game.TIMData;
-import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Zombie;
@@ -21,9 +23,10 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
+import io.indices.troubleinminecraft.game.ChatUtils;
+import io.indices.troubleinminecraft.game.DeadPlayer;
+import io.indices.troubleinminecraft.game.TIMData;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 
 public class DeadBodiesFeature extends AbstractFeature {
 

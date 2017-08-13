@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TraitorTester {
+
     private Location button;
     private List<Location> lights = new ArrayList<>();
     private List<Location> barriers = new ArrayList<>();

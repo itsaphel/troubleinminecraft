@@ -1,8 +1,6 @@
 package io.indices.troubleinminecraft.features;
 
 
-import com.voxelgameslib.voxelgameslib.user.User;
-
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 
@@ -11,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.voxelgameslib.voxelgameslib.user.User;
 
 import org.bukkit.entity.Entity;
 

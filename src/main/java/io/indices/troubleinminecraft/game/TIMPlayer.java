@@ -1,16 +1,18 @@
 package io.indices.troubleinminecraft.game;
 
-import com.voxelgameslib.voxelgameslib.user.User;
-
 import javax.annotation.Nonnull;
 
-import io.indices.troubleinminecraft.team.Role;
+import com.voxelgameslib.voxelgameslib.user.User;
+
 import lombok.Getter;
 import lombok.Setter;
+
+import io.indices.troubleinminecraft.team.Role;
 
 @Getter
 @Setter
 public class TIMPlayer {
+
     private User user;
     private Role role;
     private boolean alive = true;

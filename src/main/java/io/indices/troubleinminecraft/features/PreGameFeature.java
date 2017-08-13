@@ -1,10 +1,10 @@
 package io.indices.troubleinminecraft.features;
 
+import javax.annotation.Nonnull;
+
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
 import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
-
-import javax.annotation.Nonnull;
 
 import org.bukkit.ChatColor;
 

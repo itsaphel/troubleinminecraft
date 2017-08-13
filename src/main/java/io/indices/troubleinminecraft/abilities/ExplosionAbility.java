@@ -1,15 +1,17 @@
 package io.indices.troubleinminecraft.abilities;
 
+import javax.annotation.Nonnull;
+
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.user.User;
+
 import org.bukkit.Location;
 import org.bukkit.Particle;
 
-import javax.annotation.Nonnull;
-
 public abstract class ExplosionAbility extends Ability {
+
     /**
      * @see Ability#Ability(User)
      */

@@ -1,13 +1,13 @@
 package io.indices.troubleinminecraft.abilities;
 
+import net.kyori.text.LegacyComponent;
+
+import javax.annotation.Nonnull;
+
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-
-import net.kyori.text.LegacyComponent;
-
-import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,6 +23,7 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
 public class CreeperEggAbility extends Ability {
+
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.MONSTER_EGG)
             .meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))
             .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_TITLE)))
