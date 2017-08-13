@@ -1,4 +1,4 @@
-package io.indices.troubleinminecraft.shop.items;
+package io.indices.troubleinminecraft.shop.items.role;
 
 
 import com.voxelgameslib.voxelgameslib.lang.Lang;
@@ -6,12 +6,11 @@ import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.LegacyComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import io.indices.troubleinminecraft.abilities.DisguiserAbility;
 
-public class Disguiser extends ShopItem {
+public class Disguiser extends RoleItem {
     public Disguiser() {
         name = "Disguiser";
         cost = 2;

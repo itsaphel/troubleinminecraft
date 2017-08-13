@@ -49,6 +49,11 @@ public enum TIMLangKey implements ExternalTranslatable {
     ITEM_JIHAD_LORE("Blow yourself and everyone near you up."),
     ITEM_FLARE_GUN_TITLE("{red}Flare Gun"),
     ITEM_FLARE_GUN_LORE("Burn dead bodies (zombies) so they can't be identified."),
+    ITEM_HARPOON_TITLE("{red}Harpoon"),
+    ITEM_HARPOON_LORE("Throwable. One shot. Instant kill."),
+
+    ITEM_TRIPLE_HARPOON_TITLE("Triple Harpoon"),
+    ITEM_TRIPLE_HARPOON_LORE("Throw 3 harpoons at once! Lethal!"),
 
     SHOP_TRAITOR_INV_TITLE("{red}Traitor Shop"),
     SHOP_DETECTIVE_INV_TITLE("{blue}Detective Shop"),

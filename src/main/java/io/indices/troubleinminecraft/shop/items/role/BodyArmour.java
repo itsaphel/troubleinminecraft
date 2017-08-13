@@ -1,16 +1,15 @@
-package io.indices.troubleinminecraft.shop.items;
+package io.indices.troubleinminecraft.shop.items.role;
 
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.LegacyComponent;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import io.indices.troubleinminecraft.abilities.BodyArmourAbility;
 
-public class BodyArmour extends ShopItem {
+public class BodyArmour extends RoleItem {
     public BodyArmour() {
         name = "Body Armour";
         cost = 1;

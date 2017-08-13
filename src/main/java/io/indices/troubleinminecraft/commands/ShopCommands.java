@@ -10,6 +10,7 @@ import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 
+import io.indices.troubleinminecraft.shop.items.ShopItem;
 import net.kyori.text.LegacyComponent;
 
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +31,7 @@ import io.indices.troubleinminecraft.game.TIMPlayer;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 import io.indices.troubleinminecraft.shop.DetectiveShop;
 import io.indices.troubleinminecraft.shop.TraitorShop;
-import io.indices.troubleinminecraft.shop.items.ShopItem;
+import io.indices.troubleinminecraft.shop.items.role.RoleItem;
 
 @Singleton
 @CommandAlias("shop")
@@ -83,26 +84,7 @@ public class ShopCommands extends BaseCommand {
                         shopInv.getBukkitInventory().setItem(index++, item.getItemStack());
                         shopInv.addClickAction(item.getItemStack(), (itemStack, inventoryClickEvent) -> {
                             // let's see if you can purchase the item
-                            TIMPlayer timPlayer = timData.getPlayerMap().get(sender);
-                            if (item.getCost() <= timPlayer.getCredits()) {
-                                // woopie, time to buy
-                                item.getAbilities().forEach(aClass -> {
-                                    try {
-                                        Ability ability = aClass.getConstructor(User.class).newInstance(sender);
-                                        injector.injectMembers(ability);
-                                        ability.start();
-                                        Bukkit.getPluginManager().registerEvents(ability, plugin);
-                                        game.getActivePhase().addTickable(ability.getIdentifier(), ability);
-
-                                        timPlayer.setCredits(timPlayer.getCredits() - item.getCost());
-                                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                                        e.printStackTrace();
-                                    }
-                                });
-                                Lang.msg(sender, TIMLangKey.SHOP_YOU_HAVE_BOUGHT_X, item.getName());
-                            } else {
-                                Lang.msg(sender, TIMLangKey.SHOP_YOU_DO_NOT_HAVE_ENOUGH_CREDITS, item.getCost() - timPlayer.getCredits());
-                            }
+                            item.purchase(sender);
 
                             shopInv.close();
                             inventoryHandler.removeInventory(shopInv.getIdentifier());

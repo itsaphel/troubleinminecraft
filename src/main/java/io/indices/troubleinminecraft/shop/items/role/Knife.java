@@ -1,11 +1,11 @@
-package io.indices.troubleinminecraft.shop.items;
+package io.indices.troubleinminecraft.shop.items.role;
 
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import io.indices.troubleinminecraft.abilities.KnifeAbility;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 import net.kyori.text.LegacyComponent;
 
-public class Knife extends ShopItem {
+public class Knife extends RoleItem {
     public Knife() {
         name = LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_TITLE));
         cost = 2;

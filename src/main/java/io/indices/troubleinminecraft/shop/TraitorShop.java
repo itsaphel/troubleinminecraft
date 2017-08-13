@@ -2,7 +2,7 @@ package io.indices.troubleinminecraft.shop;
 
 import javax.inject.Singleton;
 
-import io.indices.troubleinminecraft.shop.items.*;
+import io.indices.troubleinminecraft.shop.items.role.*;
 
 @Singleton
 public class TraitorShop extends Shop {
