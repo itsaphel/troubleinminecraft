@@ -1,25 +1,31 @@
 package io.indices.troubleinminecraft.shop;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
-import javax.inject.Inject;
-
 import com.voxelgameslib.voxelgameslib.components.inventory.BasicInventory;
 import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
 import com.voxelgameslib.voxelgameslib.user.User;
-
 import org.bukkit.inventory.ItemStack;
 
-public class Shop {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
-    @Inject
-    private InventoryHandler inventoryHandler; // won't actually work, but it's ok temp while we get this working
+public class Shop {
+    private InventoryHandler inventoryHandler;
 
     private String title;
     private Currency currency;
-    private Map<ItemStack, Item> items;
-    private Map<ItemStack, Consumer<User>> purchaseActions = new HashMap<>();
+    private Map<ItemStack, Item> items = new HashMap<>();
+    private BiConsumer<User, Item> purchaseAction;
+
+    /**
+     * Initialise dependencies. We gotta do this until we can get modules the ability to inject Guice dependencies
+     * or a custom injector
+     *
+     * @param inventoryHandler dependency
+     */
+    public Shop(InventoryHandler inventoryHandler) {
+        this.inventoryHandler = inventoryHandler;
+    }
 
     public Shop title(String title) {
         this.title = title;
@@ -40,20 +46,27 @@ public class Shop {
         return this;
     }
 
-    public Shop onPurchase(ItemStack item, Consumer<User> action) {
+    public Shop onPurchase(BiConsumer<User, Item> action) {
         // todo, check if player can afford etc.
-        purchaseActions.put(item, action);
+        purchaseAction = action;
         return this;
     }
 
-    public void purchase(User purchaser, ItemStack item) {
-        purchaseActions.get(item).accept(purchaser);
+    public void purchase(User purchaser, ItemStack itemStack) {
+        Item item = items.get(itemStack);
+
+        if (item != null) {
+            purchaseAction.accept(purchaser, item);
+        }
+
         purchaser.getPlayer().closeInventory();
     }
 
     public BasicInventory make(User user) {
         BasicInventory inventory = inventoryHandler.createInventory(BasicInventory.class, user, title, items.size());
-        purchaseActions.forEach(((itemStack, userConsumer) -> inventory.addClickAction(itemStack, (is, u) -> purchase(u, is))));
+
+        items.forEach(((itemStack, item) -> inventory.addClickAction(itemStack, (is, u) -> purchase(u, is))));
+
         return inventory;
     }
 }

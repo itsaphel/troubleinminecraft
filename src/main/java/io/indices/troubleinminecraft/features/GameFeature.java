@@ -90,8 +90,8 @@ public class GameFeature extends AbstractFeature {
         boolean gameStarted = timData.isGameStarted();
 
         // general initialisation
-        ShopRegistry shopRegistry = new ShopRegistry();
-        shopRegistry.register();
+//        ShopRegistry shopRegistry = new ShopRegistry();
+//        shopRegistry.register();
 
         if (!gameStarted) {
             // initialise game

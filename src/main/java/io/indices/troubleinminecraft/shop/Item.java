@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 public class Item {
 
     private ItemStack itemStack;
+    private int cost;
     private List<Class<? extends Ability>> abilities = new ArrayList<>();
 
     public ItemStack itemStack() {
@@ -18,6 +19,15 @@ public class Item {
 
     public Item itemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
+        return this;
+    }
+
+    public int cost() {
+        return cost;
+    }
+
+    public Item cost(int cost) {
+        this.cost = cost;
         return this;
     }
 

@@ -1,13 +1,16 @@
 package io.indices.troubleinminecraft.commands;
 
+import com.google.inject.Injector;
+import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
+import com.voxelgameslib.voxelgameslib.game.Game;
+import com.voxelgameslib.voxelgameslib.game.GameHandler;
+import com.voxelgameslib.voxelgameslib.user.User;
+
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.voxelgameslib.voxelgameslib.game.Game;
-import com.voxelgameslib.voxelgameslib.game.GameHandler;
-import com.voxelgameslib.voxelgameslib.user.User;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
@@ -20,9 +23,12 @@ import io.indices.troubleinminecraft.shop.ShopRegistry;
 @Singleton
 @CommandAlias("shop")
 public class ShopCommands extends BaseCommand {
-
+    @Inject
+    private Injector injector;
     @Inject
     private GameHandler gameHandler;
+    @Inject
+    private InventoryHandler inventoryHandler;
 
     @Default
     @CommandPermission("%user")
@@ -41,8 +47,8 @@ public class ShopCommands extends BaseCommand {
                 boolean isDetective = timData.getDetectives().contains(sender);
 
                 if (isTraitor || isDetective) {
-                    ShopRegistry shopRegistry = new ShopRegistry();
-                    shopRegistry.register();
+                    ShopRegistry shopRegistry = injector.getInstance(ShopRegistry.class);
+                    shopRegistry.register(game);
 
                     Shop shop;
 
