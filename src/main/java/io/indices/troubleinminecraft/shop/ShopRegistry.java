@@ -1,17 +1,21 @@
 package io.indices.troubleinminecraft.shop;
 
+import net.kyori.text.LegacyComponent;
+
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-import io.indices.troubleinminecraft.abilities.BodyArmourAbility;
-import io.indices.troubleinminecraft.lang.TIMLangKey;
-import lombok.Data;
-import net.kyori.text.LegacyComponent;
-import org.bukkit.ChatColor;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import lombok.Data;
+
+import io.indices.troubleinminecraft.abilities.BodyArmourAbility;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
+
 @Data
 public class ShopRegistry {
+
     private Shop traitorShop, detectiveShop, pointsShop;
 
     public void register() {

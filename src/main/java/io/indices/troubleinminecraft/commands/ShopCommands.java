@@ -1,14 +1,13 @@
 package io.indices.troubleinminecraft.commands;
 
-import com.voxelgameslib.voxelgameslib.game.Game;
-import com.voxelgameslib.voxelgameslib.game.GameHandler;
-import com.voxelgameslib.voxelgameslib.user.User;
-
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.voxelgameslib.voxelgameslib.game.Game;
+import com.voxelgameslib.voxelgameslib.game.GameHandler;
+import com.voxelgameslib.voxelgameslib.user.User;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
@@ -21,6 +20,7 @@ import io.indices.troubleinminecraft.shop.ShopRegistry;
 @Singleton
 @CommandAlias("shop")
 public class ShopCommands extends BaseCommand {
+
     @Inject
     private GameHandler gameHandler;
 

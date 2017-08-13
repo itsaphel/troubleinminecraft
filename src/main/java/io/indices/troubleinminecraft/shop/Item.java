@@ -1,12 +1,14 @@
 package io.indices.troubleinminecraft.shop;
 
-import com.voxelgameslib.voxelgameslib.components.ability.Ability;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import com.voxelgameslib.voxelgameslib.components.ability.Ability;
+
+import org.bukkit.inventory.ItemStack;
+
 public class Item {
+
     private ItemStack itemStack;
     private List<Class<? extends Ability>> abilities = new ArrayList<>();
 

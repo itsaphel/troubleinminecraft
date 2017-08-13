@@ -1,16 +1,18 @@
 package io.indices.troubleinminecraft.shop;
 
-import com.voxelgameslib.voxelgameslib.components.inventory.BasicInventory;
-import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
-import com.voxelgameslib.voxelgameslib.user.User;
-import org.bukkit.inventory.ItemStack;
-
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import javax.inject.Inject;
+
+import com.voxelgameslib.voxelgameslib.components.inventory.BasicInventory;
+import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
+import com.voxelgameslib.voxelgameslib.user.User;
+
+import org.bukkit.inventory.ItemStack;
 
 public class Shop {
+
     @Inject
     private InventoryHandler inventoryHandler; // won't actually work, but it's ok temp while we get this working
 

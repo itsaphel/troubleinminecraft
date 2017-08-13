@@ -2,19 +2,6 @@ package io.indices.troubleinminecraft.features;
 
 import com.google.gson.annotations.Expose;
 
-import com.voxelgameslib.voxelgameslib.components.scoreboard.Scoreboard;
-import com.voxelgameslib.voxelgameslib.components.team.Team;
-import com.voxelgameslib.voxelgameslib.event.GameEvent;
-import com.voxelgameslib.voxelgameslib.event.events.player.PlayerEliminationEvent;
-import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
-import com.voxelgameslib.voxelgameslib.lang.Lang;
-import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
-import com.voxelgameslib.voxelgameslib.user.User;
-import com.voxelgameslib.voxelgameslib.user.UserHandler;
-
-import io.indices.troubleinminecraft.shop.ShopRegistry;
 import net.kyori.text.LegacyComponent;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -29,6 +16,18 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
+import com.voxelgameslib.voxelgameslib.components.scoreboard.Scoreboard;
+import com.voxelgameslib.voxelgameslib.components.team.Team;
+import com.voxelgameslib.voxelgameslib.event.GameEvent;
+import com.voxelgameslib.voxelgameslib.event.events.player.PlayerEliminationEvent;
+import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.lang.Lang;
+import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
+import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.user.UserHandler;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
@@ -42,9 +41,11 @@ import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.game.TIMPlayer;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 import io.indices.troubleinminecraft.phases.ActivePhase;
+import io.indices.troubleinminecraft.shop.ShopRegistry;
 import io.indices.troubleinminecraft.team.Role;
 
 public class GameFeature extends AbstractFeature {
+
     @Inject
     private UserHandler userHandler;
 
@@ -228,8 +229,8 @@ public class GameFeature extends AbstractFeature {
     }
 
     /**
-     * Choose innocents, traitors and detectives. Do not notify them in this method, as this is
-     * called in the GracePhase.
+     * Choose innocents, traitors and detectives. Do not notify them in this method, as this is called in the
+     * GracePhase.
      */
     private void assignRoles() {
         int playerCount = getPhase().getGame().getPlayers().size();
@@ -356,8 +357,8 @@ public class GameFeature extends AbstractFeature {
     /**
      * Set the winner of the game (for the next Phase)
      *
-     * @param winner the winning role (either innocent or traitor, detectives are innocents for all
-     *               intents and purposes)
+     * @param winner the winning role (either innocent or traitor, detectives are innocents for all intents and
+     *               purposes)
      */
     private void setWinner(@Nonnull Role winner) {
         TIMData data = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
