@@ -1,6 +1,7 @@
 package io.indices.troubleinminecraft.features;
 
 import com.google.gson.annotations.Expose;
+import com.google.inject.Injector;
 
 import net.kyori.text.LegacyComponent;
 import net.md_5.bungee.api.ChatMessageType;
@@ -45,7 +46,8 @@ import io.indices.troubleinminecraft.shop.ShopRegistry;
 import io.indices.troubleinminecraft.team.Role;
 
 public class GameFeature extends AbstractFeature {
-
+    @Inject
+    private Injector injector;
     @Inject
     private UserHandler userHandler;
 
@@ -89,12 +91,12 @@ public class GameFeature extends AbstractFeature {
         TIMData timData = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
         boolean gameStarted = timData.isGameStarted();
 
-        // general initialisation
-//        ShopRegistry shopRegistry = new ShopRegistry();
-//        shopRegistry.register();
-
         if (!gameStarted) {
             // initialise game
+            ShopRegistry shopRegistry = injector.getInstance(ShopRegistry.class);
+            shopRegistry.register(getPhase().getGame());
+            timData.setShopRegistry(shopRegistry);
+
             createPlayers();
             assignRoles();
         } else {

@@ -11,6 +11,7 @@ import com.voxelgameslib.voxelgameslib.user.User;
 
 import org.bukkit.entity.Entity;
 
+import io.indices.troubleinminecraft.shop.ShopRegistry;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,4 +32,6 @@ public class TIMData implements GameData {
 
     private Role winner;
     private boolean gameStarted = false;
+
+    private ShopRegistry shopRegistry;
 }

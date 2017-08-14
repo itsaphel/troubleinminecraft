@@ -47,8 +47,7 @@ public class ShopCommands extends BaseCommand {
                 boolean isDetective = timData.getDetectives().contains(sender);
 
                 if (isTraitor || isDetective) {
-                    ShopRegistry shopRegistry = injector.getInstance(ShopRegistry.class);
-                    shopRegistry.register(game);
+                    ShopRegistry shopRegistry = timData.getShopRegistry();
 
                     Shop shop;
 
