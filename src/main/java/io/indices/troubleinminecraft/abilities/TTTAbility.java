@@ -22,6 +22,11 @@ public abstract class TTTAbility extends Ability {
         super(user);
     }
 
+    @Override
+    public void start() {
+        activeModifiers.forEach(mod -> mod.affect(this));
+    }
+
     public void addModifier(AbilityModifier modifier) {
         this.activeModifiers.add(modifier);
     }

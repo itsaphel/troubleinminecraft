@@ -40,6 +40,8 @@ public class BodyArmourAbility extends TTTAbility {
 
     @Override
     public void start() {
+        super.start();
+
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 
         protocolManager.addPacketListener(

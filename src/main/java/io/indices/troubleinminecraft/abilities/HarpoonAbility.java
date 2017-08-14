@@ -38,6 +38,7 @@ public class HarpoonAbility extends TTTAbility {
 
     @Override
     public void start() {
+        super.start();
         affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 

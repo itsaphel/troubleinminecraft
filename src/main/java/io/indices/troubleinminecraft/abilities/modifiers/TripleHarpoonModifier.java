@@ -6,7 +6,7 @@ import io.indices.troubleinminecraft.abilities.TTTAbility;
 public class TripleHarpoonModifier extends AbilityModifier {
 
     @Override
-    void affect(TTTAbility ability) {
+    public void affect(TTTAbility ability) {
         if (ability instanceof HarpoonAbility) {
             ((HarpoonAbility) ability).setQuantity(3);
         }
