@@ -1,24 +1,21 @@
 package io.indices.troubleinminecraft.abilities;
 
-import net.kyori.text.LegacyComponent;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-
+import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import io.indices.troubleinminecraft.lang.TIMLangKey;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RadarAbility extends TTTAbility {
 

@@ -1,13 +1,12 @@
 package io.indices.troubleinminecraft.game;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Nonnull;
-
-import org.bukkit.Location;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Location;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter

@@ -7,24 +7,20 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-
-import net.kyori.text.LegacyComponent;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-
+import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 
-import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
-import io.indices.troubleinminecraft.lang.TIMLangKey;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
 
 public class BodyArmourAbility extends TTTAbility {
 

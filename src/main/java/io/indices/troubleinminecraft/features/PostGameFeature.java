@@ -1,22 +1,19 @@
 package io.indices.troubleinminecraft.features;
 
 
+import com.voxelgameslib.voxelgameslib.user.User;
+import io.indices.troubleinminecraft.game.DeadPlayer;
+import io.indices.troubleinminecraft.game.TIMData;
+import io.indices.troubleinminecraft.team.Role;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
+import org.bukkit.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import com.voxelgameslib.voxelgameslib.user.User;
-
-import org.bukkit.entity.Entity;
-
-import io.indices.troubleinminecraft.game.DeadPlayer;
-import io.indices.troubleinminecraft.game.TIMData;
-import io.indices.troubleinminecraft.team.Role;
 
 public class PostGameFeature extends com.voxelgameslib.voxelgameslib.feature.features.PostGameFeature {
 

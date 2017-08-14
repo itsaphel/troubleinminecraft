@@ -1,14 +1,10 @@
 package io.indices.troubleinminecraft.abilities;
 
-import net.kyori.text.LegacyComponent;
-
-import javax.annotation.Nonnull;
-
-import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-
+import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -19,7 +15,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.indices.troubleinminecraft.lang.TIMLangKey;
+import javax.annotation.Nonnull;
 
 public class KnifeAbility extends TTTAbility {
 

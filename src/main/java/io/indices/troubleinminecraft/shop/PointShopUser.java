@@ -1,10 +1,10 @@
 package io.indices.troubleinminecraft.shop;
 
+import io.indices.troubleinminecraft.abilities.modifiers.AbilityModifier;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import io.indices.troubleinminecraft.abilities.modifiers.AbilityModifier;
 
 public class PointShopUser {
     private UUID uuid;

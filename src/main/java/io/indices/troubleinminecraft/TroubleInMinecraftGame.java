@@ -1,16 +1,15 @@
 package io.indices.troubleinminecraft;
 
-import javax.annotation.Nonnull;
-
 import com.voxelgameslib.voxelgameslib.feature.features.VoteFeature;
 import com.voxelgameslib.voxelgameslib.game.AbstractGame;
 import com.voxelgameslib.voxelgameslib.game.GameDefinition;
 import com.voxelgameslib.voxelgameslib.game.GameInfo;
 import com.voxelgameslib.voxelgameslib.phase.phases.LobbyWithVotePhase;
-
 import io.indices.troubleinminecraft.phases.ActivePhase;
 import io.indices.troubleinminecraft.phases.GracePhase;
 import io.indices.troubleinminecraft.phases.PostGamePhase;
+
+import javax.annotation.Nonnull;
 
 @GameInfo(name = "TroubleInMinecraft", author = "aphel", version = "1.0", description = "Trouble in Terrorist Town, in Minecraft")
 public class TroubleInMinecraftGame extends AbstractGame {

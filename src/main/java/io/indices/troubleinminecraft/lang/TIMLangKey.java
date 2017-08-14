@@ -1,10 +1,10 @@
 package io.indices.troubleinminecraft.lang;
 
-import java.util.UUID;
-import javax.annotation.Nonnull;
-
 import com.voxelgameslib.voxelgameslib.lang.ExternalTranslatable;
 import com.voxelgameslib.voxelgameslib.lang.Translatable;
+
+import javax.annotation.Nonnull;
+import java.util.UUID;
 
 public enum TIMLangKey implements ExternalTranslatable {
 

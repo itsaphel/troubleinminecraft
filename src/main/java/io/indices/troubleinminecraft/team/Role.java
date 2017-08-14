@@ -1,10 +1,9 @@
 package io.indices.troubleinminecraft.team;
 
 import net.kyori.text.format.TextColor;
+import org.bukkit.ChatColor;
 
 import javax.annotation.Nonnull;
-
-import org.bukkit.ChatColor;
 
 public enum Role {
     INNOCENT("innocent", ChatColor.GREEN, TextColor.GREEN),

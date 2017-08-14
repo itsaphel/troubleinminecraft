@@ -1,12 +1,11 @@
 package io.indices.troubleinminecraft.abilities;
 
-import net.kyori.text.LegacyComponent;
-
-import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-
+import io.indices.troubleinminecraft.abilities.modifiers.TripleHarpoonModifier;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
+import net.kyori.text.LegacyComponent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -17,9 +16,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
-
-import io.indices.troubleinminecraft.abilities.modifiers.TripleHarpoonModifier;
-import io.indices.troubleinminecraft.lang.TIMLangKey;
 
 public class HarpoonAbility extends TTTAbility {
 

@@ -2,12 +2,11 @@ package io.indices.troubleinminecraft.abilities;
 
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
 import com.voxelgameslib.voxelgameslib.user.User;
+import io.indices.troubleinminecraft.abilities.modifiers.AbilityModifier;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
-
-import io.indices.troubleinminecraft.abilities.modifiers.AbilityModifier;
 
 public abstract class TTTAbility extends Ability {
     protected List<AbilityModifier> activeModifiers = new ArrayList<>();

@@ -1,13 +1,11 @@
 package io.indices.troubleinminecraft.game;
 
-import javax.annotation.Nonnull;
-
 import com.voxelgameslib.voxelgameslib.user.User;
-
+import io.indices.troubleinminecraft.team.Role;
 import lombok.Getter;
 import lombok.Setter;
 
-import io.indices.troubleinminecraft.team.Role;
+import javax.annotation.Nonnull;
 
 @Getter
 @Setter

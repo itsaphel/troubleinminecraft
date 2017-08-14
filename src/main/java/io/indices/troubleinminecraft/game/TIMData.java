@@ -1,21 +1,18 @@
 package io.indices.troubleinminecraft.game;
 
+import com.voxelgameslib.voxelgameslib.components.team.Team;
+import com.voxelgameslib.voxelgameslib.game.GameData;
+import com.voxelgameslib.voxelgameslib.user.User;
+import io.indices.troubleinminecraft.shop.ShopRegistry;
+import io.indices.troubleinminecraft.team.Role;
+import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.entity.Entity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.voxelgameslib.voxelgameslib.components.team.Team;
-import com.voxelgameslib.voxelgameslib.game.GameData;
-import com.voxelgameslib.voxelgameslib.user.User;
-
-import org.bukkit.entity.Entity;
-
-import io.indices.troubleinminecraft.shop.ShopRegistry;
-import lombok.Getter;
-import lombok.Setter;
-
-import io.indices.troubleinminecraft.team.Role;
 
 @Getter
 @Setter

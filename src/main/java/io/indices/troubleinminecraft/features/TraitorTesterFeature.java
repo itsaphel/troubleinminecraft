@@ -1,29 +1,26 @@
 package io.indices.troubleinminecraft.features;
 
 import com.google.gson.annotations.Expose;
-
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-
 import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.map.Marker;
 import com.voxelgameslib.voxelgameslib.user.User;
-
+import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
+import io.indices.troubleinminecraft.game.TraitorTester;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
+import io.indices.troubleinminecraft.team.Role;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
-import io.indices.troubleinminecraft.game.TraitorTester;
-import io.indices.troubleinminecraft.lang.TIMLangKey;
-import io.indices.troubleinminecraft.team.Role;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TraitorTesterFeature extends AbstractFeature {
 

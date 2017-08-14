@@ -1,7 +1,10 @@
 package io.indices.troubleinminecraft;
 
+import co.aikar.commands.BukkitCommandManager;
+import co.aikar.taskchain.BukkitTaskChainFactory;
+import co.aikar.taskchain.TaskChain;
+import co.aikar.taskchain.TaskChainFactory;
 import com.google.inject.Injector;
-
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.game.GameMode;
 import com.voxelgameslib.voxelgameslib.lang.LangHandler;
@@ -9,19 +12,13 @@ import com.voxelgameslib.voxelgameslib.module.Module;
 import com.voxelgameslib.voxelgameslib.module.ModuleHandler;
 import com.voxelgameslib.voxelgameslib.module.ModuleInfo;
 import com.voxelgameslib.voxelgameslib.utils.db.DB;
-
-import java.io.File;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import org.bukkit.plugin.java.JavaPlugin;
-
-import co.aikar.commands.BukkitCommandManager;
-import co.aikar.taskchain.BukkitTaskChainFactory;
-import co.aikar.taskchain.TaskChain;
-import co.aikar.taskchain.TaskChainFactory;
 import io.indices.troubleinminecraft.commands.ShopCommands;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.io.File;
 
 @Singleton
 @ModuleInfo(name = "TroubleInMinecraft", authors = "aphel", version = "1.0")
@@ -67,9 +64,9 @@ public class TroubleInMinecraftPlugin extends JavaPlugin implements Module {
 
     private void initialiseDatabase() {
         DB.executeUpdateAsync("CREATE TABLE IF NOT EXISTS ttt_point_shop_purchases (" +
-            "uuid VARCHAR(36) NOT NULL," +
-            "modifier_id VARCHAR(36) NOT NULL" +
-            ")");
+                "uuid VARCHAR(36) NOT NULL," +
+                "modifier_id VARCHAR(36) NOT NULL" +
+                ")");
     }
 
     public static <T> TaskChain<T> newChain() {

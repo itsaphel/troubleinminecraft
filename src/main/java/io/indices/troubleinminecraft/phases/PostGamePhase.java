@@ -1,19 +1,11 @@
 package io.indices.troubleinminecraft.phases;
 
 import com.voxelgameslib.voxelgameslib.GameConstants;
-import com.voxelgameslib.voxelgameslib.feature.features.GameModeFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.NoBlockBreakFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.NoBlockPlaceFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.NoDamageFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
-import com.voxelgameslib.voxelgameslib.feature.features.SpawnFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.*;
 import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
-
-import org.bukkit.GameMode;
-
 import io.indices.troubleinminecraft.features.DeadBodiesFeature;
 import io.indices.troubleinminecraft.features.PostGameFeature;
+import org.bukkit.GameMode;
 
 public class PostGamePhase extends TimedPhase {
 

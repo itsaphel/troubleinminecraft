@@ -1,16 +1,13 @@
 package io.indices.troubleinminecraft.shop;
 
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import org.bukkit.inventory.ItemStack;
-
 import io.indices.troubleinminecraft.abilities.TTTAbility;
 import io.indices.troubleinminecraft.abilities.modifiers.AbilityModifier;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Item {
     private String id;
