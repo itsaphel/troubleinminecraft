@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
-public class RadarAbility extends Ability {
+public class RadarAbility extends TTTAbility {
 
     @Inject
     private GameHandler gameHandler;

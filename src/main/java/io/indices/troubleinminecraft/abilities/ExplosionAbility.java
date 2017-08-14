@@ -10,7 +10,7 @@ import com.voxelgameslib.voxelgameslib.user.User;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 
-public abstract class ExplosionAbility extends Ability {
+public abstract class ExplosionAbility extends TTTAbility {
 
     /**
      * @see Ability#Ability(User)

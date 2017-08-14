@@ -17,7 +17,7 @@ import org.bukkit.Bukkit;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 
-public class DisguiserAbility extends Ability {
+public class DisguiserAbility extends TTTAbility {
 
     @Inject
     private Injector injector;

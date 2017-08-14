@@ -68,7 +68,7 @@ public class TroubleInMinecraftPlugin extends JavaPlugin implements Module {
     private void initialiseDatabase() {
         DB.executeUpdateAsync("CREATE TABLE IF NOT EXISTS ttt_point_shop_purchases (" +
             "uuid VARCHAR(36) NOT NULL," +
-            "item_id VARCHAR(36) NOT NULL" +
+            "modifier_id VARCHAR(36) NOT NULL" +
             ")");
     }
 

@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
-public class FlareGunAbility extends Ability {
+public class FlareGunAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.BLAZE_ROD)
             .amount(1)

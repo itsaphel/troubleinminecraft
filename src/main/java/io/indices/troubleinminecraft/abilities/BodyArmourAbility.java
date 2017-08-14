@@ -26,7 +26,7 @@ import org.bukkit.event.inventory.InventoryType;
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
-public class BodyArmourAbility extends Ability {
+public class BodyArmourAbility extends TTTAbility {
 
     @Inject
     private TroubleInMinecraftPlugin plugin;

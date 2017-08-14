@@ -22,7 +22,7 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
-public class CreeperEggAbility extends Ability {
+public class CreeperEggAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.MONSTER_EGG)
             .meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))

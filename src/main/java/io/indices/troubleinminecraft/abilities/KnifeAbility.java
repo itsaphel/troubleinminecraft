@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
-public class KnifeAbility extends Ability {
+public class KnifeAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.DIAMOND_SWORD)
             .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_TITLE)))

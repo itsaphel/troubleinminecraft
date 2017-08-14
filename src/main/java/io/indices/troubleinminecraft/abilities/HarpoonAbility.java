@@ -18,9 +18,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.indices.troubleinminecraft.abilities.modifiers.TripleHarpoonModifier;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
-public class HarpoonAbility extends Ability {
+public class HarpoonAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.SNOW_BALL)
             .amount(1)
@@ -32,6 +33,7 @@ public class HarpoonAbility extends Ability {
 
     public HarpoonAbility(User user) {
         super(user);
+        acceptedModifiers.add(TripleHarpoonModifier.class);
     }
 
     @Override

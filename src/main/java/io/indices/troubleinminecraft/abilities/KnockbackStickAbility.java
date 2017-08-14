@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 
-public class KnockbackStickAbility extends Ability {
+public class KnockbackStickAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.STICK)
             .enchantment(Enchantment.KNOCKBACK, 2)
