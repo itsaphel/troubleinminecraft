@@ -3,9 +3,9 @@ package io.indices.troubleinminecraft.abilities;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-import io.indices.troubleinminecraft.abilities.modifiers.TripleHarpoonModifier;
-import io.indices.troubleinminecraft.lang.TIMLangKey;
+
 import net.kyori.text.LegacyComponent;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -17,6 +17,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.indices.troubleinminecraft.abilities.modifiers.TripleHarpoonModifier;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
+
 public class HarpoonAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.SNOW_BALL)
@@ -25,6 +28,7 @@ public class HarpoonAbility extends TTTAbility {
             .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_HARPOON_LORE)))
             .build();
 
+    private long shot;
     private int quantity = 1;
 
     public HarpoonAbility(User user) {
@@ -45,7 +49,9 @@ public class HarpoonAbility extends TTTAbility {
 
     @Override
     public void tick() {
-
+        if (shot != 0 && shot < System.currentTimeMillis() - (1000 * 20)) {
+            unregister();
+        }
     }
 
     public void setQuantity(int quantity) {
@@ -76,6 +82,8 @@ public class HarpoonAbility extends TTTAbility {
                     projectile.setVelocity(event.getEntity().getVelocity());
                 }
             }
+
+            shot = System.currentTimeMillis();
         }
     }
 

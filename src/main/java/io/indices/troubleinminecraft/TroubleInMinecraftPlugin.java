@@ -43,10 +43,13 @@ public class TroubleInMinecraftPlugin extends JavaPlugin implements Module {
     }
 
     @Override
-    public void enable() {
+    public void onEnable() {
         taskChainFactory = BukkitTaskChainFactory.create(this);
         initialiseDatabase();
+    }
 
+    @Override
+    public void enable() {
         gameHandler.registerGameMode(GAMEMODE);
 
         langHandler.registerExternalLangProvider(TIMLangKey.TIM, new File(getDataFolder(), "lang"));

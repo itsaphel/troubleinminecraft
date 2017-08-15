@@ -1,6 +1,7 @@
 package io.indices.troubleinminecraft.shop;
 
 import com.google.inject.Injector;
+
 import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
 import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
@@ -8,22 +9,39 @@ import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import com.voxelgameslib.voxelgameslib.utils.db.DB;
 import com.voxelgameslib.voxelgameslib.utils.db.DbRow;
+
+import net.kyori.text.LegacyComponent;
+
+import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import javax.inject.Inject;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
-import io.indices.troubleinminecraft.abilities.*;
+import io.indices.troubleinminecraft.abilities.BodyArmourAbility;
+import io.indices.troubleinminecraft.abilities.C4Ability;
+import io.indices.troubleinminecraft.abilities.CreeperEggAbility;
+import io.indices.troubleinminecraft.abilities.DisguiserAbility;
+import io.indices.troubleinminecraft.abilities.HarpoonAbility;
+import io.indices.troubleinminecraft.abilities.JihadAbility;
+import io.indices.troubleinminecraft.abilities.KnifeAbility;
+import io.indices.troubleinminecraft.abilities.KnockbackStickAbility;
+import io.indices.troubleinminecraft.abilities.RadarAbility;
+import io.indices.troubleinminecraft.abilities.TTTAbility;
 import io.indices.troubleinminecraft.abilities.modifiers.AbilityModifier;
+import io.indices.troubleinminecraft.abilities.modifiers.TripleHarpoonModifier;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.game.TIMPlayer;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 import lombok.Data;
-import net.kyori.text.LegacyComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-
-import javax.inject.Inject;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Data
 public class ShopRegistry {
@@ -52,45 +70,55 @@ public class ShopRegistry {
         // to readers: yes, i know, it's time to rework the ability API. i'll do it... soon (tm)
 
         Item bodyArmour = new Item()
-                .id("body_armour")
-                .cost(1)
-                .itemStack(new ItemBuilder(Material.IRON_CHESTPLATE).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_BODY_ARMOUR_TITLE))).build())
-                .addAbility(BodyArmourAbility.class);
+            .id("body_armour")
+            .cost(1)
+            .itemStack(new ItemBuilder(Material.IRON_CHESTPLATE).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_BODY_ARMOUR_TITLE))).build())
+            .ability(BodyArmourAbility.class);
         Item c4 = new Item()
-                .id("c4")
-                .cost(2)
-                .itemStack(C4Ability.ITEM_STACK)
-                .addAbility(C4Ability.class);
+            .id("c4")
+            .cost(2)
+            .itemStack(C4Ability.ITEM_STACK)
+            .ability(C4Ability.class);
         Item disguiser = new Item()
-                .id("disguiser")
-                .cost(1)
-                .itemStack(new ItemBuilder(Material.SKULL_ITEM).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_DISGUISER_TITLE))).lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_DISGUISER_LORE))).build())
-                .addAbility(DisguiserAbility.class);
+            .id("disguiser")
+            .cost(1)
+            .itemStack(new ItemBuilder(Material.SKULL_ITEM).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_DISGUISER_TITLE))).lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_DISGUISER_LORE))).build())
+            .ability(DisguiserAbility.class);
         Item knife = new Item()
-                .id("knife")
-                .cost(2)
-                .itemStack(KnifeAbility.ITEM_STACK)
-                .addAbility(KnifeAbility.class);
+            .id("knife")
+            .cost(2)
+            .itemStack(KnifeAbility.ITEM_STACK)
+            .ability(KnifeAbility.class);
         Item creeperEgg = new Item()
-                .id("creeper_egg")
-                .cost(1)
-                .itemStack(CreeperEggAbility.ITEM_STACK)
-                .addAbility(CreeperEggAbility.class);
+            .id("creeper_egg")
+            .cost(1)
+            .itemStack(CreeperEggAbility.ITEM_STACK)
+            .ability(CreeperEggAbility.class);
         Item jihad = new Item()
-                .id("jihad")
-                .cost(2)
-                .itemStack(JihadAbility.ITEM_STACK)
-                .addAbility(JihadAbility.class);
+            .id("jihad")
+            .cost(2)
+            .itemStack(JihadAbility.ITEM_STACK)
+            .ability(JihadAbility.class);
         Item radar = new Item()
-                .id("radar")
-                .cost(1)
-                .itemStack(RadarAbility.ITEM_STACK)
-                .addAbility(RadarAbility.class);
+            .id("radar")
+            .cost(1)
+            .itemStack(RadarAbility.ITEM_STACK)
+            .ability(RadarAbility.class);
         Item knockbackStick = new Item()
-                .id("knockback_stick")
-                .cost(1)
-                .itemStack(KnockbackStickAbility.ITEM_STACK)
-                .addAbility(KnockbackStickAbility.class);
+            .id("knockback_stick")
+            .cost(1)
+            .itemStack(KnockbackStickAbility.ITEM_STACK)
+            .ability(KnockbackStickAbility.class);
+        Item harpoon = new Item()
+            .id("harpoon")
+            .cost(2)
+            .itemStack(HarpoonAbility.ITEM_STACK)
+            .ability(HarpoonAbility.class);
+        Item tripleHarpoonModifier = new Item()
+            .id("triple_harpoon_modifier")
+            .cost(1)
+            .itemStack(new ItemBuilder(Material.SNOW_BALL).amount(3).name("Triple Harpoon").lore("Fire 3 harpoons at once").build())
+            .abilityModifier(TripleHarpoonModifier.class);
 
         itemIdMap.put(bodyArmour.id(), bodyArmour);
         itemIdMap.put(c4.id(), c4);
@@ -100,30 +128,34 @@ public class ShopRegistry {
         itemIdMap.put(jihad.id(), jihad);
         itemIdMap.put(radar.id(), radar);
         itemIdMap.put(knockbackStick.id(), knockbackStick);
+        itemIdMap.put(harpoon.id(), harpoon);
+        itemIdMap.put(tripleHarpoonModifier.id(), tripleHarpoonModifier);
 
         traitorShop = new Shop(inventoryHandler)
-                .title(LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_TRAITOR_INV_TITLE)))
-                .currency(Currency.CREDITS)
-                .addItem(bodyArmour)
-                .addItem(disguiser)
-                .addItem(radar)
-                .addItem(knife)
-                .addItem(creeperEgg)
-                .addItem(c4)
-                .addItem(jihad)
-                .onPurchase(this::purchaseRoleItem);
+            .title(LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_TRAITOR_INV_TITLE)))
+            .currency(Currency.CREDITS)
+            .addItem(bodyArmour)
+            .addItem(disguiser)
+            .addItem(radar)
+            .addItem(knife)
+            .addItem(creeperEgg)
+            .addItem(c4)
+            .addItem(jihad)
+            .addItem(harpoon)
+            .onPurchase(this::purchaseRoleItem);
 
         detectiveShop = new Shop(inventoryHandler)
-                .title(LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_DETECTIVE_INV_TITLE)))
-                .currency(Currency.CREDITS)
-                .addItem(bodyArmour)
-                .addItem(knockbackStick)
-                .onPurchase(this::purchaseRoleItem);
+            .title(LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_DETECTIVE_INV_TITLE)))
+            .currency(Currency.CREDITS)
+            .addItem(bodyArmour)
+            .addItem(knockbackStick)
+            .onPurchase(this::purchaseRoleItem);
 
         pointsShop = new Shop(inventoryHandler)
-                .title(LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_POINTS_SHOP_INV_TITLE)))
-                .currency(Currency.POINTS)
-                .onPurchase(this::purchasePointsItem);
+            .title(LegacyComponent.to(Lang.trans(TIMLangKey.SHOP_POINTS_SHOP_INV_TITLE)))
+            .currency(Currency.POINTS)
+            .addItem(tripleHarpoonModifier)
+            .onPurchase(this::purchasePointsItem);
     }
 
     private void purchaseRoleItem(User user, Item item) {
@@ -143,7 +175,7 @@ public class ShopRegistry {
                         injector.injectMembers(ability);
 
                         // can't use lambdas since we need to catch the exceptions properly
-                        for (Class<AbilityModifier> modClass : psUser.getModifiers()) {
+                        for (Class<? extends AbilityModifier> modClass : psUser.getModifiers()) {
                             if (ability.getAcceptedModifiers().contains(modClass)) {
                                 ability.addModifier(modClass.newInstance());
                             }
@@ -173,34 +205,34 @@ public class ShopRegistry {
 
     private void refreshPointShopCache() {
         TroubleInMinecraftPlugin.newChain()
-                .asyncFirst(() -> {
-                    List<DbRow> results = new ArrayList<>();
-                    try {
-                        results = DB.getResults("SELECT * FROM ttt_point_shop_purchases WHERE uuid IN ?", game.getPlayers().stream().map(u -> u.getUuid().toString()).collect(Collectors.joining(",")));
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    return results;
-                })
-                .syncLast((results) -> {
-                    Map<UUID, PointShopUser> tempCache = new HashMap<>();
+            .asyncFirst(() -> {
+                List<DbRow> results = new ArrayList<>();
+                try {
+                    results = DB.getResults("SELECT * FROM ttt_point_shop_purchases WHERE uuid IN (?)", game.getPlayers().stream().map(u -> u.getUuid().toString()).collect(Collectors.joining(",")));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return results;
+            })
+            .syncLast((results) -> {
+                Map<UUID, PointShopUser> tempCache = new HashMap<>();
 
-                    results.forEach(row -> {
-                        UUID uuid = UUID.fromString(row.get("uuid"));
+                results.forEach(row -> {
+                    UUID uuid = UUID.fromString(row.get("uuid"));
 
-                        PointShopUser psUser = getPointShopUser(uuid);
-                        itemIdMap.get((String) row.get("modifier_id")).abilityModifiers().forEach(psUser::addModifier);
+                    PointShopUser psUser = getPointShopUser(uuid);
+                    itemIdMap.get((String) row.get("modifier_id")).abilityModifiers().forEach(psUser::addModifier);
 
-                        tempCache.put(uuid, psUser);
-                    });
+                    tempCache.put(uuid, psUser);
+                });
 
-                    playerItemCache = tempCache;
-                })
-                .execute();
+                playerItemCache = tempCache;
+            })
+            .execute();
     }
 
     private void registerPurchase(User user, Item item) {
-        DB.executeUpdateAsync("INSERT IGNORE INTO ttt_point_shop_purchases VALUES (?,?)", user.getUuid(), item.id());
+        DB.executeUpdateAsync("INSERT IGNORE INTO ttt_point_shop_purchases VALUES (?,?)", user.getUuid().toString(), item.id());
     }
 
     private PointShopUser getPointShopUser(UUID uuid) {

@@ -14,7 +14,7 @@ public class Item {
     private ItemStack itemStack;
     private int cost;
     private List<Class<? extends TTTAbility>> abilities = new ArrayList<>();
-    private List<Class<AbilityModifier>> abilityModifiers = new ArrayList<>();
+    private List<Class<? extends AbilityModifier>> abilityModifiers = new ArrayList<>();
 
     @Nonnull
     public String id() {
@@ -50,17 +50,17 @@ public class Item {
         return abilities;
     }
 
-    public Item addAbility(@Nonnull Class<? extends TTTAbility> ability) {
+    public Item ability(@Nonnull Class<? extends TTTAbility> ability) {
         abilities.add(ability);
         return this;
     }
 
     @Nonnull
-    public List<Class<AbilityModifier>> abilityModifiers() {
+    public List<Class<? extends AbilityModifier>> abilityModifiers() {
         return abilityModifiers;
     }
 
-    public Item abilityModifier(@Nonnull Class<AbilityModifier> abilityModifier) {
+    public Item abilityModifier(@Nonnull Class<? extends AbilityModifier> abilityModifier) {
         this.abilityModifiers.add(abilityModifier);
         return this;
     }

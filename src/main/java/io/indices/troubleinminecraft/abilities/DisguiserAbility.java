@@ -37,7 +37,7 @@ public class DisguiserAbility extends TTTAbility {
         int random = ThreadLocalRandom.current().nextInt(game.getPlayers().stream().filter(u -> !u.getUuid().equals(affected.getUuid())).collect(Collectors.toList()).size());
         playerDisguise = new PlayerDisguise(game.getPlayers().get(random).getPlayer().getName());
 
-        DisguiseAPI.disguiseToPlayers(affected.getPlayer(), playerDisguise, game.getAllUsers().stream().map(User::getPlayer).collect(Collectors.toList()));
+        DisguiseAPI.disguiseToPlayers(affected.getPlayer(), playerDisguise, game.getAllUsers().stream().filter(u -> !u.getUuid().equals(affected.getUuid())).map(User::getPlayer).collect(Collectors.toList()));
     }
 
     @Override

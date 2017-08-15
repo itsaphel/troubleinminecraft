@@ -14,7 +14,7 @@ public class ActivePhase extends TimedPhase {
     public void init() {
         setName("ActivePhase");
         super.init();
-        setTicks(3 * 60 * GameConstants.TPS); // 3 minutes
+        setTicks(30 * 60 * GameConstants.TPS); // 30 minutes
         setAllowJoin(false);
         setAllowSpectate(true);
 
