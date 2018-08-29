@@ -13,6 +13,7 @@ public class Item {
     private String id;
     private ItemStack itemStack;
     private int cost;
+    private int slot;
     private List<Class<? extends TTTAbility>> abilities = new ArrayList<>();
     private List<Class<? extends AbilityModifier>> abilityModifiers = new ArrayList<>();
 
@@ -63,5 +64,13 @@ public class Item {
     public Item abilityModifier(@Nonnull Class<? extends AbilityModifier> abilityModifier) {
         this.abilityModifiers.add(abilityModifier);
         return this;
+    }
+
+    public int getSlot() {
+        return slot;
+    }
+
+    public void setSlot(int slot) {
+        this.slot = slot;
     }
 }

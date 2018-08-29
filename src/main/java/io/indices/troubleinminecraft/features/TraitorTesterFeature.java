@@ -3,6 +3,7 @@ package io.indices.troubleinminecraft.features;
 import com.google.gson.annotations.Expose;
 import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.feature.Feature;
 import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.map.Marker;
@@ -19,7 +20,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TraitorTesterFeature extends AbstractFeature {
@@ -35,14 +38,19 @@ public class TraitorTesterFeature extends AbstractFeature {
     private int testerLightGlowSeconds = 5;
 
     @Override
-    public void start() {
+    public void enable() {
         loadTesters();
     }
 
     @Override
     @Nonnull
-    public Class[] getDependencies() {
-        return new Class[]{MapFeature.class, GameFeature.class};
+    public List<Class<? extends Feature>> getDependencies() {
+        List<Class<? extends Feature>> list = new ArrayList<>();
+
+        list.add(MapFeature.class);
+        list.add(GameFeature.class);
+
+        return list;
     }
 
     public void loadTesters() {
@@ -77,7 +85,7 @@ public class TraitorTesterFeature extends AbstractFeature {
                             case "LIGHT":
                                 Location lightLoc = marker.getLoc().toLocation(map.getWorldName());
                                 tester.addLightLocation(lightLoc);
-                                lightLoc.getBlock().setType(Material.REDSTONE_LAMP_OFF);
+                                lightLoc.getBlock().setType(Material.LEGACY_REDSTONE_LAMP_OFF);
                                 break;
                             case "BARRIER":
                                 Location barrierLoc = marker.getLoc().toLocation(map.getWorldName());
@@ -116,14 +124,14 @@ public class TraitorTesterFeature extends AbstractFeature {
                         public void run() {
                             Role interactorRole = getPhase().getFeature(GameFeature.class).getRole(interactor);
                             if (interactorRole != null && interactorRole == Role.TRAITOR) {
-                                tester.getLights().forEach(loc -> loc.getBlock().setType(Material.REDSTONE_LAMP_ON));
+                                tester.getLights().forEach(loc -> loc.getBlock().setType(Material.LEGACY_REDSTONE_LAMP_ON));
                                 tester.getBarriers().forEach(loc -> loc.getBlock().setType(Material.AIR));
 
                                 new BukkitRunnable() {
 
                                     @Override
                                     public void run() {
-                                        tester.getLights().forEach(loc -> loc.getBlock().setType(Material.REDSTONE_LAMP_OFF));
+                                        tester.getLights().forEach(loc -> loc.getBlock().setType(Material.LEGACY_REDSTONE_LAMP_OFF));
                                     }
                                 }.runTaskLater(plugin, testerLightGlowSeconds * 20);
                             }

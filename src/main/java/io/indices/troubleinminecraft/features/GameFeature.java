@@ -7,6 +7,7 @@ import com.voxelgameslib.voxelgameslib.components.team.Team;
 import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.event.events.player.PlayerEliminationEvent;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.feature.Feature;
 import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
@@ -21,7 +22,6 @@ import io.indices.troubleinminecraft.lang.TIMLangKey;
 import io.indices.troubleinminecraft.phases.ActivePhase;
 import io.indices.troubleinminecraft.shop.ShopRegistry;
 import io.indices.troubleinminecraft.team.Role;
-import net.kyori.text.LegacyComponent;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
@@ -82,7 +82,7 @@ public class GameFeature extends AbstractFeature {
     private int traitorKillTraitorKarma = -40;
 
     @Override
-    public void start() {
+    public void enable() {
         // randomly assign classes
         TIMData timData = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
         boolean gameStarted = timData.isGameStarted();
@@ -118,7 +118,7 @@ public class GameFeature extends AbstractFeature {
     }
 
     @Override
-    public void stop() {
+    public void disable() {
         TIMData timData = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
         timData.setInnocents(innocents);
         timData.setDetectives(detectives);
@@ -149,8 +149,12 @@ public class GameFeature extends AbstractFeature {
 
     @Override
     @Nonnull
-    public Class[] getDependencies() {
-        return new Class[]{PersonalScoreboardFeature.class, MapFeature.class};
+    public List<Class<? extends Feature>> getDependencies() {
+        List<Class<? extends Feature>> list = new ArrayList<>();
+        list.add(PersonalScoreboardFeature.class);
+        list.add(MapFeature.class);
+
+        return list;
     }
 
     @Nullable
@@ -192,27 +196,27 @@ public class GameFeature extends AbstractFeature {
     private void initScoreboard() {
         globalScoreboard = getPhase().getFeature(PersonalScoreboardFeature.class).getGlobalScoreboard();
 
-        globalScoreboard.setTitle(LegacyComponent.to(Lang.trans(TIMLangKey.SCOREBOARD_TIM)));
+        globalScoreboard.setTitle(Lang.legacy(TIMLangKey.SCOREBOARD_TIM));
 
         // read this upside down ;) scoreboards suck
 
         globalScoreboard.createAndAddLine("karma", "1000");
-        globalScoreboard.createAndAddLine(LegacyComponent.to(Lang.trans(TIMLangKey.SCOREBOARD_KARMA)));
+        globalScoreboard.createAndAddLine(Lang.legacy(TIMLangKey.SCOREBOARD_KARMA));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
 
         globalScoreboard.createAndAddLine("kills", "0");
-        globalScoreboard.createAndAddLine(LegacyComponent.to(Lang.trans(TIMLangKey.SCOREBOARD_KILLS)));
+        globalScoreboard.createAndAddLine(Lang.legacy(TIMLangKey.SCOREBOARD_KILLS));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + "");
 
         globalScoreboard.createAndAddLine("players-left", visiblePlayersLeft + "");
-        globalScoreboard.createAndAddLine(LegacyComponent.to(Lang.trans(TIMLangKey.SCOREBOARD_PLAYERS_LEFT)));
+        globalScoreboard.createAndAddLine(Lang.legacy(TIMLangKey.SCOREBOARD_PLAYERS_LEFT));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + "");
 
         globalScoreboard.createAndAddLine("role", ChatColor.MAGIC + "????????");
-        globalScoreboard.createAndAddLine(LegacyComponent.to(Lang.trans(TIMLangKey.SCOREBOARD_ROLE)));
+        globalScoreboard.createAndAddLine(Lang.legacy(TIMLangKey.SCOREBOARD_ROLE));
 
         globalScoreboard.createAndAddLine(ChatColor.RESET + ChatColor.RESET.toString() + ChatColor.RESET.toString() + "");
 
@@ -339,7 +343,7 @@ public class GameFeature extends AbstractFeature {
     private void updateCredits(@Nonnull User user) {
         TIMPlayer timPlayer = playerMap.get(user);
 
-        user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(LegacyComponent.to(Lang.transVar(TIMLangKey.ACTION_BAR_CREDITS, timPlayer.getCredits()))).create());
+        user.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(Lang.legacy(TIMLangKey.ACTION_BAR_CREDITS, timPlayer.getCredits())).create());
     }
 
     /**

@@ -27,7 +27,7 @@ public class DisguiserAbility extends TTTAbility {
     }
 
     @Override
-    public void start() {
+    public void enable() {
         if (Bukkit.getPluginManager().getPlugin("LibsDisguises") == null) {
             return;
         }
@@ -41,7 +41,7 @@ public class DisguiserAbility extends TTTAbility {
     }
 
     @Override
-    public void stop() {
+    public void disable() {
         DisguiseAPI.undisguiseToAll(affected.getPlayer());
     }
 

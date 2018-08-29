@@ -1,12 +1,15 @@
 package io.indices.troubleinminecraft.features;
 
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.feature.Feature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
 import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
 import lombok.Setter;
 import org.bukkit.ChatColor;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PreGameFeature extends AbstractFeature {
 
@@ -14,7 +17,7 @@ public class PreGameFeature extends AbstractFeature {
     private PersonalScoreboardFeature.GlobalScoreboard scoreboard;
 
     @Override
-    public void start() {
+    public void enable() {
         if (getPhase() instanceof TimedPhase) {
             getPhase().getGame().getPlayers().forEach(user -> user.getPlayer().sendTitle(ChatColor.RED.toString() + (((TimedPhase) getPhase()).getTicks() / 20) + " seconds", "to find a weapon!"));
         }
@@ -22,7 +25,12 @@ public class PreGameFeature extends AbstractFeature {
 
     @Override
     @Nonnull
-    public Class[] getDependencies() {
-        return new Class[]{PersonalScoreboardFeature.class, GameFeature.class};
+    public List<Class<? extends Feature>> getDependencies() {
+        List<Class<? extends Feature>> list = new ArrayList<>();
+
+        list.add(PersonalScoreboardFeature.class);
+        list.add(GameFeature.class);
+
+        return list;
     }
 }

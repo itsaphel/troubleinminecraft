@@ -3,9 +3,8 @@ package io.indices.troubleinminecraft.abilities;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
-
-import net.kyori.text.LegacyComponent;
-
+import io.indices.troubleinminecraft.abilities.modifiers.TripleHarpoonModifier;
+import io.indices.troubleinminecraft.lang.TIMLangKey;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -17,15 +16,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.indices.troubleinminecraft.abilities.modifiers.TripleHarpoonModifier;
-import io.indices.troubleinminecraft.lang.TIMLangKey;
-
 public class HarpoonAbility extends TTTAbility {
 
-    public static ItemStack ITEM_STACK = new ItemBuilder(Material.SNOW_BALL)
+    public static ItemStack ITEM_STACK = new ItemBuilder(Material.SNOWBALL)
             .amount(1)
-            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_HARPOON_TITLE)))
-            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_HARPOON_LORE)))
+            .name(Lang.legacy(TIMLangKey.ITEM_HARPOON_TITLE))
+            .lore(Lang.legacy(TIMLangKey.ITEM_HARPOON_LORE))
             .build();
 
     private long shot;
@@ -37,13 +33,13 @@ public class HarpoonAbility extends TTTAbility {
     }
 
     @Override
-    public void start() {
-        super.start();
+    public void enable() {
+        super.enable();
         affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 
     @Override
-    public void stop() {
+    public void disable() {
 
     }
 
@@ -94,7 +90,7 @@ public class HarpoonAbility extends TTTAbility {
 
             if (attacker.getUniqueId().equals(affected.getUuid())) {
                 event.setDamage(Integer.MAX_VALUE);
-                event.getEntity().getLocation().getWorld().playSound(event.getEntity().getLocation(), Sound.ENTITY_IRONGOLEM_ATTACK, 1F, 1F);
+                event.getEntity().getLocation().getWorld().playSound(event.getEntity().getLocation(), Sound.ENTITY_IRON_GOLEM_ATTACK, 1F, 1F);
                 unregister();
             }
         }

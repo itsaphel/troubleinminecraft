@@ -1,34 +1,35 @@
 package io.indices.troubleinminecraft.shop;
 
-import com.voxelgameslib.voxelgameslib.components.inventory.BasicInventory;
-import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
 import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.user.UserHandler;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.inventivetalent.menubuilder.inventory.InventoryMenuBuilder;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class Shop {
-    private InventoryHandler inventoryHandler;
+    @Inject
+    private UserHandler userHandler;
+
+    private InventoryMenuBuilder inventoryBuilder;
 
     private String title;
     private Currency currency;
+    private int nextSlot = 0;
     private Map<ItemStack, Item> items = new HashMap<>();
     private BiConsumer<User, Item> purchaseAction;
 
-    /**
-     * Initialise dependencies. We gotta do this until we can get modules the ability to inject Guice dependencies
-     * or a custom injector
-     *
-     * @param inventoryHandler dependency
-     */
-    public Shop(InventoryHandler inventoryHandler) {
-        this.inventoryHandler = inventoryHandler;
+    public Shop() {
+        this.inventoryBuilder = new InventoryMenuBuilder();
     }
 
     public Shop title(String title) {
         this.title = title;
+        this.inventoryBuilder.withTitle(title);
         return this;
     }
 
@@ -43,6 +44,9 @@ public class Shop {
 
     public Shop addItem(Item item) {
         items.put(item.itemStack(), item);
+        item.setSlot(nextSlot);
+        nextSlot++;
+
         return this;
     }
 
@@ -58,15 +62,19 @@ public class Shop {
         if (item != null) {
             purchaseAction.accept(purchaser, item);
         }
-
-        purchaser.getPlayer().closeInventory();
     }
 
-    public BasicInventory make(User user) {
-        BasicInventory inventory = inventoryHandler.createInventory(BasicInventory.class, user, title, items.size());
+    public Shop make() {
+        items.forEach(((itemStack, item) -> {
+            inventoryBuilder.withItem(item.getSlot(), itemStack, (player, clickType, boughtItemStack) -> {
+                userHandler.getUser(player.getUniqueId()).ifPresent(user -> purchase(user, boughtItemStack));
+            });
+        }));
 
-        items.forEach(((itemStack, item) -> inventory.addClickAction(itemStack, (is, u) -> purchase(u, is))));
+        return this;
+    }
 
-        return inventory;
+    public void openForPlayer(Player player) {
+        inventoryBuilder.show(player);
     }
 }

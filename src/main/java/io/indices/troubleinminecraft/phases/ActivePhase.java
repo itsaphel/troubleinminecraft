@@ -1,7 +1,14 @@
 package io.indices.troubleinminecraft.phases;
 
 import com.voxelgameslib.voxelgameslib.GameConstants;
-import com.voxelgameslib.voxelgameslib.feature.features.*;
+import com.voxelgameslib.voxelgameslib.feature.features.GameModeFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.HealFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.NoBlockBreakFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.NoBlockPlaceFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.NoHungerLossFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.feature.features.SpawnFeature;
 import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
 import io.indices.troubleinminecraft.features.ChestItemPickupFeature;
 import io.indices.troubleinminecraft.features.DeadBodiesFeature;

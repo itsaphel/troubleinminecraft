@@ -21,8 +21,8 @@ public class PostGameFeature extends com.voxelgameslib.voxelgameslib.feature.fea
     private Role winner;
 
     @Override
-    public void start() {
-        super.start();
+    public void enable() {
+        super.enable();
 
         TIMData timData = getPhase().getGame().getGameData(TIMData.class).orElse(new TIMData());
         // just to keep events going

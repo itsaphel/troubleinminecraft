@@ -4,7 +4,6 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -20,8 +19,8 @@ import javax.annotation.Nonnull;
 public class KnifeAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.DIAMOND_SWORD)
-            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_TITLE)))
-            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNIFE_LORE)))
+            .name(Lang.legacy(TIMLangKey.ITEM_KNIFE_TITLE))
+            .lore(Lang.legacy(TIMLangKey.ITEM_KNIFE_LORE))
             .amount(1)
             .durability(Material.DIAMOND_SWORD.getMaxDurability() - 1)
             .build();
@@ -31,12 +30,12 @@ public class KnifeAbility extends TTTAbility {
     }
 
     @Override
-    public void start() {
+    public void enable() {
         affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 
     @Override
-    public void stop() {
+    public void disable() {
 
     }
 

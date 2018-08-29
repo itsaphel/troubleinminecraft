@@ -4,7 +4,6 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +14,7 @@ public class KnockbackStickAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.STICK)
             .enchantment(Enchantment.KNOCKBACK, 2)
-            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_KNOCKBACK_STICK_TITLE)))
+            .name(Lang.legacy(TIMLangKey.ITEM_KNOCKBACK_STICK_TITLE))
             .amount(1)
             .build();
 
@@ -24,12 +23,12 @@ public class KnockbackStickAbility extends TTTAbility {
     }
 
     @Override
-    public void start() {
+    public void enable() {
         affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 
     @Override
-    public void stop() {
+    public void disable() {
 
     }
 

@@ -22,7 +22,7 @@ public abstract class TTTAbility extends Ability {
     }
 
     @Override
-    public void start() {
+    public void enable() {
         activeModifiers.forEach(mod -> mod.affect(this));
     }
 

@@ -2,6 +2,7 @@ package io.indices.troubleinminecraft.features;
 
 import com.voxelgameslib.voxelgameslib.event.GameEvent;
 import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.feature.Feature;
 import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
 import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
@@ -9,7 +10,6 @@ import io.indices.troubleinminecraft.game.ChatUtils;
 import io.indices.troubleinminecraft.game.DeadPlayer;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 import org.bukkit.Location;
@@ -22,21 +22,28 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DeadBodiesFeature extends AbstractFeature {
 
     @Override
     @Nonnull
-    public Class[] getSoftDependencies() {
-        return new Class[]{GameFeature.class, PersonalScoreboardFeature.class};
+    public List<Class<? extends Feature>> getSoftDependencies() {
+        List<Class<? extends Feature>> list = new ArrayList<>();
+
+        list.add(GameFeature.class);
+        list.add(PersonalScoreboardFeature.class);
+
+        return list;
     }
 
     @Nonnull
     public Zombie spawnBody(@Nonnull Location location) {
         Zombie zombie = location.getWorld().spawn(location, Zombie.class);
-        zombie.setCustomName(LegacyComponent.to(Lang.trans(TIMLangKey.UNIDENTIFIED_BODY)));
+        zombie.setCustomName(Lang.legacy(TIMLangKey.UNIDENTIFIED_BODY));
         zombie.setBaby(false);
 
         return zombie;

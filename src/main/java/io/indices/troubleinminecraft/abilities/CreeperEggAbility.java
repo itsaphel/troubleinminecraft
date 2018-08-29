@@ -4,7 +4,6 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,8 +21,8 @@ public class CreeperEggAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.MONSTER_EGG)
             .meta((itemMeta) -> ((SpawnEggMeta) itemMeta).setSpawnedType(EntityType.CREEPER))
-            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_TITLE)))
-            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_CREEPER_EGG_LORE)))
+            .name(Lang.legacy(TIMLangKey.ITEM_CREEPER_EGG_TITLE))
+            .lore(Lang.legacy(TIMLangKey.ITEM_CREEPER_EGG_LORE))
             .build();
 
     public CreeperEggAbility(@Nonnull User user) {
@@ -31,12 +30,12 @@ public class CreeperEggAbility extends TTTAbility {
     }
 
     @Override
-    public void start() {
+    public void enable() {
         affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 
     @Override
-    public void stop() {
+    public void disable() {
 
     }
 

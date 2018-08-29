@@ -13,7 +13,6 @@ import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -35,8 +34,8 @@ public class BodyArmourAbility extends TTTAbility {
     }
 
     @Override
-    public void start() {
-        super.start();
+    public void enable() {
+        super.enable();
 
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 
@@ -54,11 +53,11 @@ public class BodyArmourAbility extends TTTAbility {
                 }
         );
 
-        affected.getPlayer().getInventory().setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE).amount(1).name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_BODY_ARMOUR_TITLE))).build());
+        affected.getPlayer().getInventory().setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE).amount(1).name(Lang.legacy(TIMLangKey.ITEM_BODY_ARMOUR_TITLE)).build());
     }
 
     @Override
-    public void stop() {
+    public void disable() {
 
     }
 

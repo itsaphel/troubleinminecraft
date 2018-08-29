@@ -4,7 +4,6 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,8 +16,8 @@ public class FlareGunAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.BLAZE_ROD)
             .amount(1)
-            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_FLARE_GUN_TITLE)))
-            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_FLARE_GUN_LORE)))
+            .name(Lang.legacy(TIMLangKey.ITEM_FLARE_GUN_TITLE))
+            .lore(Lang.legacy(TIMLangKey.ITEM_FLARE_GUN_LORE))
             .build();
 
 
@@ -27,12 +26,12 @@ public class FlareGunAbility extends TTTAbility {
     }
 
     @Override
-    public void start() {
+    public void enable() {
         affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 
     @Override
-    public void stop() {
+    public void disable() {
 
     }
 

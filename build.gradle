@@ -2,11 +2,12 @@ plugins {
     id 'java'
     id 'maven'
     id 'signing'
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
 
-group 'io.indices'
+group 'io.indices.minecraft'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.10
@@ -17,37 +18,27 @@ defaultTasks 'clean', 'build'
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url 'https://hub.spigotmc.org/nexus/content/groups/public/' }
+    jcenter()
     maven { url 'https://oss.sonatype.org/content/groups/public/' }
-    maven { url "https://voxelgameslib.github.io/VoxelGamesLibv2/mvn-repo" }
-    maven { url 'http://repo.onarandombox.com/content/groups/public/' }
-    maven { url 'http://repo.dmulloy2.net/content/groups/public/' }
-    maven { url "http://repo.inventivetalent.org/content/repositories/snapshots/" }
-    maven { url "http://repo.md-5.net/content/groups/public/" }
+    maven { url 'https://voxelgameslib.github.io/VoxelGamesLibv2/mvn-repo/' }
+    maven { url = 'https://repo.aikar.co/content/groups/aikar/' }
+    maven { url = 'http://repo.md-5.net/content/groups/public/' }
 }
 
 dependencies {
-    compile group: 'net.kyori', name: 'text', version: '1.12-SNAPSHOT', changing: true
+    compile 'co.aikar:idb-core:1.0.0-SNAPSHOT'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
-
-    compileOnly group: 'org.spigotmc', name: 'spigot-api', version: '1.12.1-R0.1-SNAPSHOT'
-    compileOnly group: 'com.voxelgameslib', name: 'voxelgameslib', version: '2.0-SNAPSHOT'
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.0'
-    compileOnly group: 'com.comphenix.protocol', name: 'ProtocolLib', version: '4.2.1'
-    compileOnly group: 'LibsDisguises', name: 'LibsDisguises', version: '9.4.0'
+    compileOnly group: 'com.voxelgameslib', name: 'voxelgameslib', version: '1.0.0-SNAPSHOT'
+    compileOnly group: 'com.voxelgameslib', name: 'dependencies', version: '1.0.0-SNAPSHOT'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
+    compileOnly group: 'LibsDisguises', name: 'LibsDisguises', version: '9.6.0-SNAPSHOT'
 }
 
 processResources {
     filter ReplaceTokens, tokens: [
             'version': project.version
     ]
-}
-
-
-task copyToServer(dependsOn: 'jar', type: Copy) {
-    from 'build/libs/troubleinminecraft-' + project.version + '.jar'
-    into '../testserver/plugins/'
 }
 
 task javadocJar(type: Jar) {
@@ -61,6 +52,11 @@ task sourcesJar(type: Jar) {
 }
 
 configurations.all {
-    // Check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
+
+shadowJar {
+    relocate 'co.aikar.idb', 'io.indices.minecraft.troubleinminecraft.idb'
+}
+
+build.dependsOn shadowJar

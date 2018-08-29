@@ -7,7 +7,6 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,8 +23,8 @@ public class RadarAbility extends TTTAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.COMPASS)
             .amount(1)
-            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_RADAR_TITLE)))
-            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_RADAR_LORE)))
+            .name(Lang.legacy(TIMLangKey.ITEM_RADAR_TITLE))
+            .lore(Lang.legacy(TIMLangKey.ITEM_RADAR_LORE))
             .build();
 
     /**
@@ -36,12 +35,12 @@ public class RadarAbility extends TTTAbility {
     }
 
     @Override
-    public void start() {
+    public void enable() {
         affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 
     @Override
-    public void stop() {
+    public void disable() {
 
     }
 

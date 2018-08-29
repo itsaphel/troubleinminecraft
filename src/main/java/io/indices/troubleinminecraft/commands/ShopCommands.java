@@ -3,8 +3,6 @@ package io.indices.troubleinminecraft.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
-import com.google.inject.Injector;
-import com.voxelgameslib.voxelgameslib.components.inventory.InventoryHandler;
 import com.voxelgameslib.voxelgameslib.game.Game;
 import com.voxelgameslib.voxelgameslib.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.user.User;
@@ -20,11 +18,7 @@ import java.util.List;
 @Singleton
 public class ShopCommands extends BaseCommand {
     @Inject
-    private Injector injector;
-    @Inject
     private GameHandler gameHandler;
-    @Inject
-    private InventoryHandler inventoryHandler;
 
     @CommandAlias("shop|s")
     @CommandPermission("%user")
@@ -51,7 +45,7 @@ public class ShopCommands extends BaseCommand {
                         shop = shopRegistry.getDetectiveShop();
                     }
 
-                    sender.getPlayer().openInventory(shop.make(sender).getBukkitInventory());
+                    shop.openForPlayer(sender.getPlayer());
                 }
             });
         }
@@ -69,7 +63,7 @@ public class ShopCommands extends BaseCommand {
                 ShopRegistry shopRegistry = timData.getShopRegistry();
                 Shop shop = shopRegistry.getPointsShop();
 
-                sender.getPlayer().openInventory(shop.make(sender).getBukkitInventory());
+                shop.openForPlayer(sender.getPlayer());
             });
         }
     }

@@ -6,7 +6,6 @@ import com.voxelgameslib.voxelgameslib.lang.Lang;
 import com.voxelgameslib.voxelgameslib.user.User;
 import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
-import net.kyori.text.LegacyComponent;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -19,8 +18,8 @@ public class JihadAbility extends ExplosionAbility {
 
     public static ItemStack ITEM_STACK = new ItemBuilder(Material.TNT)
             .amount(1)
-            .name(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_C4_TITLE)))
-            .lore(LegacyComponent.to(Lang.trans(TIMLangKey.ITEM_C4_LORE)))
+            .name(Lang.legacy(TIMLangKey.ITEM_C4_TITLE))
+            .lore(Lang.legacy(TIMLangKey.ITEM_C4_LORE))
             .build();
 
     @Inject
@@ -34,12 +33,12 @@ public class JihadAbility extends ExplosionAbility {
     }
 
     @Override
-    public void start() {
+    public void enable() {
         affected.getPlayer().getInventory().addItem(ITEM_STACK);
     }
 
     @Override
-    public void stop() {
+    public void disable() {
 
     }
 
