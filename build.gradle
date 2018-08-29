@@ -9,8 +9,8 @@ import org.apache.tools.ant.filters.ReplaceTokens
 group 'io.indices'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.10
+targetCompatibility = 1.10
 
 defaultTasks 'clean', 'build'
 
