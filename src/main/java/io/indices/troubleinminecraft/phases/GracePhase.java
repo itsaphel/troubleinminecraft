@@ -1,6 +1,6 @@
 package io.indices.troubleinminecraft.phases;
 
-import com.voxelgameslib.voxelgameslib.api.gameConstants;
+import com.voxelgameslib.voxelgameslib.GameConstants;
 import com.voxelgameslib.voxelgameslib.api.feature.features.ClearInventoryFeature;
 import com.voxelgameslib.voxelgameslib.api.feature.features.GameModeFeature;
 import com.voxelgameslib.voxelgameslib.api.feature.features.HealFeature;
