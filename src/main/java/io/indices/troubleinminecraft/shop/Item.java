@@ -1,6 +1,6 @@
 package io.indices.troubleinminecraft.shop;
 
-import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
+import com.voxelgameslib.voxelgameslib.util.utils.ItemBuilder;
 import io.indices.troubleinminecraft.abilities.TTTAbility;
 import io.indices.troubleinminecraft.abilities.modifiers.AbilityModifier;
 import org.bukkit.inventory.ItemStack;

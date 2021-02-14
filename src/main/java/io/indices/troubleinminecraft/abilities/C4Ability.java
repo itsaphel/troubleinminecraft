@@ -1,11 +1,11 @@
 package io.indices.troubleinminecraft.abilities;
 
 import com.google.gson.annotations.Expose;
+import com.voxelgameslib.voxelgameslib.api.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
-import com.voxelgameslib.voxelgameslib.game.GameHandler;
-import com.voxelgameslib.voxelgameslib.lang.Lang;
-import com.voxelgameslib.voxelgameslib.user.User;
-import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
+import com.voxelgameslib.voxelgameslib.components.user.User;
+import com.voxelgameslib.voxelgameslib.internal.lang.Lang;
+import com.voxelgameslib.voxelgameslib.util.utils.ItemBuilder;
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 import org.bukkit.Location;

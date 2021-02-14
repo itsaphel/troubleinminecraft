@@ -1,11 +1,11 @@
 package io.indices.troubleinminecraft.features;
 
-import com.voxelgameslib.voxelgameslib.event.GameEvent;
-import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
-import com.voxelgameslib.voxelgameslib.feature.Feature;
-import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
-import com.voxelgameslib.voxelgameslib.lang.Lang;
-import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.api.event.GameEvent;
+import com.voxelgameslib.voxelgameslib.api.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.api.feature.Feature;
+import com.voxelgameslib.voxelgameslib.api.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.internal.lang.Lang;
+import com.voxelgameslib.voxelgameslib.components.user.User;
 import io.indices.troubleinminecraft.game.ChatUtils;
 import io.indices.troubleinminecraft.game.DeadPlayer;
 import io.indices.troubleinminecraft.game.TIMData;

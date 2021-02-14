@@ -1,10 +1,10 @@
 package io.indices.troubleinminecraft.abilities;
 
 import com.google.inject.Injector;
+import com.voxelgameslib.voxelgameslib.api.game.Game;
+import com.voxelgameslib.voxelgameslib.api.game.GameHandler;
 import com.voxelgameslib.voxelgameslib.components.ability.Ability;
-import com.voxelgameslib.voxelgameslib.game.Game;
-import com.voxelgameslib.voxelgameslib.game.GameHandler;
-import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.components.user.User;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.Bukkit;

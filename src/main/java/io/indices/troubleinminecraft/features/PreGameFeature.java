@@ -1,9 +1,9 @@
 package io.indices.troubleinminecraft.features;
 
-import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
-import com.voxelgameslib.voxelgameslib.feature.Feature;
-import com.voxelgameslib.voxelgameslib.feature.features.PersonalScoreboardFeature;
-import com.voxelgameslib.voxelgameslib.phase.TimedPhase;
+import com.voxelgameslib.voxelgameslib.api.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.api.feature.Feature;
+import com.voxelgameslib.voxelgameslib.api.feature.features.PersonalScoreboardFeature;
+import com.voxelgameslib.voxelgameslib.api.phase.TimedPhase;
 import lombok.Setter;
 import org.bukkit.ChatColor;
 

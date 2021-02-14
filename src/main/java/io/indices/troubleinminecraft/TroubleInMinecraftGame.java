@@ -1,10 +1,10 @@
 package io.indices.troubleinminecraft;
 
-import com.voxelgameslib.voxelgameslib.feature.features.VoteFeature;
-import com.voxelgameslib.voxelgameslib.game.AbstractGame;
-import com.voxelgameslib.voxelgameslib.game.GameDefinition;
-import com.voxelgameslib.voxelgameslib.game.GameInfo;
-import com.voxelgameslib.voxelgameslib.phase.phases.LobbyWithVotePhase;
+import com.voxelgameslib.voxelgameslib.api.feature.features.VoteFeature;
+import com.voxelgameslib.voxelgameslib.api.game.AbstractGame;
+import com.voxelgameslib.voxelgameslib.api.game.GameDefinition;
+import com.voxelgameslib.voxelgameslib.api.game.GameInfo;
+import com.voxelgameslib.voxelgameslib.api.phase.phases.LobbyWithVotePhase;
 import io.indices.troubleinminecraft.phases.ActivePhase;
 import io.indices.troubleinminecraft.phases.GracePhase;
 import io.indices.troubleinminecraft.phases.PostGamePhase;

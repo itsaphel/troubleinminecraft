@@ -1,9 +1,9 @@
 package io.indices.troubleinminecraft.features;
 
-import com.voxelgameslib.voxelgameslib.event.GameEvent;
-import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
-import com.voxelgameslib.voxelgameslib.user.User;
-import com.voxelgameslib.voxelgameslib.user.UserHandler;
+import com.voxelgameslib.voxelgameslib.api.event.GameEvent;
+import com.voxelgameslib.voxelgameslib.components.user.UserHandler;
+import com.voxelgameslib.voxelgameslib.api.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.components.user.User;
 import org.bukkit.Material;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -48,7 +48,7 @@ public class ChestItemPickupFeature extends AbstractFeature {
             int chance = ThreadLocalRandom.current().nextInt(3);
 
             if (chance == 0) {
-                playerInv.addItem(new ItemStack(Material.WOOD_SWORD));
+                playerInv.addItem(new ItemStack(Material.WOODEN_SWORD));
             } else if (chance == 1) {
                 playerInv.addItem(new ItemStack(Material.STONE_SWORD));
             } else {

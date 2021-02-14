@@ -1,7 +1,7 @@
 package io.indices.troubleinminecraft.features;
 
 
-import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.components.user.User;
 import io.indices.troubleinminecraft.game.DeadPlayer;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.team.Role;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class PostGameFeature extends com.voxelgameslib.voxelgameslib.feature.features.PostGameFeature {
+public class PostGameFeature extends com.voxelgameslib.voxelgameslib.api.feature.features.PostGameFeature {
 
     private Map<Entity, DeadPlayer> zombiePlayerMap = new HashMap<>();
     private Role winner;

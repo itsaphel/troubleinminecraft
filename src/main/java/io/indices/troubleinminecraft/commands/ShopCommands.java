@@ -3,9 +3,10 @@ package io.indices.troubleinminecraft.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
-import com.voxelgameslib.voxelgameslib.game.Game;
-import com.voxelgameslib.voxelgameslib.game.GameHandler;
-import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.api.game.Game;
+import com.voxelgameslib.voxelgameslib.api.game.GameHandler;
+
+import com.voxelgameslib.voxelgameslib.components.user.User;
 import io.indices.troubleinminecraft.game.TIMData;
 import io.indices.troubleinminecraft.shop.Shop;
 import io.indices.troubleinminecraft.shop.ShopRegistry;

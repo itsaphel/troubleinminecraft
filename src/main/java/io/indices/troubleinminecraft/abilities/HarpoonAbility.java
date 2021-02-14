@@ -1,8 +1,8 @@
 package io.indices.troubleinminecraft.abilities;
 
-import com.voxelgameslib.voxelgameslib.lang.Lang;
-import com.voxelgameslib.voxelgameslib.user.User;
-import com.voxelgameslib.voxelgameslib.utils.ItemBuilder;
+import com.voxelgameslib.voxelgameslib.internal.lang.Lang;
+import com.voxelgameslib.voxelgameslib.components.user.User;
+import com.voxelgameslib.voxelgameslib.util.utils.ItemBuilder;
 import io.indices.troubleinminecraft.abilities.modifiers.TripleHarpoonModifier;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
 import org.bukkit.Location;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class HarpoonAbility extends TTTAbility {
 
-    public static ItemStack ITEM_STACK = new ItemBuilder(Material.SNOW_BALL)
+    public static ItemStack ITEM_STACK = new ItemBuilder(Material.SNOWBALL)
             .amount(1)
             .name(Lang.legacy(TIMLangKey.ITEM_HARPOON_TITLE))
             .lore(Lang.legacy(TIMLangKey.ITEM_HARPOON_LORE))
@@ -90,7 +90,7 @@ public class HarpoonAbility extends TTTAbility {
 
             if (attacker.getUniqueId().equals(affected.getUuid())) {
                 event.setDamage(Integer.MAX_VALUE);
-                event.getEntity().getLocation().getWorld().playSound(event.getEntity().getLocation(), Sound.ENTITY_IRONGOLEM_ATTACK, 1F, 1F);
+                event.getEntity().getLocation().getWorld().playSound(event.getEntity().getLocation(), Sound.ENTITY_IRON_GOLEM_ATTACK, 1F, 1F);
                 unregister();
             }
         }

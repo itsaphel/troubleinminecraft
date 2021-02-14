@@ -1,13 +1,13 @@
 package io.indices.troubleinminecraft.features;
 
 import com.google.gson.annotations.Expose;
-import com.voxelgameslib.voxelgameslib.event.GameEvent;
-import com.voxelgameslib.voxelgameslib.feature.AbstractFeature;
-import com.voxelgameslib.voxelgameslib.feature.Feature;
-import com.voxelgameslib.voxelgameslib.feature.features.MapFeature;
-import com.voxelgameslib.voxelgameslib.lang.Lang;
-import com.voxelgameslib.voxelgameslib.map.Marker;
-import com.voxelgameslib.voxelgameslib.user.User;
+import com.voxelgameslib.voxelgameslib.api.event.GameEvent;
+import com.voxelgameslib.voxelgameslib.api.feature.AbstractFeature;
+import com.voxelgameslib.voxelgameslib.api.feature.Feature;
+import com.voxelgameslib.voxelgameslib.api.feature.features.MapFeature;
+import com.voxelgameslib.voxelgameslib.components.map.Marker;
+import com.voxelgameslib.voxelgameslib.internal.lang.Lang;
+import com.voxelgameslib.voxelgameslib.components.user.User;
 import io.indices.troubleinminecraft.TroubleInMinecraftPlugin;
 import io.indices.troubleinminecraft.game.TraitorTester;
 import io.indices.troubleinminecraft.lang.TIMLangKey;
@@ -54,7 +54,7 @@ public class TraitorTesterFeature extends AbstractFeature {
     }
 
     public void loadTesters() {
-        com.voxelgameslib.voxelgameslib.map.Map map = getPhase().getFeature(MapFeature.class).getMap();
+        com.voxelgameslib.voxelgameslib.components.map.Map map = getPhase().getFeature(MapFeature.class).getMap();
 
         Map<Integer, TraitorTester> loadedTesters = new HashMap<>();
 

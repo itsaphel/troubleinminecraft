@@ -1,7 +1,7 @@
 package io.indices.troubleinminecraft.shop;
 
-import com.voxelgameslib.voxelgameslib.user.User;
-import com.voxelgameslib.voxelgameslib.user.UserHandler;
+import com.voxelgameslib.voxelgameslib.components.user.User;
+import com.voxelgameslib.voxelgameslib.components.user.UserHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.inventivetalent.menubuilder.inventory.InventoryMenuBuilder;

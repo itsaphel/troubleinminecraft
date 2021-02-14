@@ -1,8 +1,7 @@
 package io.indices.troubleinminecraft.lang;
 
-import com.voxelgameslib.voxelgameslib.lang.ExternalTranslatable;
-import com.voxelgameslib.voxelgameslib.lang.Translatable;
-
+import com.voxelgameslib.voxelgameslib.internal.lang.ExternalTranslatable;
+import com.voxelgameslib.voxelgameslib.internal.lang.Translatable;
 import javax.annotation.Nonnull;
 import java.util.UUID;
 
